@@ -126,13 +126,103 @@ class ApiServices{
           )          
         );
         _reqSuccess = true;
-        jsonReturned['statusCode'] = response.statusCode;
         switch (response.statusCode) {          
           case 204:
-            jsonReturned = {'msg': ''};
-            break;
+            jsonReturned = {
+              'msg': '',
+              'statusCode': response.statusCode
+            };
+            return jsonReturned;
           default:
             jsonReturned = response.data;
+            jsonReturned['statusCode'] = response.statusCode;
+          return jsonReturned;
+        }
+
+      } on DioError catch (e) {
+        _reqSuccess = false;
+
+        if(e.response != null){        
+          jsonReturned['statusCode'] = e.response.statusCode;
+          switch (e.response.statusCode) {          
+            case 400:
+              jsonReturned = e.response.data;
+              break;
+            case 403: //unauthorized OR forbidden            
+              prefs.remove('sessionid');
+            prefs.remove('pkUser');
+            prefs.remove('groupUser');
+              jsonReturned = {'msg': e.response.data['detail']};
+              Navigator.pushNamed(context, redirectTo != null ? redirectTo : '/login');
+              break;
+            default:
+              jsonReturned = {'msg': 'Ops, tivemos problemas ${e.response.statusCode}!'};
+          }
+        }else{
+          jsonReturned = {'msg': 'Ops, tivemos problemas ${e.message}!'};
+        }      
+        return jsonReturned;
+      }
+      return jsonReturned;      
+    }
+    return null;
+  }
+
+
+  Future<Map> uploadFileV2({
+    @required String rota, 
+    @required File file,     
+    @required BuildContext context,
+    Map<String, dynamic> paramsData,
+    List<File> files,
+    ProgressCallback onSendProgress,
+    String redirectTo,
+     @required FormData formData
+  }) async {        
+    SharedPreferences prefs = await _prefs;
+    var dio = new Dio();
+    var response;
+    Map<String, dynamic> jsonReturned = {};
+
+    if (this._token != null) {        
+      dio.options.baseUrl = '${this._baseUrl}/';
+
+      List<dynamic> multipartFiles = [];
+
+      if(files != null){
+        for (var i = 0; i < files.length; i++) {
+          var respath = await MultipartFile.fromFile(files[i].path, filename: DateTime.now().millisecondsSinceEpoch.toString()+'.jpg');
+          multipartFiles.add(respath);
+        }
+      }
+
+      try {
+        response = await dio.post(
+          rota,
+          data: formData,
+          onSendProgress: onSendProgress,
+          options: Options(
+            method: 'POST',
+            responseType: ResponseType.json,
+            followRedirects: false,
+            headers: {
+              'Cookie': 'sessionid=${this._token}',
+              'X-Requested-With': 'XMLHttpRequest',
+            }
+          )          
+        );
+        _reqSuccess = true;
+        switch (response.statusCode) {          
+          case 204:
+            jsonReturned = {
+              'msg': '',
+              'statusCode': response.statusCode
+            };
+            return jsonReturned;
+          default:
+            jsonReturned = response.data;
+            jsonReturned['statusCode'] = response.statusCode;
+          return jsonReturned;
         }
 
       } on DioError catch (e) {
