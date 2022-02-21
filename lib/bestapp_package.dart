@@ -1,8 +1,7 @@
 library bestapp_package;
 
 // Services
-export 'src/services/api-services.dart';
-export 'src/services/mdl-api.dart';
+export 'src/services/api/api_services.dart';
 
 // Widget
 export 'src/widgets/cards/be-card-selected.dart';
