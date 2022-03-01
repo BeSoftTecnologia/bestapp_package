@@ -17,6 +17,7 @@ export 'src/widgets/buttons/be-button.dart';
 export 'src/widgets/buttons/be-button-outline.dart';
 export 'src/widgets/buttons/be-button-outline-icon.dart';
 export 'src/widgets/buttons/be-button-icon.dart';
+export 'src/widgets/buttons/be_button_progress.dart';
 export 'src/widgets/loading/builder_state.dart';
 
 export 'src/widgets/appbar/be-preferred_appbar.dart';
@@ -53,3 +54,4 @@ export 'src/validators/cpf_validator.dart';
 //Exports useful packages
 export 'package:shared_preferences/shared_preferences.dart';
 export 'package:dio/dio.dart';
+export 'package:email_validator/email_validator.dart';

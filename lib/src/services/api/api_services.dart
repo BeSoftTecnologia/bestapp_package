@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:bestapp_package/bestapp_package.dart';
-import 'package:bestapp_package/src/models/api_config.dart';
 import 'package:bestapp_package/src/services/api/api_helpers.dart';
 import 'package:flutter/material.dart';
 export 'package:bestapp_package/src/models/api_config.dart';
@@ -63,10 +62,17 @@ class ApiServices {
         'Content-Type': 'application/json'
       };
     }
+
+
+    if(typeBody == TypeBody.FORMDATA){
+      headers = {
+        'Accept': '*/*'
+      };
+    }
     
     if(apiConfig != null && apiConfig.token != null && apiConfig.token != ''){
-      if(typeHeader != TypeHeader.TOKEN)headers['Authorization'] = apiConfig.token;
-      if(typeHeader != TypeHeader.SESSIONID)headers['Cookie'] = 'sessionid=${apiConfig.token}';
+      if(typeHeader == TypeHeader.TOKEN)headers['Authorization'] = apiConfig.token;
+      if(typeHeader == TypeHeader.SESSIONID)headers['Cookie'] = 'sessionid=${apiConfig.token}';
     }
 
     dio.options.baseUrl = apiConfig != null && apiConfig.baseUrl != null && apiConfig.baseUrl != '' ? '${apiConfig.baseUrl}/' : '$baseUrl/';

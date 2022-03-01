@@ -63,7 +63,13 @@ class BeInputController extends StatefulWidget {
   final double borderRadius;
   final double height;
   final TextStyle style;
+  
+  @deprecated
   final Color iconColor;
+
+  final Color suffixIconColor;
+  final Color prefixIconColor;
+
   final EdgeInsetsGeometry sufixIconpadding;
   final bool autofocus;
   final TextCapitalization textCapitalization;
@@ -108,6 +114,8 @@ class BeInputController extends StatefulWidget {
     this.validator=false,
     this.emailPhoneValidator=false,
     this.textCapitalization= TextCapitalization.none,
+    this.prefixIconColor,
+    this.suffixIconColor,
     this.focusNode
     // this.emailvalidator = false,
     // this.phoneValidator = false,
@@ -191,24 +199,24 @@ class _BeInputControllerState extends State<BeInputController> {
             child: IconButton(
               icon: Icon(widget.suffixIcon),
               iconSize: 20, 
-              color: widget.iconColor != null ? widget.iconColor : null,
+              color: widget.suffixIconColor != null ? widget.suffixIconColor : null,
               onPressed: widget.onSuffixTap
             )) : widget.suffixIcon != null ? 
           Padding(
             padding: widget.sufixIconpadding != null ? widget.sufixIconpadding : EdgeInsets.fromLTRB(0, 10, 0, 0),
-            child: Icon(widget.suffixIcon, size: 20, color: widget.iconColor != null ? widget.iconColor : null),
+            child: Icon(widget.suffixIcon, size: 20, color: widget.suffixIconColor != null ? widget.suffixIconColor : null),
           ) : null,
           
           prefixIcon:  widget.prefixIcon != null && (widget.typeInput == TypeInput.COUNTER || widget.typeInput == TypeInput.NUMBER || widget.typeInput == TypeInput.CURRENCY || widget.typeInput == TypeInput.CEP) ?
           IconButton(
             icon: Icon(widget.prefixIcon),
               // color: widget.iconColor != null ? widget.iconColor : null,
-            color: widget.iconColor != null ? widget.iconColor : null,
+            color: widget.prefixIconColor != null ? widget.prefixIconColor : null,
             onPressed: widget.onPrefixTap,
           ) : widget.prefixIcon != null ? 
 
           Icon(widget.prefixIcon,
-            color: widget.iconColor != null ? widget.iconColor : null,
+            color: widget.prefixIconColor != null ? widget.prefixIconColor : null,
           ) : null,
           labelText: widget.labelText,
           hintText:  widget.hintText ?? widget.hintText,
