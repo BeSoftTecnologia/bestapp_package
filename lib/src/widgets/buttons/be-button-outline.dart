@@ -44,15 +44,15 @@ class BebuttonOutline extends StatelessWidget {
       ),
         child: OutlinedButton(                            
         style: ButtonStyle(
-          overlayColor: overlayColor != null && showOverlayColor ? MaterialStateProperty.all(overlayColor) : showOverlayColor ? MaterialStateProperty.all(Theme.of(context).buttonColor.withOpacity(0.1)) : null,
-          foregroundColor: buttomColor != null ? MaterialStateProperty.all(buttomColor) : MaterialStateProperty.all(Theme.of(context).buttonColor),
-          side: buttomColor != null ? MaterialStateProperty.all(borderSide != null ? BorderSide(width: borderSide, color: buttomColor) : BorderSide(width: 1, color: buttomColor)) : MaterialStateProperty.all(borderSide != null ? BorderSide(width: borderSide, color: Theme.of(context).buttonColor) : BorderSide(width: 1, color: Theme.of(context).buttonColor)),
+          overlayColor: overlayColor != null && showOverlayColor ? MaterialStateProperty.all(overlayColor) : showOverlayColor ? MaterialStateProperty.all(Theme.of(context).primaryColor.withOpacity(0.1)) : null,
+          foregroundColor: buttomColor != null ? MaterialStateProperty.all(buttomColor) : MaterialStateProperty.all(Theme.of(context).primaryColor),
+          side: buttomColor != null ? MaterialStateProperty.all(borderSide != null ? BorderSide(width: borderSide, color: buttomColor) : BorderSide(width: 1, color: buttomColor)) : MaterialStateProperty.all(borderSide != null ? BorderSide(width: borderSide, color: Theme.of(context).primaryColor) : BorderSide(width: 1, color: Theme.of(context).primaryColor)),
           shape: MaterialStateProperty.all(
             RoundedRectangleBorder(
               borderRadius: new BorderRadius.circular(borderRadius),
-            ),
+            )
           ),
-          shadowColor: shadowColor != null && showShadowColor ? MaterialStateProperty.all(shadowColor) : showShadowColor ? MaterialStateProperty.all(Theme.of(context).buttonColor) : null,
+          shadowColor: shadowColor != null && showShadowColor ? MaterialStateProperty.all(shadowColor) : showShadowColor ? MaterialStateProperty.all(Theme.of(context).primaryColor) : null,
           elevation: elevation != null ? MaterialStateProperty.all(elevation) : MaterialStateProperty.all(0.0)
         ),
         onPressed: onPressed, 

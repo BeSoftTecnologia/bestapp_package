@@ -19,6 +19,7 @@ export 'src/widgets/buttons/be-button-outline-icon.dart';
 export 'src/widgets/buttons/be-button-icon.dart';
 export 'src/widgets/buttons/be_button_progress.dart';
 export 'src/widgets/loading/builder_state.dart';
+export 'src/widgets/loading/be-shimmer-loading.dart';
 
 export 'src/widgets/appbar/be-preferred_appbar.dart';
 export 'src/widgets/appbar/be-appbar.dart';

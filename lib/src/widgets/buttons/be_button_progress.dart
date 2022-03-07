@@ -41,7 +41,7 @@ class BeButtonProgress extends StatelessWidget {
           valueColor: colorProgress != null ? AlwaysStoppedAnimation<Color>(colorProgress) :  AlwaysStoppedAnimation<Color>(Colors.white)
         ),
         color: !enabled ? Colors.grey :
-          bgColor != null ? bgColor : Theme.of(context).colorScheme.primaryVariant,
+          bgColor != null ? bgColor : Theme.of(context).colorScheme.primaryContainer,
         borderRadius: radius,
         height: 50,
         onPressed: enabled ? onTap : (){}

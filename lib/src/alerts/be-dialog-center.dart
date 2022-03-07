@@ -22,7 +22,7 @@ beDialogCenter(
   }
 );
 */
-Future<void>BeDialogCenter({
+Future BeDialogCenter({
   @required BuildContext context,  
   @required String message,
   bool barrierDismissible=true,
@@ -39,6 +39,7 @@ Future<void>BeDialogCenter({
 }) async {
 
   DialogTypeAnimation.DEFAULT == dialogTypeAnimation || dialogTypeAnimation == null ?
+  
   showDialog(
     context: context,
     barrierDismissible: barrierDismissible,
@@ -49,19 +50,22 @@ Future<void>BeDialogCenter({
         title: title,
         icColor: icColor,
         iconMsg: iconMsg,
-        message: 'message',
+        message: message,
         okTaped: okTaped,
         cancelTaped: cancelTaped,
         okText: okText,
         cancelText: cancelText
       );
-    },
-  ) : showGeneralDialog(
+    }
+  ) : 
+  showGeneralDialog(
     context: context,
     barrierDismissible: barrierDismissible,
     barrierColor: Colors.black.withOpacity(0.4),
     barrierLabel: '',
-    pageBuilder: (context, anim1, anim2) {},
+    pageBuilder: (context, anim1, anim2) {
+      return;
+    },
     transitionBuilder: (context, anim1, anim2, child) {
       final curvedValue = Curves.easeInOutBack.transform(anim1.value) -   1.0;
       return DialogTypeAnimation.SCALE == dialogTypeAnimation ?
@@ -91,7 +95,6 @@ Future<void>BeDialogCenter({
             icColor: icColor,
             iconMsg: iconMsg,
             message: message,
-            height: height,
             okTaped: okTaped,
             cancelTaped: cancelTaped,
             okText: okText,

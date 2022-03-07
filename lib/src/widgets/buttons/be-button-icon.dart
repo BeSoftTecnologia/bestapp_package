@@ -43,14 +43,14 @@ class BebuttonIcon extends StatelessWidget {
       ),
         child: ElevatedButton.icon(                            
         style: ButtonStyle(
-          overlayColor: overlayColor != null && showOverlayColor ? MaterialStateProperty.all(overlayColor) : showOverlayColor ? MaterialStateProperty.all(Theme.of(context).buttonColor.withOpacity(0.1)) : null,
-          backgroundColor: bgColor != null ? MaterialStateProperty.all(bgColor) : MaterialStateProperty.all(Theme.of(context).buttonColor),
+          overlayColor: overlayColor != null && showOverlayColor ? MaterialStateProperty.all(overlayColor) : showOverlayColor ? MaterialStateProperty.all(Theme.of(context).primaryColor.withOpacity(0.1)) : null,
+          backgroundColor: bgColor != null ? MaterialStateProperty.all(bgColor) : MaterialStateProperty.all(Theme.of(context).primaryColor),
           shape: MaterialStateProperty.all(
             RoundedRectangleBorder(
               borderRadius: new BorderRadius.circular(borderRadius),
             )
           ),
-          shadowColor: shadowColor != null && showShadowColor ? MaterialStateProperty.all(shadowColor) : showShadowColor ? MaterialStateProperty.all(Theme.of(context).buttonColor) : null,
+          shadowColor: shadowColor != null && showShadowColor ? MaterialStateProperty.all(shadowColor) : showShadowColor ? MaterialStateProperty.all(Theme.of(context).primaryColor) : null,
           elevation: elevation != null ? MaterialStateProperty.all(elevation) : MaterialStateProperty.all(0.0)
         ),
         onPressed: onPressed, 

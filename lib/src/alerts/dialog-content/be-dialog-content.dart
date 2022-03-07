@@ -8,7 +8,6 @@ class BeDialogContent extends StatelessWidget {
   final Function okTaped;
   final String cancelText;
   final Function cancelTaped;
-  final double height;
   final IconData iconMsg;
   final Color icColor;
 
@@ -19,7 +18,6 @@ class BeDialogContent extends StatelessWidget {
     this.cancelTaped,
     this.okText,
     this.cancelText,
-    this.height,
     this.iconMsg,
     this.icColor
   });
@@ -29,90 +27,190 @@ class BeDialogContent extends StatelessWidget {
     return Dialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
       child: Container(
-        height: height != null ? height : 300,
-        width: 400,
-        child: Column(
-          children:[
-            Container(
-              width: double.infinity,
-              height: 150,
-              decoration: BoxDecoration(
-                color: Colors.grey[100],
-                borderRadius: BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10))
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              SizedBox(height: 10),
+              Container(
+                width: double.infinity,
+                child: iconMsg != null ? Icon(iconMsg, size: 100, color: icColor) : Icon(Icons.check_circle, size: 100, color: icColor)
               ),
-              child: Center(
-                child: iconMsg != null ? Icon(iconMsg, size: 150, color: icColor) : Icon(Icons.check_circle, size: 150, color: icColor)
-              ),
-            ),
-            Expanded(
-              flex: 1,
-              child: Column(
-                children: [
-                  Container(
-                    padding: EdgeInsets.all(10),
-                    child: Text(
-                      '$title',
-                      maxLines: 1,
-                      style: TextStyle(
-                        fontSize: 24,
-                        color: Colors.grey[600],
-                        fontWeight: FontWeight.bold
-                      ),
-                    )
+              Container(
+                padding: EdgeInsets.all(10),
+                child: Text(
+                  '$title',
+                  maxLines: 1,
+                  style: TextStyle(
+                    fontSize: 24,
+                    color: Colors.grey[600],
+                    fontWeight: FontWeight.bold
                   ),
-                  Expanded(
+                )
+              ),
+              Container(
+                padding: EdgeInsets.only(left:20, right: 20),
+                child: Text(
+                  '$message',
+                  textAlign: TextAlign.center,
+                  maxLines: 5,
+                  style: TextStyle(
+                    fontSize: 17,
+                    color: Colors.grey[400],
+                  ),
+                ),
+              ),
+              SizedBox(height: 20),
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  GestureDetector(
+                    onTap: okTaped,
                     child: Container(
-                      padding: EdgeInsets.only(left:20, right: 20),
-                      child: Text(
-                        '$message',
-                        textAlign: TextAlign.center,
-                        maxLines: 5,
+                      padding: EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).primaryColor,
+                        borderRadius: BorderRadius.circular(10)
+                      ),
+                      child: Text('$okText',
+                        textScaleFactor: 1.0,
                         style: TextStyle(
-                          fontSize: 17,
-                          color: Colors.grey[400],
+                          color: Theme.of(context).colorScheme.background,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18
                         ),
                       ),
-                    )
-                  )
-                ],
-              )
-            ),
-            Container(
-              width: double.infinity,
-              padding: EdgeInsets.only(left:10, right: 10, bottom: 10),
-              decoration: BoxDecoration(
-                color: Colors.grey[100],
-                borderRadius: BorderRadius.only(bottomLeft: Radius.circular(10), bottomRight: Radius.circular(10))
-              ),
-              child: Row(
-                children: [
-                  okTaped != null ?
-                  Expanded(
-                    flex: 1,
-                    child: Bebutton(
-                      borderRadius: 5,
-                      onPressed: okTaped,
-                      text: '$okText'
-                    )
-                  ) : Container(),
-
-                  cancelTaped != null && okTaped != null ?
-                  SizedBox(width: 10) : Container(),
+                    ),
+                  ),
+                  cancelTaped != null ?
+                  SizedBox(width: 20) : Container(),
                   
                   cancelTaped != null ?
-                  Expanded(
-                    flex: 1,
-                    child: Bebutton(
-                      borderRadius: 5,
-                      onPressed: cancelTaped,
-                      text: '$cancelText'
-                    )
+                  GestureDetector(
+                    onTap: cancelTaped,
+                    child: Container(
+                      padding: EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: Colors.redAccent,
+                        borderRadius: BorderRadius.circular(10)
+                      ),
+                      child: Text('$cancelText',
+                      textScaleFactor: 1.0,
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.background,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18
+                        ),
+                      ),
+                    ),
                   ) : Container()
                 ],
               ),
-            ),
-          ]
+              // InkWell(
+              //   onTap: okTaped, 
+              //   child: Container(
+              //     // width: 150,
+              //     padding: EdgeInsets.all(10),
+              //     decoration: BoxDecoration(
+              //       color: Theme.of(context).primaryColor,
+              //       borderRadius: BorderRadius.circular(10)
+              //     ),
+              //     child: Center(
+              //       child: Text('$okText',
+              //         style: TextStyle(
+              //           color: Theme.of(context).colorScheme.background,
+              //           fontWeight: FontWeight.bold,
+              //           fontSize: 18
+              //         ),
+              //       ),
+              //     ),
+              //   )
+              // ),
+              SizedBox(height: 20),
+            ],
+          ),
         ),
+        // height: height != null ? height : 300,
+        // width: 400,
+        // child: Column(
+        //   children:[
+        //     // Container(
+        //     //   width: double.infinity,
+        //     //   height: 150,
+        //     //   decoration: BoxDecoration(
+        //     //     borderRadius: BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10))
+        //     //   ),
+        //     //   child: Center(
+        //     //     child: iconMsg != null ? Icon(iconMsg, size: 100, color: icColor) : Icon(Icons.check_circle, size: 100, color: icColor)
+        //     //   ),
+        //     // ),
+        //     Column(
+        //       children: [
+        //         // Container(
+        //         //   padding: EdgeInsets.all(10),
+        //         //   child: Text(
+        //         //     '$title',
+        //         //     maxLines: 1,
+        //         //     style: TextStyle(
+        //         //       fontSize: 24,
+        //         //       color: Colors.grey[600],
+        //         //       fontWeight: FontWeight.bold
+        //         //     ),
+        //         //   )
+        //         // ),
+        //         // Expanded(
+        //         //   child: Container(
+        //         //     padding: EdgeInsets.only(left:20, right: 20),
+        //         //     child: Text(
+        //         //       '$message',
+        //         //       textAlign: TextAlign.center,
+        //         //       maxLines: 5,
+        //         //       style: TextStyle(
+        //         //         fontSize: 17,
+        //         //         color: Colors.grey[400],
+        //         //       ),
+        //         //     ),
+        //         //   )
+        //         // )
+        //       ]
+        //     ),
+        //     // Container(
+        //     //   width: double.infinity,
+        //     //   padding: EdgeInsets.only(left:10, right: 10, bottom: 10),
+        //     //   decoration: BoxDecoration(
+        //     //     borderRadius: BorderRadius.only(bottomLeft: Radius.circular(10), bottomRight: Radius.circular(10))
+        //     //   ),
+        //     //   child: Row(
+        //     //     children: [
+        //     //       okTaped != null ?
+        //     //       Expanded(
+        //     //         flex: 1,
+        //     //         child: Bebutton(
+        //     //           borderRadius: 5,
+        //     //           onPressed: okTaped,
+        //     //           text: '$okText'
+        //     //         )
+        //     //       ) : Container(),
+
+        //     //       cancelTaped != null && okTaped != null ?
+        //     //       SizedBox(width: 10) : Container(),
+                  
+        //     //       cancelTaped != null ?
+        //     //       Expanded(
+        //     //         flex: 1,
+        //     //         child: Bebutton(
+        //     //           borderRadius: 5,
+        //     //           onPressed: cancelTaped,
+        //     //           text: '$cancelText'
+        //     //         )
+        //     //       ) : Container()
+        //     //     ],
+        //     //   ),
+        //     // ),
+        //   ]
+        // ),
       )
     );
   }
