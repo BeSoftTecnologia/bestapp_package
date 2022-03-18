@@ -5,6 +5,7 @@ import 'package:bestapp_package/src/formatters/cpf_input_formatter.dart';
 import 'package:bestapp_package/src/formatters/credit_card_formatter.dart';
 import 'package:bestapp_package/src/formatters/currency_input_formatter.dart';
 import 'package:bestapp_package/src/formatters/mmyy_formatter.dart';
+import 'package:bestapp_package/src/formatters/mmyyyy_formatter.dart';
 import 'package:cpfcnpj/cpfcnpj.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +27,8 @@ enum TypeInput {
   CEP,
   BR_TEL,
   CREDIT_CARD,
-  MMYY
+  MMYY,
+  MMYYYY
 }
 
 class BeInputController extends StatefulWidget {
@@ -63,6 +65,7 @@ class BeInputController extends StatefulWidget {
   final double borderRadius;
   final double height;
   final TextStyle style;
+  final Color cursorColor;
   
   @deprecated
   final Color iconColor;
@@ -116,6 +119,7 @@ class BeInputController extends StatefulWidget {
     this.textCapitalization= TextCapitalization.none,
     this.prefixIconColor,
     this.suffixIconColor,
+    this.cursorColor,
     this.focusNode
     // this.emailvalidator = false,
     // this.phoneValidator = false,
@@ -178,7 +182,7 @@ class _BeInputControllerState extends State<BeInputController> {
         inputFormatters: defineTypeformatters(widget.typeInput),
         keyboardType: defineTypeInput(widget.typeInput),
         maxLines: widget.keyboardType == TextInputType.multiline ? null : 1,
-        cursorColor: Theme.of(context).primaryColor,
+        cursorColor: widget.cursorColor !=  null ? widget.cursorColor : Theme.of(context).colorScheme.secondary,
         decoration: new InputDecoration(
           prefix: widget.prefix != null ? widget.prefix : null,
           border: widget.showBorder && widget.borderRadius == null ? null : 
@@ -270,6 +274,11 @@ class _BeInputControllerState extends State<BeInputController> {
         FilteringTextInputFormatter.digitsOnly,
         MMYYFormatter()
       ];
+    }else if(typeInput == TypeInput.MMYYYY){
+      return [
+        FilteringTextInputFormatter.digitsOnly,
+        MMYYYYFormatter()
+      ];
     }
     else if(typeInput == TypeInput.CURRENCY){
       return [
@@ -282,7 +291,7 @@ class _BeInputControllerState extends State<BeInputController> {
   }
 
   TextInputType defineTypeInput(TypeInput typeInput){
-    if(typeInput == TypeInput.MMYY || typeInput == TypeInput.CREDIT_CARD || typeInput == TypeInput.CPF || typeInput == TypeInput.CNPJ || typeInput == TypeInput.CEP || typeInput == TypeInput.BR_TEL || typeInput == TypeInput.COUNTER || typeInput == TypeInput.CURRENCY || widget.typeInput == TypeInput.NUMBER){
+    if(typeInput == TypeInput.MMYY || typeInput == TypeInput.MMYYYY || typeInput == TypeInput.CREDIT_CARD || typeInput == TypeInput.CPF || typeInput == TypeInput.CNPJ || typeInput == TypeInput.CEP || typeInput == TypeInput.BR_TEL || typeInput == TypeInput.COUNTER || typeInput == TypeInput.CURRENCY || widget.typeInput == TypeInput.NUMBER){
       return TextInputType.number;
     }else if(typeInput == TypeInput.EMAIL){
       return TextInputType.emailAddress;

@@ -12,7 +12,8 @@ class BeAppbar extends StatelessWidget implements PreferredSizeWidget {
     this.actions,
     this.icColor,
     this.centerTitle,
-    this.elevation
+    this.elevation,
+    this.bottom,
     }): super(key: key);
 
   final Widget title;
@@ -25,6 +26,7 @@ class BeAppbar extends StatelessWidget implements PreferredSizeWidget {
   final List<Widget> actions;
   final bool centerTitle;
   final double elevation;
+  final Widget bottom;
 
   @override
   Size get preferredSize => appBarHeight;
@@ -50,6 +52,7 @@ class BeAppbar extends StatelessWidget implements PreferredSizeWidget {
         ),
         title: title,
         actions: actions,
+        bottom: bottom,
       )
     );
   }

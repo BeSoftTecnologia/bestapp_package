@@ -1,3 +1,4 @@
+import 'package:bestapp_package/src/formatters/credit_card_formatter.dart';
 import 'package:flutter/material.dart';
 
 class BebuttonIcon extends StatelessWidget {
@@ -15,12 +16,14 @@ class BebuttonIcon extends StatelessWidget {
   final double elevation;
   final double borderRadius;
   final IconData icon;
+  final IconData iconRight;
 
   BebuttonIcon({
     this.text,
     this.textStyle, 
     this.buttonwidth = 300,
     this.buttonheight,
+    this.iconRight,
     @required this.onPressed, 
     this.large=true,
     this.overlayColor,
@@ -41,7 +44,7 @@ class BebuttonIcon extends StatelessWidget {
         width: large ? size.width : buttonwidth, 
         height: buttonheight != null ? buttonheight : 50
       ),
-        child: ElevatedButton.icon(                            
+      child: ElevatedButton(                            
         style: ButtonStyle(
           overlayColor: overlayColor != null && showOverlayColor ? MaterialStateProperty.all(overlayColor) : showOverlayColor ? MaterialStateProperty.all(Theme.of(context).primaryColor.withOpacity(0.1)) : null,
           backgroundColor: bgColor != null ? MaterialStateProperty.all(bgColor) : MaterialStateProperty.all(Theme.of(context).primaryColor),
@@ -54,14 +57,51 @@ class BebuttonIcon extends StatelessWidget {
           elevation: elevation != null ? MaterialStateProperty.all(elevation) : MaterialStateProperty.all(0.0)
         ),
         onPressed: onPressed, 
-        icon: Icon(icon),
-        label: Text(text != null ? text : '',
-          style: textStyle != null ? textStyle
-          : TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold
-          ),
-        )
+        child: iconRight != null ?
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+                Icon(icon, size: 22),
+                SizedBox(width: 5),
+                textLabel(),
+                SizedBox(width: 5),
+                Icon(iconRight, size: 22)
+            ]
+          ) : Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Icon(icon, size: 22),
+              SizedBox(width: 5),
+              textLabel()
+            ]
+          )
+        // icon: Icon(icon),
+        // icon: iconRight != null ? Icon(null) : Icon(icon),
+        // label: iconRight != null ?
+        // Expanded(
+        //   flex: 1,
+        //   child: Row(
+        //     mainAxisAlignment: MainAxisAlignment.center,
+        //     crossAxisAlignment: CrossAxisAlignment.center,
+        //     children: [
+        //       // Icon(icon),
+        //       // SizedBox(width: 5),
+        //       textLabel(),
+        //       SizedBox(width: 5),
+        //       Icon(iconRight)
+        //     ],
+        //   ),
+        // ) : textLabel()
+      )
+    );
+  }
+  Widget textLabel(){
+    return Text(text != null ? text : '',
+      style: textStyle != null ? textStyle : TextStyle(
+        fontSize: 16,
+        fontWeight: FontWeight.bold
       )
     );
   }
