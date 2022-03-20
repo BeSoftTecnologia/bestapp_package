@@ -51,7 +51,7 @@ void beDialogSnack({
           primaryAction: barrierDismissible ? TextButton(
             onPressed: () => controller.dismiss(),
             child: Text(
-              '$dismissText', 
+              '$dismissText',
               style: TextStyle(
                 color: Colors.white
               )

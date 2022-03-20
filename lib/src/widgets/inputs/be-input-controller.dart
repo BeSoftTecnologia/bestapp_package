@@ -197,6 +197,7 @@ class _BeInputControllerState extends State<BeInputController> {
           filled: widget.fillColor != null ? true : false,
           suffix: widget.suffix,
           
+          
           suffixIcon:  widget.suffixIcon != null && (widget.typeInput == TypeInput.PASSWORD || widget.typeInput == TypeInput.COUNTER || widget.typeInput == TypeInput.NUMBER || widget.typeInput == TypeInput.CURRENCY || widget.typeInput == TypeInput.CEP || widget.typeInput == TypeInput.EMAIL) ?
           Padding(
             padding: EdgeInsets.fromLTRB(0, 0, 0, 0),

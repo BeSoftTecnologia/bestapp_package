@@ -1,0 +1,105 @@
+import 'package:bestapp_package/bestapp_package.dart';
+import 'package:flutter/material.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
+
+class PullingLoading extends StatefulWidget {
+  final Widget child;
+  final Function onRefresh;
+  final Function onLoadmore;
+  
+  final RefreshController refreshController;
+  const PullingLoading({ 
+    Key key,
+    @required this.child,
+    @required this.refreshController,
+    @required this.onRefresh,
+    this.onLoadmore
+   }) : super(key: key);
+
+  @override
+  State<PullingLoading> createState() => _PullingLoadingState();
+}
+
+class _PullingLoadingState extends State<PullingLoading> with TickerProviderStateMixin {
+  AnimationController _anicontroller, _scaleController;
+
+  @override
+  void initState() {
+    super.initState();
+    _anicontroller = AnimationController(vsync: this, duration: const Duration(milliseconds: 2000));
+    _scaleController = AnimationController(value: 0.0, vsync: this, upperBound: 1.0);
+    widget.refreshController.headerMode.addListener(() {
+      if (widget.refreshController.headerStatus == RefreshStatus.idle) {
+        _scaleController.value = 0.0;
+        _anicontroller.reset();
+      } else if (widget.refreshController.headerStatus == RefreshStatus.refreshing) {
+        _anicontroller.repeat();
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SmartRefresher(
+      child: widget.child,
+      onLoading: widget.onRefresh,
+      enablePullDown: true,
+      enablePullUp: widget.onLoadmore != null ? true : false,
+      controller: widget.refreshController,
+      onRefresh: widget.onRefresh,
+      footer: CustomFooter(
+        builder: (BuildContext context,LoadStatus mode){
+          Widget body ;
+          if(mode==LoadStatus.idle){
+            body =  Text("pull up load");
+          }
+          else if(mode==LoadStatus.loading){
+            body =  Container(
+              color: Theme.of(context).scaffoldBackgroundColor,
+              child: beloadCircular(
+                color: Theme.of(context).primaryColor,
+              )
+            );
+          }
+          else if(mode == LoadStatus.failed){
+            body = Text("Load Failed!Click retry!");
+          }
+          else if(mode == LoadStatus.canLoading){
+              body = Text("release to load more");
+          }
+          else{
+            body = Text("No more Data");
+          }
+          return Container(
+            height: 55.0,
+            child: Center(child:body),
+          );
+        },
+      ),
+      header: CustomHeader(
+        refreshStyle: RefreshStyle.Behind,
+        onOffsetChange: (offset) {
+          if (widget.refreshController.headerMode.value != RefreshStatus.refreshing)
+            _scaleController.value = offset / 80.0;
+        },
+        builder: (c, m) {
+          return Container(
+            color: Theme.of(context).primaryColor,
+            child: FadeTransition(
+              opacity: _scaleController,
+              child: ScaleTransition(
+                child: Container(
+                  child: beloadCircular(
+                    color: Colors.white,
+                  )
+                ),
+                scale: _scaleController,
+              ),
+            ),
+            alignment: Alignment.center,
+          );
+        },
+      )
+    );
+  }
+}

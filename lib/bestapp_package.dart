@@ -20,7 +20,7 @@ export 'src/widgets/buttons/be-button-icon.dart';
 export 'src/widgets/buttons/be_button_progress.dart';
 export 'src/widgets/loading/builder_state.dart';
 export 'src/widgets/loading/be-shimmer-loading.dart';
-
+export 'src/widgets/loading/pulling_loading.dart';
 export 'src/widgets/appbar/be-preferred_appbar.dart';
 export 'src/widgets/appbar/be-appbar.dart';
 export 'src/widgets/appbar/be-appbar-pref.dart';
@@ -56,3 +56,4 @@ export 'src/validators/cpf_validator.dart';
 export 'package:shared_preferences/shared_preferences.dart';
 export 'package:dio/dio.dart';
 export 'package:email_validator/email_validator.dart';
+export 'package:pull_to_refresh/pull_to_refresh.dart';
