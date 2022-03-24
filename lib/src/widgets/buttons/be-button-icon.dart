@@ -17,6 +17,7 @@ class BebuttonIcon extends StatelessWidget {
   final double borderRadius;
   final IconData icon;
   final IconData iconRight;
+  final double iconSize;
 
   BebuttonIcon({
     this.text,
@@ -33,6 +34,7 @@ class BebuttonIcon extends StatelessWidget {
     this.elevation,
     this.borderRadius = 10,
     this.bgColor,
+    this.iconSize=22,
     @required this.icon,
   });
 
@@ -62,17 +64,17 @@ class BebuttonIcon extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-                Icon(icon, size: 22),
+                Icon(icon, size: iconSize),
                 SizedBox(width: 5),
                 textLabel(),
                 SizedBox(width: 5),
-                Icon(iconRight, size: 22)
+                Icon(iconRight, size: iconSize)
             ]
           ) : Row(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Icon(icon, size: 22),
+              Icon(icon, size: iconSize),
               SizedBox(width: 5),
               textLabel()
             ]
