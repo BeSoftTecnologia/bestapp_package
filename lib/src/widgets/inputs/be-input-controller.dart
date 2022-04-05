@@ -4,8 +4,10 @@ import 'package:bestapp_package/src/formatters/cnpj_input_formatter.dart';
 import 'package:bestapp_package/src/formatters/cpf_input_formatter.dart';
 import 'package:bestapp_package/src/formatters/credit_card_formatter.dart';
 import 'package:bestapp_package/src/formatters/currency_input_formatter.dart';
+import 'package:bestapp_package/src/formatters/date_formatter.dart';
 import 'package:bestapp_package/src/formatters/mmyy_formatter.dart';
 import 'package:bestapp_package/src/formatters/mmyyyy_formatter.dart';
+import 'package:bestapp_package/src/formatters/time_formatter.dart';
 import 'package:cpfcnpj/cpfcnpj.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +30,9 @@ enum TypeInput {
   BR_TEL,
   CREDIT_CARD,
   MMYY,
-  MMYYYY
+  MMYYYY,
+  DATE,
+  TIME
 }
 
 class BeInputController extends StatefulWidget {
@@ -280,6 +284,16 @@ class _BeInputControllerState extends State<BeInputController> {
         FilteringTextInputFormatter.digitsOnly,
         MMYYYYFormatter()
       ];
+    }else if(typeInput == TypeInput.DATE){
+      return [
+        FilteringTextInputFormatter.digitsOnly,
+        DATEFormatter()
+      ];
+    }else if(typeInput == TypeInput.TIME){
+      return [
+        FilteringTextInputFormatter.digitsOnly,
+        TIMEFormatter()
+      ];
     }
     else if(typeInput == TypeInput.CURRENCY){
       return [
@@ -292,7 +306,7 @@ class _BeInputControllerState extends State<BeInputController> {
   }
 
   TextInputType defineTypeInput(TypeInput typeInput){
-    if(typeInput == TypeInput.MMYY || typeInput == TypeInput.MMYYYY || typeInput == TypeInput.CREDIT_CARD || typeInput == TypeInput.CPF || typeInput == TypeInput.CNPJ || typeInput == TypeInput.CEP || typeInput == TypeInput.BR_TEL || typeInput == TypeInput.COUNTER || typeInput == TypeInput.CURRENCY || widget.typeInput == TypeInput.NUMBER){
+    if(typeInput == TypeInput.TIME || typeInput == TypeInput.MMYY || typeInput == TypeInput.MMYYYY || typeInput == TypeInput.DATE || typeInput == TypeInput.CREDIT_CARD || typeInput == TypeInput.CPF || typeInput == TypeInput.CNPJ || typeInput == TypeInput.CEP || typeInput == TypeInput.BR_TEL || typeInput == TypeInput.COUNTER || typeInput == TypeInput.CURRENCY || widget.typeInput == TypeInput.NUMBER){
       return TextInputType.number;
     }else if(typeInput == TypeInput.EMAIL){
       return TextInputType.emailAddress;

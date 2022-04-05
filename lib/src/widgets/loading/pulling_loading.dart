@@ -28,33 +28,33 @@ class _PullingLoadingState extends State<PullingLoading> with TickerProviderStat
     super.initState();
     _anicontroller = AnimationController(vsync: this, duration: const Duration(milliseconds: 2000));
     _scaleController = AnimationController(value: 0.0, vsync: this, upperBound: 1.0);
-    widget.refreshController.headerMode.addListener(() {
-      if (widget.refreshController.headerStatus == RefreshStatus.idle) {
-        _scaleController.value = 0.0;
-        _anicontroller.reset();
-      } else if (widget.refreshController.headerStatus == RefreshStatus.refreshing) {
-        _anicontroller.repeat();
-      }
-    });
+    // widget.refreshController.headerMode.addListener(() {
+    //   if (widget.refreshController.headerStatus == RefreshStatus.idle) {
+    //     _scaleController.value = 0.0;
+    //     _anicontroller.reset();
+    //   } else if (widget.refreshController.headerStatus == RefreshStatus.refreshing) {
+    //     _anicontroller.repeat();
+    //   }
+    // });
   }
 
   @override
   Widget build(BuildContext context) {
     return SmartRefresher(
       child: widget.child,
-      onLoading: widget.onRefresh,
+      onRefresh: widget.onRefresh,
+      onLoading: widget.onLoadmore,
+      controller: widget.refreshController,
       enablePullDown: true,
       enablePullUp: widget.onLoadmore != null ? true : false,
-      controller: widget.refreshController,
-      onRefresh: widget.onRefresh,
       footer: CustomFooter(
-        builder: (BuildContext context,LoadStatus mode){
-          Widget body ;
-          if(mode==LoadStatus.idle){
-            body =  Text("pull up load");
-          }
-          else if(mode==LoadStatus.loading){
-            body =  Container(
+        builder: (BuildContext context, LoadStatus mode){
+          Widget body;
+          // if(mode==LoadStatus.idle){
+          //   body =  Text("pull up load");
+          // }
+          if(mode==LoadStatus.loading){
+            body = Container(
               color: Theme.of(context).scaffoldBackgroundColor,
               child: beloadCircular(
                 color: Theme.of(context).primaryColor,
@@ -65,10 +65,12 @@ class _PullingLoadingState extends State<PullingLoading> with TickerProviderStat
             body = Text("Load Failed!Click retry!");
           }
           else if(mode == LoadStatus.canLoading){
-              body = Text("release to load more");
+            // body = Text("release to load more");
+            body = Container();
           }
           else{
-            body = Text("No more Data");
+            // body = Text("No more Data");
+            body = Container();
           }
           return Container(
             height: 55.0,
