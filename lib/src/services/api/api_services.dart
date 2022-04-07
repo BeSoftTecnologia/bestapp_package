@@ -15,6 +15,7 @@ export 'package:bestapp_package/src/models/api_config.dart';
 enum TypeHeader {SESSIONID, TOKEN}
 enum TypeBody {JSON, FORMDATA}
 enum ApiMethod {POST, PUT, DELETE, GET}
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 class ApiServices {
   /* baseURL es para iniciar a clase com o endpoint
@@ -137,6 +138,11 @@ class ApiServices {
                 err.response.data = ApiHelpers.messageTag(err.response.data, 'Unknow Status _isInformational');
               }else{
                 err.response.data = ApiHelpers.messageTag(err.response.data, 'Unknow Status');
+              }
+              // Server para fazer o usuario delogar do applicativo o restante da login 
+              // Tem que ser na chamada de esa tela
+              if(ApiHelpers.isUnauthorized(err.response.statusCode)){
+                navigatorKey.currentState.pushNamed('/autenticacao');
               }
               ApiHelpers.logsRequest(err.response, 'REQUEST ERROR :(');
               return handler.resolve(err.response);

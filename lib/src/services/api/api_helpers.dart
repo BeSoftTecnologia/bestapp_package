@@ -255,6 +255,19 @@ class ApiHelpers {
     HTTP_431_REQUEST_HEADER_FIELDS_TOO_LARGE
     HTTP_451_UNAVAILABLE_FOR_LEGAL_REASONS
   */
+  static bool isUnauthorized(int statusCode){
+    switch (statusCode) {
+      case 401:
+        return true;
+      case 403:
+        return true;
+      case 407:
+        return true;
+      default:
+        return false;
+    }
+  }
+
   static bool isClientError(int statusCode){
     switch (statusCode) {
       case 400:
