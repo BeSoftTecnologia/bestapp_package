@@ -139,11 +139,11 @@ class ApiServices {
               }else{
                 err.response.data = ApiHelpers.messageTag(err.response.data, 'Unknow Status');
               }
-              // Server para fazer o usuario delogar do applicativo o restante da login 
-              // Tem que ser na chamada de esa tela
-              if(ApiHelpers.isUnauthorized(err.response.statusCode)){
-                navigatorKey.currentState.pushNamed('/autenticacao');
-              }
+              /*
+                 Server para fazer o usuario delogar do applicativo o restante da login 
+                Tem que ser na chamada de esa tela 
+              */
+              if(ApiHelpers.isUnauthorized(err.response.statusCode))navigatorKey.currentState.pushNamed('/autenticacao');
               ApiHelpers.logsRequest(err.response, 'REQUEST ERROR :(');
               return handler.resolve(err.response);
             case DioErrorType.other:
