@@ -8,6 +8,7 @@ class BeButtonProgress extends StatelessWidget {
   final Color bgColor;
   final EdgeInsetsGeometry margin;
   final Widget progressWidget;
+  final Widget defaultLabel;
   final Color colorProgress;
   final double radius;
   final ProgressButtonType progressButtonType;
@@ -20,6 +21,7 @@ class BeButtonProgress extends StatelessWidget {
     this.bgColor,
     this.colorProgress,
     this.radius=20,
+    this.defaultLabel,
     this.progressButtonType = ProgressButtonType.Flat,
     this.margin
   }) : super(key: key);
@@ -32,7 +34,9 @@ class BeButtonProgress extends StatelessWidget {
       alignment: Alignment.center,
       child: ProgressButton(
         type: progressButtonType,
-        defaultWidget: Text(
+        defaultWidget: defaultLabel != null ?
+        defaultLabel :
+        Text(
           label,
           textAlign: TextAlign.center, 
           style: Theme.of(context).textTheme.button
