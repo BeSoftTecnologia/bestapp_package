@@ -1,9 +1,13 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'package:bestapp_package/bestapp_package.dart';
-import 'package:bestapp_package/src/services/api/api_helpers.dart';
-import 'package:bestapp_package/src/services/devices_info.dart';
+import 'package:bestapp_package/src/services/middleware/cookies.dart';
+import 'package:bestapp_package/src/utils/api_helpers.dart';
+import 'package:bestapp_package/src/utils/devices_info.dart';
+import 'package:cookie_jar/cookie_jar.dart';
 import 'package:flutter/material.dart';
+
 export 'package:bestapp_package/src/models/api_config.dart';
 
 /*
@@ -25,7 +29,7 @@ class ApiServices {
   final String baseUrl;
   final Dio dio = Dio();
   final BeDevicesInfo beDevicesInfo = BeDevicesInfo();
-  
+  final Appdirctory appdirctory = Appdirctory('cookies');
   ApiServices({
     this.baseUrl
   });
@@ -59,6 +63,14 @@ class ApiServices {
     _isClientError = false;
     _isServerError = false;
     String _userAgent = await beDevicesInfo.getDevicesInfo();
+
+    /** COOKIES CONFIG **/
+    String cookiePath = await appdirctory.getDirectory();
+    PersistCookieJar persistentCookies = PersistCookieJar(
+      storage:  FileStorage('$cookiePath')
+    );
+    /** ************* **/
+
     if(typeBody != TypeBody.FORMDATA){
       headers = {
         'Accept': 'application/json',
@@ -73,7 +85,7 @@ class ApiServices {
     headers['User-Agent'] = _userAgent;
     if(apiConfig != null && apiConfig.token != null && apiConfig.token != ''){
       if(typeHeader == TypeHeader.TOKEN)headers['Authorization'] = apiConfig.token;
-      if(typeHeader == TypeHeader.SESSIONID)headers['Cookie'] = 'sessionid=${apiConfig.token}';
+      // if(typeHeader == TypeHeader.SESSIONID)headers['Cookie'] = 'sessionid=${apiConfig.token}';
     }
     dio.options.baseUrl = apiConfig != null && apiConfig.baseUrl != null && apiConfig.baseUrl != '' ? '${apiConfig.baseUrl}/' : '$baseUrl/';
     dio.options.headers = headers;
@@ -88,6 +100,9 @@ class ApiServices {
       path: rota
     );
 
+    dio.interceptors.add(
+      CookieManager(persistentCookies)
+    );
     dio.interceptors.add(
       InterceptorsWrapper(
         onResponse: (response,handler){

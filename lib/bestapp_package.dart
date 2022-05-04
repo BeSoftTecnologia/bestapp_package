@@ -1,7 +1,7 @@
 library bestapp_package;
 
 // Services
-export 'src/services/api/api_services.dart';
+export 'src/services/api_services.dart';
 
 // Widget
 export 'src/widgets/cards/be-card-selected.dart';
@@ -44,7 +44,7 @@ export 'src/models/enums.dart';
 export 'src/utils/bestapp-utils.dart';
 export 'src/utils/colors-fromhex.dart';
 export 'src/utils/compress-images.dart';
-export 'src/utils/folderapp-docdir.dart';
+export 'src/utils/app_directory.dart';
 export 'src/utils/getbytes-fromasset.dart';
 export 'src/utils/preference-utils.dart';
 

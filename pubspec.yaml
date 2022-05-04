@@ -1,6 +1,6 @@
 name: bestapp_package
 description: A new Flutter package project.
-version: 2.0.1
+version: 2.1.0
 homepage: https://repo.besoft.com.br/steeve
 
 environment:
@@ -25,8 +25,10 @@ dependencies:
   shimmer: ^2.0.0
   pull_to_refresh: ^2.0.0
   device_info_plus: ^3.2.3
+  cookie_jar: ^3.0.1
+  # dio_cookie_manager: ^2.0.0
   
-  
+
 
 dev_dependencies:
   flutter_test:
