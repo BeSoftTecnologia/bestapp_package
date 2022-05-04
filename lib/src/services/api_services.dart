@@ -85,7 +85,7 @@ class ApiServices {
     headers['User-Agent'] = _userAgent;
     if(apiConfig != null && apiConfig.token != null && apiConfig.token != ''){
       if(typeHeader == TypeHeader.TOKEN)headers['Authorization'] = apiConfig.token;
-      // if(typeHeader == TypeHeader.SESSIONID)headers['Cookie'] = 'sessionid=${apiConfig.token}';
+      if(typeHeader == TypeHeader.SESSIONID)headers['Cookie'] = 'sessionid=${apiConfig.token}';
     }
     dio.options.baseUrl = apiConfig != null && apiConfig.baseUrl != null && apiConfig.baseUrl != '' ? '${apiConfig.baseUrl}/' : '$baseUrl/';
     dio.options.headers = headers;
