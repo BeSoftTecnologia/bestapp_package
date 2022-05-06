@@ -64,12 +64,12 @@ class ApiServices {
     _isServerError = false;
     String _userAgent = await beDevicesInfo.getDevicesInfo();
 
-    /** COOKIES CONFIG **/
+    /********* COOKIES CONFIG ***********/
     String cookiePath = await appdirctory.getDirectory();
     PersistCookieJar persistentCookies = PersistCookieJar(
       storage:  FileStorage('$cookiePath')
     );
-    /** ************* **/
+    /*********** ************* ***********/
 
     if(typeBody != TypeBody.FORMDATA){
       headers = {
@@ -85,7 +85,6 @@ class ApiServices {
     headers['User-Agent'] = _userAgent;
     if(apiConfig != null && apiConfig.token != null && apiConfig.token != ''){
       if(typeHeader == TypeHeader.TOKEN)headers['Authorization'] = apiConfig.token;
-      if(typeHeader == TypeHeader.SESSIONID)headers['Cookie'] = 'sessionid=${apiConfig.token}';
     }
     dio.options.baseUrl = apiConfig != null && apiConfig.baseUrl != null && apiConfig.baseUrl != '' ? '${apiConfig.baseUrl}/' : '$baseUrl/';
     dio.options.headers = headers;
@@ -154,10 +153,10 @@ class ApiServices {
                 err.response.data = ApiHelpers.messageTag(err.response.data, 'Unknow Status');
               }
               /*
-                 Server para fazer o usuario delogar do applicativo o restante da login 
+                Server para fazer o usuario delogar do applicativo o restante da login 
                 Tem que ser na chamada de esa tela 
               */
-              if(ApiHelpers.isUnauthorized(err.response.statusCode))navigatorKey.currentState.pushNamed('/autenticacao');
+              if(ApiHelpers.isUnauthorized(err.response.statusCode))navigatorKey.currentState.pushNamed('/unauthorized');
               ApiHelpers.logsRequest(err.response, 'REQUEST ERROR :(');
               return handler.resolve(err.response);
             case DioErrorType.other:
