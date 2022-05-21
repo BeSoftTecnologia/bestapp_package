@@ -10,6 +10,8 @@ class BeDialogContent extends StatelessWidget {
   final Function cancelTaped;
   final IconData iconMsg;
   final Color icColor;
+  final Widget okWidget;
+  final Widget cancelWidget;
 
   BeDialogContent({
     @required this.message,
@@ -19,6 +21,8 @@ class BeDialogContent extends StatelessWidget {
     this.okText,
     this.cancelText,
     this.iconMsg,
+    this.okWidget,
+    this.cancelWidget,
     this.icColor
   });
   
@@ -62,32 +66,10 @@ class BeDialogContent extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 20),
-
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  GestureDetector(
-                    onTap: okTaped,
-                    child: Container(
-                      padding: EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).primaryColor,
-                        borderRadius: BorderRadius.circular(10)
-                      ),
-                      child: Text('$okText',
-                        textScaleFactor: 1.0,
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.background,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18
-                        ),
-                      ),
-                    ),
-                  ),
-                  cancelTaped != null ?
-                  SizedBox(width: 20) : Container(),
-                  
-                  cancelTaped != null ?
+                  cancelTaped != null && cancelWidget == null ?
                   GestureDetector(
                     onTap: cancelTaped,
                     child: Container(
@@ -105,7 +87,33 @@ class BeDialogContent extends StatelessWidget {
                         ),
                       ),
                     ),
-                  ) : Container()
+                  ) : Container(),
+                  cancelWidget != null ?
+                  cancelWidget : Container(),
+
+                  cancelTaped != null || okWidget != null || cancelWidget != null  ?
+                  SizedBox(width: 20) : Container(),
+
+                  okWidget != null ?
+                  okWidget :
+                  GestureDetector(
+                    onTap: okTaped,
+                    child: Container(
+                      padding: EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).primaryColor,
+                        borderRadius: BorderRadius.circular(10)
+                      ),
+                      child: Text('$okText',
+                        textScaleFactor: 1.0,
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.background,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18
+                        )
+                      )
+                    )
+                  )
                 ],
               ),
               // InkWell(

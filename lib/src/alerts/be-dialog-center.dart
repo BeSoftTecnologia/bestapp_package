@@ -35,7 +35,9 @@ Future BeDialogCenter({
   int transitionDuration=300,
   double height = 300,
   IconData iconMsg,
-  Color icColor
+  Color icColor,
+  Widget okWidget,
+  Widget cancelWidget,
 }) async {
 
   DialogTypeAnimation.DEFAULT == dialogTypeAnimation || dialogTypeAnimation == null ?
@@ -48,6 +50,8 @@ Future BeDialogCenter({
     builder: (context) {
       return  BeDialogContent(
         title: title,
+        okWidget: okWidget,
+        cancelWidget: cancelWidget,
         icColor: icColor,
         iconMsg: iconMsg,
         message: message,
@@ -77,6 +81,8 @@ Future BeDialogCenter({
             icColor: icColor,
             iconMsg: iconMsg,
             title: title,
+            okWidget: okWidget,
+            cancelWidget: cancelWidget,
             message: message,
             okTaped: okTaped,
             cancelTaped: cancelTaped,
@@ -92,6 +98,8 @@ Future BeDialogCenter({
           opacity: anim1.value,
           child: BeDialogContent(
             title: title,
+            okWidget: okWidget,
+            cancelWidget: cancelWidget,
             icColor: icColor,
             iconMsg: iconMsg,
             message: message,
@@ -112,6 +120,8 @@ Future BeDialogCenter({
             icColor: icColor,
             iconMsg: iconMsg,
             message: message,
+            okWidget: okWidget,
+            cancelWidget: cancelWidget, 
             okTaped: okTaped,
             cancelTaped: cancelTaped,
             okText: okText,
@@ -125,6 +135,8 @@ Future BeDialogCenter({
         message: message,
         okTaped: okTaped,
         cancelTaped: cancelTaped,
+        okWidget: okWidget,
+        cancelWidget: cancelWidget,
         okText: okText,
         cancelText: cancelText
       );

@@ -13,7 +13,9 @@ class BebuttonOutlineIcon extends StatelessWidget {
   final bool showShadowColor;
   final double elevation;
   final double borderRadius;
+  final double borderSide;
   final IconData icon;
+  final Color buttomColor;
 
   BebuttonOutlineIcon({
     this.text,
@@ -21,6 +23,7 @@ class BebuttonOutlineIcon extends StatelessWidget {
     this.buttonwidth = 300,
     this.buttonheight,
     @required this.onPressed, 
+    @required this.icon,
     this.large=true,
     this.overlayColor,
     this.showOverlayColor=false,
@@ -28,7 +31,8 @@ class BebuttonOutlineIcon extends StatelessWidget {
     this.showShadowColor=false,
     this.elevation,
     this.borderRadius = 10,
-    @required this.icon,
+    this.borderSide,
+    this.buttomColor
   });
 
   @override
@@ -42,7 +46,8 @@ class BebuttonOutlineIcon extends StatelessWidget {
         child: OutlinedButton.icon(                            
         style: ButtonStyle(
           overlayColor: overlayColor != null && showOverlayColor ? MaterialStateProperty.all(overlayColor) : showOverlayColor ? MaterialStateProperty.all(Theme.of(context).primaryColor.withOpacity(0.1)) : null,
-          backgroundColor: MaterialStateProperty.all(Theme.of(context).primaryColor),
+          // backgroundColor: MaterialStateProperty.all(Theme.of(context).primaryColor),
+          side: buttomColor != null ? MaterialStateProperty.all(borderSide != null ? BorderSide(width: borderSide, color: buttomColor) : BorderSide(width: 1, color: buttomColor)) : MaterialStateProperty.all(borderSide != null ? BorderSide(width: borderSide, color: Theme.of(context).primaryColor) : BorderSide(width: 1, color: Theme.of(context).primaryColor)),
           shape: MaterialStateProperty.all(
             RoundedRectangleBorder(
               borderRadius: new BorderRadius.circular(borderRadius),

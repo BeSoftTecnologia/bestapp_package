@@ -39,12 +39,15 @@ class ApiServices {
   bool _isRedirect = false;
   bool _isClientError = false;
   bool _isServerError = false;
+  bool _isUnauthorized = false;
+  
 
   bool get isInformational => _isInformational;
   bool get isSuccess => _isSuccess;
   bool get isRedirect => _isRedirect;
   bool get isClientError => _isClientError;
   bool get isServerError => _isServerError;
+  bool get isUnauthorized => _isUnauthorized;
 
   Future<Map<String, dynamic>> callApi({
     @required ApiMethod method,
@@ -62,6 +65,8 @@ class ApiServices {
     _isRedirect = false;
     _isClientError = false;
     _isServerError = false;
+    _isUnauthorized = false;
+
     String _userAgent = await beDevicesInfo.getDevicesInfo();
 
     /********* COOKIES CONFIG ***********/
@@ -136,7 +141,7 @@ class ApiServices {
               _isServerError = ApiHelpers.isServerError(err.response.statusCode);
               _isRedirect = ApiHelpers.isRedirect(err.response.statusCode);
               _isInformational = ApiHelpers.isRedirect(err.response.statusCode);
-
+              _isUnauthorized = ApiHelpers.isUnauthorized(err.response.statusCode);
               // Esas mensagem o retorno no json final sempre vai ter a tag message,
               // Quando o tipo da mensagem nao e definido
               // Para usar a mensagem padrao do usuario ou o proveedor

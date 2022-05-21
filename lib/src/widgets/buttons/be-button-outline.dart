@@ -42,7 +42,7 @@ class BebuttonOutline extends StatelessWidget {
         width: large ? size.width : buttonWidth, 
         height: buttonHeight != null ? buttonHeight : 50
       ),
-        child: OutlinedButton(                            
+      child: OutlinedButton(                            
         style: ButtonStyle(
           overlayColor: overlayColor != null && showOverlayColor ? MaterialStateProperty.all(overlayColor) : showOverlayColor ? MaterialStateProperty.all(Theme.of(context).primaryColor.withOpacity(0.1)) : null,
           foregroundColor: buttomColor != null ? MaterialStateProperty.all(buttomColor) : MaterialStateProperty.all(Theme.of(context).primaryColor),
