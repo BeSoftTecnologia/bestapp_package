@@ -158,6 +158,7 @@ class ApiServices {
                 err.response.data = ApiHelpers.messageTag(err.response.data, 'Unknow Status');
               }
               /*
+                Funcao criado especificamente para iunner controle da sessao do usuario
                 Server para fazer o usuario delogar do applicativo o restante da login 
                 Tem que ser na chamada de esa tela 
               */
