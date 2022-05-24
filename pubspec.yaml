@@ -26,10 +26,7 @@ dependencies:
   pull_to_refresh: ^2.0.0
   device_info_plus: ^3.2.3
   cookie_jar: ^3.0.1
-  # dio_cookie_manager: ^2.0.0
   
-
-
 dev_dependencies:
   flutter_test:
     sdk: flutter

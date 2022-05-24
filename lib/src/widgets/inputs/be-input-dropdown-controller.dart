@@ -29,11 +29,17 @@ class BeinputDropdownController<T> extends StatelessWidget {
   final double width;
   final IconData prefixIcon;
   final bool validator;
+  final EdgeInsetsGeometry contentPadding;
+  final bool isExpanded;
+  final bool isDense;
+  final int elevation;
+  final double borderRadius;
 
   BeinputDropdownController({
     this.hintText = 'Selecione sua Opção',
     this.options = const [],
     this.getLabel,
+    this.contentPadding,
     this.value,
     this.onChanged,
     this.fulwidth = true,
@@ -41,6 +47,10 @@ class BeinputDropdownController<T> extends StatelessWidget {
     this.width,
     this.prefixIcon,
     this.validator=false,
+    this.elevation=2,
+    this.isDense=false,
+    this.isExpanded=false,
+    this.borderRadius = 0,
   });
 
   @override
@@ -58,39 +68,43 @@ class BeinputDropdownController<T> extends StatelessWidget {
         },
         builder: (FormFieldState<T> state) {
           return InputDecorator(
-            decoration: InputDecoration(
-              prefixIcon: prefixIcon != null ? Icon(prefixIcon) : null,
-              hintText:  hintText ?? hintText,
-              errorText: validator ? null : 'Campo não pode estar vazio!'
-            ),
-            isEmpty:  value == null || value == '',
-            child: DropdownButtonHideUnderline(
-              child: DropdownButton<T>(
-                isExpanded: true,
-                value: value,
-                isDense: true,
-                onChanged: onChanged,
-                items: options.map((T value) {
-                  return DropdownMenuItem<T>(
-                    value: value,
-                    child: Container(
-                      child: Row(
-                        children: [
-                          Icon(Icons.check),
-                          SizedBox(width: 10),
-                          Text(
-                            getLabel(value),
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold
-                            ),
-                          ),
-                        ],
-                      ),
-                    )
-                  );
-                }).toList(),
+              decoration: InputDecoration(
+                contentPadding: contentPadding,
+                prefixIcon: prefixIcon != null ? Icon(prefixIcon) : null,
+                hintText:  hintText ?? hintText,
+                errorText: validator ? null : 'Campo não pode estar vazio!'
               ),
-            )
+              isEmpty:  value == null || value == '',
+              child: DropdownButtonHideUnderline(
+                child: DropdownButton<T>(
+                  isExpanded: isExpanded,
+                  isDense: isDense,
+                  value: value,
+                  elevation: elevation,
+                  borderRadius: BorderRadius.circular(borderRadius),
+                  onChanged: onChanged,
+                  dropdownColor: Theme.of(context).scaffoldBackgroundColor,
+                  items: options.map((T value) {
+                    return DropdownMenuItem<T>(
+                      value: value,
+                      child: Container(
+                        child: Row(
+                          children: [
+                            Icon(Icons.check),
+                            SizedBox(width: 10),
+                            Text(
+                              getLabel(value),
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                    );
+                  }).toList(),
+                ),
+              )
           );
         }
       )

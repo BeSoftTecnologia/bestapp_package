@@ -10,3 +10,8 @@ enum DialogPosition {
   TOP,
   BOTTOM
 }
+
+enum AuthRequiredType {
+  DEFAULT,
+  CUSTOM
+}

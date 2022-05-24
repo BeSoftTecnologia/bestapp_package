@@ -12,6 +12,7 @@ class BebuttonIcon extends StatelessWidget {
   final Color bgColor;
   final bool showOverlayColor;
   final Color shadowColor;
+  final Color iconColor;
   final bool showShadowColor;
   final double elevation;
   final double borderRadius;
@@ -23,6 +24,7 @@ class BebuttonIcon extends StatelessWidget {
     this.text,
     this.textStyle, 
     this.buttonwidth = 300,
+    this.iconColor,
     this.buttonheight,
     this.iconRight,
     @required this.onPressed, 
@@ -64,17 +66,17 @@ class BebuttonIcon extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-                Icon(icon, size: iconSize),
+                Icon(icon, color: iconColor, size: iconSize),
                 SizedBox(width: 5),
                 textLabel(),
                 SizedBox(width: 5),
-                Icon(iconRight, size: iconSize)
+                Icon(iconRight, color: iconColor, size: iconSize)
             ]
           ) : Row(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Icon(icon, size: iconSize),
+              Icon(icon, color: iconColor, size: iconSize),
               SizedBox(width: 5),
               textLabel()
             ]

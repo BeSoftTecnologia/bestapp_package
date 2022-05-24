@@ -2,8 +2,10 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:bestapp_package/bestapp_package.dart';
+import 'package:bestapp_package/src/models/auth_model.dart';
+import 'package:bestapp_package/src/services/middleware/authreq.dart';
 import 'package:bestapp_package/src/services/middleware/cookies.dart';
-import 'package:bestapp_package/src/utils/api_helpers.dart';
+import 'package:bestapp_package/src/utils/helpers/api_helpers.dart';
 import 'package:bestapp_package/src/utils/devices_info.dart';
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:flutter/material.dart';
@@ -20,18 +22,19 @@ export 'package:bestapp_package/src/models/api_config.dart';
 enum TypeHeader {SESSIONID, TOKEN}
 enum TypeBody {JSON, FORMDATA}
 enum ApiMethod {POST, PUT, DELETE, GET}
-final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 class ApiServices {
   /* baseURL es para iniciar a clase com o endpoint
     se usar o parametro apiConfig dentro do callAPi ele desconsidera esa variavel.
   */
   final String baseUrl;
+  final bool showLogs;
   final Dio dio = Dio();
   final BeDevicesInfo beDevicesInfo = BeDevicesInfo();
   final Appdirctory appdirctory = Appdirctory('cookies');
   ApiServices({
-    this.baseUrl
+    this.baseUrl,
+    this.showLogs=false
   });
 
   bool _isInformational = false;
@@ -57,7 +60,8 @@ class ApiServices {
     void Function(int, int) onSendProgress,
     TypeBody typeBody = TypeBody.JSON,
     TypeHeader typeHeader = TypeHeader.SESSIONID,
-    ApiConfig apiConfig
+    ApiConfig apiConfig,
+    AuthRequired authRequired
   }) async {
     Map<String, dynamic> headers;
     _isInformational = false;
@@ -107,12 +111,19 @@ class ApiServices {
     dio.interceptors.add(
       CookieManager(persistentCookies)
     );
+
+    if(authRequired != null ){
+      dio.interceptors.add(
+        AuthManager(authRequired)
+      );
+    }
+
     dio.interceptors.add(
       InterceptorsWrapper(
         onResponse: (response,handler){
           _isSuccess = ApiHelpers.isSuccess(response.statusCode);
           if(response.data is Map){
-            ApiHelpers.logsRequest(response, 'REQUEST SUCCESSFULL :)');
+            if(showLogs) ApiHelpers.logsRequest(response, 'REQUEST SUCCESSFULL :)');
             return handler.resolve(response);
           }else if(response.data is String){
             if(ApiHelpers.isJsonparsed(response.data)){
@@ -127,7 +138,7 @@ class ApiServices {
               'message': 'Sucesso!'
             };
           }
-          ApiHelpers.logsRequest(response, 'REQUEST SUCCESSFULL :)');
+          if(showLogs) ApiHelpers.logsRequest(response, 'REQUEST SUCCESSFULL :)');
           return handler.resolve(response);
         },
         onError: (DioError err, handler) {
@@ -157,19 +168,14 @@ class ApiServices {
               }else{
                 err.response.data = ApiHelpers.messageTag(err.response.data, 'Unknow Status');
               }
-              /*
-                Server para fazer o usuario delogar do applicativo o restante da login 
-                Tem que ser na chamada de esa tela 
-              */
-              if(ApiHelpers.isUnauthorized(err.response.statusCode))navigatorKey.currentState.pushNamed('/unauthorized');
-              ApiHelpers.logsRequest(err.response, 'REQUEST ERROR :(');
+              if(showLogs) ApiHelpers.logsRequest(err.response, 'REQUEST ERROR :(');
               return handler.resolve(err.response);
             case DioErrorType.other:
-              ApiHelpers.logsError(err, 'ERROR :(');
+              if(showLogs)ApiHelpers.logsError(err, 'ERROR :(');
               Response response = ApiHelpers.customResponseReturn(_customOption, 'Alguma coisa deu errado!\nProvavelmente você não está conectado à internet.');
               return handler.resolve(response);
             default:
-              ApiHelpers.logsError(err, 'ERROR :(');
+              if(showLogs)ApiHelpers.logsError(err, 'ERROR :(');
               Response response = ApiHelpers.customResponseReturn(_customOption, 'Alguma coisa deu errado. Se o erro persistir, entre em contato com o suporte.');
               return handler.resolve(response);
           }
