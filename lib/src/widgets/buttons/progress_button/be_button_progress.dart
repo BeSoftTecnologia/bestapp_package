@@ -1,5 +1,5 @@
+import 'package:bestapp_package/src/widgets/buttons/progress_button/progress_button.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_progress_button/flutter_progress_button.dart';
 
 class BeButtonProgress extends StatelessWidget {
   final Function onTap;

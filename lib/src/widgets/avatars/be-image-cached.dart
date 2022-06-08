@@ -21,8 +21,8 @@ class BeImageCached extends StatelessWidget {
           image: DecorationImage(
             image: imageProvider,
             fit: BoxFit.cover,
-          ),
-        ),
+          )
+        )
       ),
       placeholder: (context, url) => 
       placeholder != null ?
