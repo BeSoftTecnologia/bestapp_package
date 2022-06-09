@@ -101,11 +101,15 @@ class BeInputAutocompleteController<T>  extends StatelessWidget {
   final bool validator;
   final void Function(T) onSuggestionSelected;
   final bool hideOnLoading;
+  final EdgeInsetsGeometry contentPadding;
+  final IconData sufixIcon;
   final String hintText;
 
    BeInputAutocompleteController({
     Key key,
     this.controller,
+    this.sufixIcon,
+    this.contentPadding,
     @required this.suggestionsCallback,
     @required this.itemBuilder,
     this.hideOnEmpty = false,
@@ -124,6 +128,8 @@ class BeInputAutocompleteController<T>  extends StatelessWidget {
         textFieldConfiguration: TextFieldConfiguration(
           controller: controller,
           decoration: InputDecoration(
+            contentPadding: contentPadding,
+            suffixIcon: Icon(sufixIcon),
             border: OutlineInputBorder(),
             hintText: hintText,
           ),
