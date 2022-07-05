@@ -30,4 +30,8 @@ class NavigationService {
   static Future<dynamic> navigateReplacementTo(String routeName, {Object arguments}){
     return navigatorKey.currentState.pushReplacementNamed(routeName, arguments: arguments);
   }
+
+  static Future<dynamic> navigateAndRemoveUntilTo(String routeName, {Object arguments}){
+    return navigatorKey.currentState.pushNamedAndRemoveUntil(routeName, (Route<dynamic> route) => false, arguments: arguments);
+  }
 }

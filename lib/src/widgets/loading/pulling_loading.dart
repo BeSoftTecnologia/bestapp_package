@@ -6,6 +6,9 @@ class PullingLoading extends StatefulWidget {
   final Widget child;
   final Function onRefresh;
   final Function onLoadmore;
+  final bool reverse;
+  final bool enablePullDown;
+  final bool reverColor;
   
   final RefreshController refreshController;
   const PullingLoading({ 
@@ -13,6 +16,9 @@ class PullingLoading extends StatefulWidget {
     @required this.child,
     @required this.refreshController,
     @required this.onRefresh,
+    this.reverse=false,
+    this.enablePullDown = true,
+    this.reverColor = false,
     this.onLoadmore
    }) : super(key: key);
 
@@ -45,7 +51,8 @@ class _PullingLoadingState extends State<PullingLoading> with TickerProviderStat
       onRefresh: widget.onRefresh,
       onLoading: widget.onLoadmore,
       controller: widget.refreshController,
-      enablePullDown: true,
+      enablePullDown: widget.enablePullDown,
+      reverse: widget.reverse,
       enablePullUp: widget.onLoadmore != null ? true : false,
       footer: CustomFooter(
         builder: (BuildContext context, LoadStatus mode){
@@ -86,13 +93,14 @@ class _PullingLoadingState extends State<PullingLoading> with TickerProviderStat
         },
         builder: (c, m) {
           return Container(
-            color: Theme.of(context).primaryColor,
+            color: widget.reverColor ? Theme.of(context).scaffoldBackgroundColor : Theme.of(context).primaryColor,
             child: FadeTransition(
               opacity: _scaleController,
               child: ScaleTransition(
                 child: Container(
                   child: beloadCircular(
-                    color: Colors.white,
+                    color: widget.reverColor ? 
+                    Theme.of(context).primaryColor : Colors.white
                   )
                 ),
                 scale: _scaleController,
