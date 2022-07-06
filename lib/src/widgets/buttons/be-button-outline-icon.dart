@@ -16,6 +16,7 @@ class BebuttonOutlineIcon extends StatelessWidget {
   final double borderSide;
   final IconData icon;
   final Color buttomColor;
+  final Color iconColor;
 
   BebuttonOutlineIcon({
     this.text,
@@ -32,7 +33,8 @@ class BebuttonOutlineIcon extends StatelessWidget {
     this.elevation,
     this.borderRadius = 10,
     this.borderSide,
-    this.buttomColor
+    this.buttomColor,
+    this.iconColor
   });
 
   @override
@@ -57,7 +59,7 @@ class BebuttonOutlineIcon extends StatelessWidget {
           elevation: elevation != null ? MaterialStateProperty.all(elevation) : MaterialStateProperty.all(0.0)
         ),
         onPressed: onPressed, 
-        icon: Icon(icon),
+        icon: Icon(icon, color: iconColor),
         label: Text(text != null ? text : '',
           style: textStyle != null ? textStyle
           : TextStyle(
