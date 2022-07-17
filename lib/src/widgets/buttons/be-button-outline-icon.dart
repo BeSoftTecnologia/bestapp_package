@@ -61,6 +61,7 @@ class BebuttonOutlineIcon extends StatelessWidget {
         onPressed: onPressed, 
         icon: Icon(icon, color: iconColor),
         label: Text(text != null ? text : '',
+          textScaleFactor: 1.0,
           style: textStyle != null ? textStyle
           : TextStyle(
             fontSize: 16,

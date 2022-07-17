@@ -57,6 +57,7 @@ class BebuttonOutline extends StatelessWidget {
         ),
         onPressed: onPressed, 
         child: Text(text,
+          textScaleFactor: 1.0,
           style: textStyle != null ? textStyle
           : TextStyle(
             fontSize: 16,

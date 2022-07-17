@@ -53,7 +53,7 @@ class Bebutton extends StatelessWidget {
         ),
         onPressed: onPressed, 
         child: Text(text,
-          textScaleFactor: 1,
+          textScaleFactor: 1.0,
           style: textStyle != null ? textStyle
           : Theme.of(context).textTheme.button
           // TextStyle(

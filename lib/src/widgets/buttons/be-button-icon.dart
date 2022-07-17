@@ -103,6 +103,7 @@ class BebuttonIcon extends StatelessWidget {
   }
   Widget textLabel(){
     return Text(text != null ? text : '',
+      textScaleFactor: 1.0,
       style: textStyle != null ? textStyle : TextStyle(
         fontSize: 16,
         fontWeight: FontWeight.bold

@@ -35,9 +35,9 @@ class BeButtonProgress extends StatelessWidget {
       child: ProgressButton(
         type: progressButtonType,
         defaultWidget: defaultLabel != null ?
-        defaultLabel :
-        Text(
+        defaultLabel : Text(
           label,
+          textScaleFactor: 1.0,
           textAlign: TextAlign.center, 
           style: Theme.of(context).textTheme.button
         ),
