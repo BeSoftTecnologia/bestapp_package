@@ -9,6 +9,7 @@ class PullingLoading extends StatefulWidget {
   final bool reverse;
   final bool enablePullDown;
   final bool reverColor;
+  final Color headerBgcolor;
   
   final RefreshController refreshController;
   const PullingLoading({ 
@@ -19,6 +20,7 @@ class PullingLoading extends StatefulWidget {
     this.reverse=false,
     this.enablePullDown = true,
     this.reverColor = false,
+    this.headerBgcolor,
     this.onLoadmore
    }) : super(key: key);
 
@@ -93,14 +95,15 @@ class _PullingLoadingState extends State<PullingLoading> with TickerProviderStat
         },
         builder: (c, m) {
           return Container(
-            color: widget.reverColor ? Theme.of(context).scaffoldBackgroundColor : Theme.of(context).primaryColor,
+            color: widget.reverColor ? Theme.of(context).scaffoldBackgroundColor : widget.headerBgcolor != null ? widget.headerBgcolor :  Theme.of(context).primaryColor,
             child: FadeTransition(
               opacity: _scaleController,
               child: ScaleTransition(
                 child: Container(
                   child: beloadCircular(
                     color: widget.reverColor ? 
-                    Theme.of(context).primaryColor : Colors.white
+                    widget.headerBgcolor != null ? widget.headerBgcolor :  Theme.of(context).primaryColor
+                    : Colors.white
                   )
                 ),
                 scale: _scaleController,

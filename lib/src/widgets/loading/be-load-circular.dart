@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 Widget beloadCircular({Color color}){
   return Center(
-    child: CircularProgressIndicator(
+    child: CircularProgressIndicator.adaptive(
       valueColor: AlwaysStoppedAnimation<Color>(
         color != null ? color : null
       ),
