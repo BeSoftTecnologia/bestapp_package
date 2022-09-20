@@ -3,6 +3,8 @@ library bestapp_package;
 // Services
 export 'src/services/api_services.dart';
 export 'src/services/nav_services.dart';
+export 'src/services/middleware/authreq.dart';
+export 'src/services/middleware/cookies.dart';
 
 // Widget
 export 'src/widgets/cards/be-card-selected.dart';
@@ -42,6 +44,19 @@ export 'src/alerts/dialog-utils.dart';
 export 'src/models/enums.dart';
 export 'src/models/auth_model.dart';
 
+// Formatters
+export 'src/formatters/br_telefone_input_formatter.dart';
+export 'src/formatters/cep_input_formatter.dart';
+export 'src/formatters/cnpj_input_formatter.dart';
+export 'src/formatters/computable_formatter.dart';
+export 'src/formatters/cpf_input_formatter.dart';
+export 'src/formatters/credit_card_formatter.dart';
+export 'src/formatters/currency_input_formatter.dart';
+export 'src/formatters/date_formatter.dart';
+export 'src/formatters/mmyy_formatter.dart';
+export 'src/formatters/mmyyyy_formatter.dart';
+export 'src/formatters/time_formatter.dart';
+
 // Utils
 export 'src/utils/bestapp-utils.dart';
 export 'src/utils/colors-fromhex.dart';
@@ -49,6 +64,8 @@ export 'src/utils/compress-images.dart';
 export 'src/utils/app_directory.dart';
 export 'src/utils/getbytes-fromasset.dart';
 export 'src/utils/preference-utils.dart';
+export 'src/utils/helpers/api_helpers.dart';
+export 'src/utils/devices_info.dart';
 
 // Validators
 export 'src/validators/cnpj_validator.dart';

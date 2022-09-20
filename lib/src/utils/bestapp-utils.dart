@@ -54,6 +54,19 @@ class BestappUtils {
     }
   }
 
+  static String formatDateString(String value) {
+    if (value == null) return "Não informado";
+    DateTime todayDate = DateTime.parse(value);
+    return DateFormat('dd/MM/yyyy').format(todayDate);
+  }
+
+  static String formatStringDate(String value){
+    if(value != null && value != ''){
+      return DateFormat('yyyy-MM-dd').format(DateFormat('dd/MM/yyyy').parse(value));
+    }
+    return 'Não informado';
+  }
+
   /// Retorna o CPF utilizando a máscara: `XXX.YYY.ZZZ-NN`
   static String formatCpf(String cpf) {
     // assert(CPFValidator.isValid(cpf), 'CPF inválido!');

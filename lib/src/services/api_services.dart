@@ -1,12 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
 import 'package:bestapp_package/bestapp_package.dart';
-import 'package:bestapp_package/src/models/auth_model.dart';
-import 'package:bestapp_package/src/services/middleware/authreq.dart';
-import 'package:bestapp_package/src/services/middleware/cookies.dart';
-import 'package:bestapp_package/src/utils/helpers/api_helpers.dart';
-import 'package:bestapp_package/src/utils/devices_info.dart';
+// import 'package:bestapp_package/src/utils/helpers/api_helpers.dart';
+// import 'package:bestapp_package/src/utils/devices_info.dart';
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:flutter/material.dart';
 
@@ -43,6 +39,7 @@ class ApiServices {
   bool _isClientError = false;
   bool _isServerError = false;
   bool _isUnauthorized = false;
+  bool _isNotConected = false;
   
 
   bool get isInformational => _isInformational;
@@ -51,6 +48,7 @@ class ApiServices {
   bool get isClientError => _isClientError;
   bool get isServerError => _isServerError;
   bool get isUnauthorized => _isUnauthorized;
+  bool get isNotConected => _isNotConected;
 
   Future<Map<String, dynamic>> callApi({
     @required ApiMethod method,
@@ -70,6 +68,7 @@ class ApiServices {
     _isClientError = false;
     _isServerError = false;
     _isUnauthorized = false;
+    _isNotConected = false;
 
     String _userAgent = await beDevicesInfo.getDevicesInfo();
 
@@ -146,6 +145,7 @@ class ApiServices {
           _isServerError = false;
           _isRedirect = false;
           _isInformational = false;
+          _isNotConected = false;
           switch (err.type) {
             case DioErrorType.response:
               _isClientError = ApiHelpers.isClientError(err.response.statusCode);
@@ -171,6 +171,7 @@ class ApiServices {
               if(showLogs) ApiHelpers.logsRequest(err.response, 'REQUEST ERROR :(');
               return handler.resolve(err.response);
             case DioErrorType.other:
+              _isNotConected = true;
               if(showLogs)ApiHelpers.logsError(err, 'ERROR :(');
               Response response = ApiHelpers.customResponseReturn(_customOption, 'Alguma coisa deu errado!\nProvavelmente você não está conectado à internet.');
               return handler.resolve(response);
