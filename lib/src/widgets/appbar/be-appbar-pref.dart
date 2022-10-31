@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 class BeAppbarPref extends StatelessWidget implements PreferredSizeWidget {
   BeAppbarPref({
-    Key key, 
+    Key? key, 
     this.title,
     this.subtitle,
     this.leading,
@@ -14,24 +14,24 @@ class BeAppbarPref extends StatelessWidget implements PreferredSizeWidget {
     this.appBarHeight
     }): super(key: key);
 
-  final Widget title;
-  final Widget subtitle;
-  final BoxDecoration contentStyle;
-  final List<Widget> leading;
-  final GlobalKey<ScaffoldState> scaffoldKey;
-  Size appBarHeight = Size.fromHeight(80.0);
-  final List<Widget> actions;
-  EdgeInsets padding = EdgeInsets.fromLTRB(15, 20, 15, 0);
-  bool revert = false;
+  final Widget? title;
+  final Widget? subtitle;
+  final BoxDecoration? contentStyle;
+  final List<Widget>? leading;
+  final GlobalKey<ScaffoldState>? scaffoldKey;
+  Size? appBarHeight = Size.fromHeight(80.0);
+  final List<Widget>? actions;
+  EdgeInsets? padding = EdgeInsets.fromLTRB(15, 20, 15, 0);
+  bool? revert = false;
 
   @override
-  Size get preferredSize => appBarHeight;
+  Size get preferredSize => appBarHeight!;
 
 
   @override
   Widget build(BuildContext context) {
     return PreferredSize(
-      preferredSize: appBarHeight,
+      preferredSize: appBarHeight!,
       child: Container(
         width: MediaQuery.of(context).size.width,
         child: Container(
@@ -44,11 +44,11 @@ class BeAppbarPref extends StatelessWidget implements PreferredSizeWidget {
                 revert == true ?
                 Container(
                   child: Row(
-                    children: actions != null ? actions : []
+                    children: actions != null ? actions! : []
                   )
                 ) : Container(
                   child: Row(
-                    children: leading != null ? leading : []
+                    children: leading != null ? leading! : []
                   )
                 ),
                 SizedBox(width: 10),
@@ -76,11 +76,11 @@ class BeAppbarPref extends StatelessWidget implements PreferredSizeWidget {
                 revert == true ?
                 Container(
                   child: Row(
-                    children: leading != null ? leading : []
+                    children: leading != null ? leading! : []
                   )
                 ): Container(
                   child: Row(
-                    children: actions != null ? actions : []
+                    children: actions != null ? actions! : []
                   )
                 ),
               ],

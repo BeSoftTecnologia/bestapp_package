@@ -4,17 +4,17 @@ import 'package:flutter/material.dart';
 class BeDialogContent extends StatelessWidget {
   final String title;
   final String message;
-  final String okText;
-  final Function okTaped;
-  final String cancelText;
-  final Function cancelTaped;
-  final IconData iconMsg;
-  final Color icColor;
-  final Widget okWidget;
-  final Widget cancelWidget;
+  final String? okText;
+  final Function? okTaped;
+  final String? cancelText;
+  final Function? cancelTaped;
+  final IconData? iconMsg;
+  final Color? icColor;
+  final Widget? okWidget;
+  final Widget? cancelWidget;
 
   BeDialogContent({
-    @required this.message,
+    required this.message,
     this.title='',
     this.okTaped,
     this.cancelTaped,
@@ -71,7 +71,7 @@ class BeDialogContent extends StatelessWidget {
                 children: [
                   cancelTaped != null && cancelWidget == null ?
                   GestureDetector(
-                    onTap: cancelTaped,
+                    onTap: cancelTaped as void Function()?,
                     child: Container(
                       padding: EdgeInsets.all(10),
                       decoration: BoxDecoration(
@@ -89,15 +89,15 @@ class BeDialogContent extends StatelessWidget {
                     ),
                   ) : Container(),
                   cancelWidget != null ?
-                  cancelWidget : Container(),
+                  cancelWidget! : Container(),
 
                   cancelTaped != null || okWidget != null || cancelWidget != null  ?
                   SizedBox(width: 20) : Container(),
 
                   okWidget != null ?
-                  okWidget :
+                  okWidget! :
                   GestureDetector(
-                    onTap: okTaped,
+                    onTap: okTaped as void Function()?,
                     child: Container(
                       padding: EdgeInsets.all(10),
                       decoration: BoxDecoration(

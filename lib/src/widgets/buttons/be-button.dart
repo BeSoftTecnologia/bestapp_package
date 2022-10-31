@@ -2,25 +2,25 @@ import 'package:flutter/material.dart';
 
 class Bebutton extends StatelessWidget {
   final String text;
-  final TextStyle textStyle;
+  final TextStyle? textStyle;
   final double buttonwidth;
-  final double buttonheight;
+  final double? buttonheight;
   final Function onPressed;
   final bool large;
-  final Color overlayColor;
+  final Color? overlayColor;
   final bool showOverlayColor;
-  final Color shadowColor;
+  final Color? shadowColor;
   final bool showShadowColor;
-  final double elevation;
+  final double? elevation;
   final double borderRadius;
-  final Color bgColor;
+  final Color? bgColor;
 
   Bebutton({
-    @required this.text,
+    required this.text,
     this.textStyle, 
     this.buttonwidth = 300,
     this.buttonheight,
-    @required this.onPressed, 
+    required this.onPressed, 
     this.large=true,
     this.overlayColor,
     this.showOverlayColor=false,
@@ -51,7 +51,7 @@ class Bebutton extends StatelessWidget {
           shadowColor: shadowColor != null && showShadowColor ? MaterialStateProperty.all(shadowColor) : showShadowColor ? MaterialStateProperty.all(Theme.of(context).primaryColor) : null,
           elevation: elevation != null ? MaterialStateProperty.all(elevation) : MaterialStateProperty.all(0.0)
         ),
-        onPressed: onPressed, 
+        onPressed: onPressed as void Function()?, 
         child: Text(text,
           textScaleFactor: 1.0,
           style: textStyle != null ? textStyle

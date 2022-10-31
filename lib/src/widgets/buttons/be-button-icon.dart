@@ -2,22 +2,22 @@ import 'package:bestapp_package/src/formatters/credit_card_formatter.dart';
 import 'package:flutter/material.dart';
 
 class BebuttonIcon extends StatelessWidget {
-  final String text;
-  final TextStyle textStyle;
+  final String? text;
+  final TextStyle? textStyle;
   final double buttonwidth;
-  final double buttonheight;
+  final double? buttonheight;
   final Function onPressed;
   final bool large;
-  final Color overlayColor;
-  final Color bgColor;
+  final Color? overlayColor;
+  final Color? bgColor;
   final bool showOverlayColor;
-  final Color shadowColor;
-  final Color iconColor;
+  final Color? shadowColor;
+  final Color? iconColor;
   final bool showShadowColor;
-  final double elevation;
+  final double? elevation;
   final double borderRadius;
   final IconData icon;
-  final IconData iconRight;
+  final IconData? iconRight;
   final double iconSize;
 
   BebuttonIcon({
@@ -27,7 +27,7 @@ class BebuttonIcon extends StatelessWidget {
     this.iconColor,
     this.buttonheight,
     this.iconRight,
-    @required this.onPressed, 
+    required this.onPressed, 
     this.large=true,
     this.overlayColor,
     this.showOverlayColor=false,
@@ -37,7 +37,7 @@ class BebuttonIcon extends StatelessWidget {
     this.borderRadius = 10,
     this.bgColor,
     this.iconSize=22,
-    @required this.icon,
+    required this.icon,
   });
 
   @override
@@ -60,7 +60,7 @@ class BebuttonIcon extends StatelessWidget {
           shadowColor: shadowColor != null && showShadowColor ? MaterialStateProperty.all(shadowColor) : showShadowColor ? MaterialStateProperty.all(Theme.of(context).primaryColor) : null,
           elevation: elevation != null ? MaterialStateProperty.all(elevation) : MaterialStateProperty.all(0.0)
         ),
-        onPressed: onPressed, 
+        onPressed: onPressed as void Function()?, 
         child: iconRight != null ?
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -102,7 +102,7 @@ class BebuttonIcon extends StatelessWidget {
     );
   }
   Widget textLabel(){
-    return Text(text != null ? text : '',
+    return Text(text != null ? text! : '',
       textScaleFactor: 1.0,
       style: textStyle != null ? textStyle : TextStyle(
         fontSize: 16,

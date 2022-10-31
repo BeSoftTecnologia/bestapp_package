@@ -93,30 +93,30 @@ import 'package:flutter_typeahead/flutter_typeahead.dart';
  * **/
 
 class BeInputAutocompleteController<T>  extends StatelessWidget {
-  final TextEditingController controller;
+  final TextEditingController? controller;
   final SuggestionsCallback<T> suggestionsCallback;
   final ItemBuilder<T> itemBuilder;
   final bool hideOnEmpty;
-  final Widget noItemsFoundBuilder;
+  final Widget? noItemsFoundBuilder;
   final bool validator;
   final void Function(T) onSuggestionSelected;
   final bool hideOnLoading;
-  final EdgeInsetsGeometry contentPadding;
-  final IconData sufixIcon;
+  final EdgeInsetsGeometry? contentPadding;
+  final IconData? sufixIcon;
   final String hintText;
 
    BeInputAutocompleteController({
-    Key key,
+    Key? key,
     this.controller,
     this.sufixIcon,
     this.contentPadding,
-    @required this.suggestionsCallback,
-    @required this.itemBuilder,
+    required this.suggestionsCallback,
+    required this.itemBuilder,
     this.hideOnEmpty = false,
     this.noItemsFoundBuilder,
     this.validator=false,
     this.hideOnLoading = false,
-    @required this.onSuggestionSelected,
+    required this.onSuggestionSelected,
     this.hintText = ''
   }) : super(key: key);
 
@@ -137,7 +137,7 @@ class BeInputAutocompleteController<T>  extends StatelessWidget {
         suggestionsCallback: suggestionsCallback,
         itemBuilder: itemBuilder,
         hideOnEmpty: hideOnEmpty,
-        noItemsFoundBuilder: (context) => noItemsFoundBuilder,
+        noItemsFoundBuilder: (context) => noItemsFoundBuilder!,
         hideOnLoading: hideOnLoading,
         loadingBuilder: (context) => Container(
           height: 2,
@@ -147,7 +147,7 @@ class BeInputAutocompleteController<T>  extends StatelessWidget {
           ),
         ),
         validator: (value){
-          if(value.isEmpty && validator){
+          if(value!.isEmpty && validator){
             return 'Please select a city';
           }
           print('Dado selecionado $value');

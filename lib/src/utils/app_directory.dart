@@ -1,6 +1,5 @@
+import 'dart:async';
 import 'dart:io';
-import 'dart:io';
-import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 
 
@@ -21,9 +20,9 @@ class Appdirctory {
   Appdirctory(this.pathDir);
 
   Future<String> getDirectory({bool localPath=true}) async {
-    Directory _appDocDir = await getApplicationDocumentsDirectory();
+    Directory? _appDocDir = await getApplicationDocumentsDirectory();
     if (Platform.isAndroid && localPath) {
-      _appDocDir = await getExternalStorageDirectory();
+      _appDocDir = await (getExternalStorageDirectory() as FutureOr<Directory>);
     }
     final Directory _appDocDirFolder =  Directory('${_appDocDir.path}/$pathDir/');
     if(await _appDocDirFolder.exists()){

@@ -3,7 +3,7 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/foundation.dart';
 
 class BeDevicesInfo {
-  Future<String> getDevicesInfo()async{
+  Future<String?> getDevicesInfo()async{
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
     if(Platform.isAndroid){
       AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;

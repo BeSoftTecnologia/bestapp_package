@@ -23,21 +23,21 @@ beDialogCenter(
 );
 */
 Future BeDialogCenter({
-  @required BuildContext context,  
-  @required String message,
+  required BuildContext context,  
+  required String message,
   bool barrierDismissible=true,
   String title='',
   DialogTypeAnimation dialogTypeAnimation = DialogTypeAnimation.DEFAULT,
   String okText='Ok',
-  Function okTaped,
+  Function? okTaped,
   String cancelText='Cancelar',
-  Function cancelTaped,
+  Function? cancelTaped,
   int transitionDuration=300,
   double height = 300,
-  IconData iconMsg,
-  Color icColor,
-  Widget okWidget,
-  Widget cancelWidget,
+  IconData? iconMsg,
+  Color? icColor,
+  Widget? okWidget,
+  Widget? cancelWidget,
 }) async {
 
   DialogTypeAnimation.DEFAULT == dialogTypeAnimation || dialogTypeAnimation == null ?
@@ -69,7 +69,7 @@ Future BeDialogCenter({
     barrierLabel: '',
     pageBuilder: (context, anim1, anim2) {
       return;
-    },
+    } as Widget Function(BuildContext, Animation<double>, Animation<double>),
     transitionBuilder: (context, anim1, anim2, child) {
       final curvedValue = Curves.easeInOutBack.transform(anim1.value) -   1.0;
       return DialogTypeAnimation.SCALE == dialogTypeAnimation ?

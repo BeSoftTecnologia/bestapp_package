@@ -45,7 +45,7 @@ class CNPJValidator {
 
   static String strip(String cnpj) {
     var regex = RegExp(STRIP_REGEX);
-    cnpj = cnpj ?? '';
+    cnpj = cnpj;
 
     return cnpj.replaceAll(regex, '');
   }

@@ -9,41 +9,41 @@ class ApiHelpers {
       if(data is Map){
         if(data.containsKey('msg')){
           return {
-            ...data,
+            ...data as Map<String, dynamic>,
             'message': data['msg']
           };
         }else if(data.containsKey('detail')){
           return {
-            ...data,
+            ...data as Map<String, dynamic>,
             'message': data['detail']
           };
         }else if(data.containsKey('descrição')){
           return {
-            ...data,
+            ...data as Map<String, dynamic>,
             'message': data['descrição']
           };
         }else if(data.containsKey('Mensagem')){
           return {
-            ...data,
+            ...data as Map<String, dynamic>,
             'message': data['Mensagem']
           };
         }else if(data.containsKey('Descrição')){
           return {
-            ...data,
+            ...data as Map<String, dynamic>,
             'message': data['Descrição']
           };
         }else if(data.containsKey('error')){
           return {
-            ...data,
+            ...data as Map<String, dynamic>,
             'message': data['error']
           };
         }else if(data.containsKey('mensagem')){
           return {
-            ...data,
+            ...data as Map<String, dynamic>,
             'message': data['mensagem']
           };
         }else{
-          return data;
+          return data as Map<String, dynamic>;
         }
       }
     }
@@ -53,10 +53,10 @@ class ApiHelpers {
   }
   
 
-  static bool isJsonparsed(String value){
+  static bool isJsonparsed(String? value){
     if(value == null)return false;
     try {
-      jsonDecode(value) as Map<String, dynamic>;
+      jsonDecode(value) as Map<String, dynamic>?;
       return true;
     } catch (e) {
       return false;
@@ -126,7 +126,7 @@ class ApiHelpers {
     HTTP_208_ALREADY_REPORTED
     HTTP_226_IM_USED
   */
-  static bool isSuccess(int statusCode){
+  static bool isSuccess(int? statusCode){
     switch (statusCode) {
       case 200:
         return true;
@@ -191,7 +191,7 @@ class ApiHelpers {
     HTTP_307_TEMPORARY_REDIRECT
     HTTP_308_PERMANENT_REDIRECT
   */
-  static bool isRedirect(int statusCode){
+  static bool isRedirect(int? statusCode){
     switch (statusCode) {
       case 300:
         return true;
@@ -253,7 +253,7 @@ class ApiHelpers {
     HTTP_431_REQUEST_HEADER_FIELDS_TOO_LARGE
     HTTP_451_UNAVAILABLE_FOR_LEGAL_REASONS
   */
-  static bool isUnauthorized(int statusCode){
+  static bool isUnauthorized(int? statusCode){
     switch (statusCode) {
       case 401:
         return true;
@@ -266,7 +266,7 @@ class ApiHelpers {
     }
   }
 
-  static bool isClientError(int statusCode){
+  static bool isClientError(int? statusCode){
     switch (statusCode) {
       case 400:
         return true;
@@ -347,7 +347,7 @@ class ApiHelpers {
     HTTP_511_NETWORK_AUTHENTICATION_REQUIRED
 
   */
-  static bool isServerError(int statusCode){
+  static bool isServerError(int? statusCode){
     switch (statusCode) {
       case 500:
         return true;

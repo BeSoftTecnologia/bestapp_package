@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 
 class BeShimmerLoading extends StatefulWidget {
   const BeShimmerLoading({
-    Key key,
-    @required this.isLoading,
-    @required this.child,
+    Key? key,
+    required this.isLoading,
+    required this.child,
   }) : super(key: key);
 
   final bool isLoading;
@@ -16,17 +16,17 @@ class BeShimmerLoading extends StatefulWidget {
 }
 
 class _BeShimmerLoadingState extends State<BeShimmerLoading> {
-  Listenable _shimmerChanges;
+  Listenable? _shimmerChanges;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     if (_shimmerChanges != null) {
-      _shimmerChanges.removeListener(_onShimmerChange);
+      _shimmerChanges!.removeListener(_onShimmerChange);
     }
     _shimmerChanges = BeShimmer.of(context)?.shimmerChanges;
     if (_shimmerChanges != null) {
-      _shimmerChanges.addListener(_onShimmerChange);
+      _shimmerChanges!.addListener(_onShimmerChange);
     }
   }
 
@@ -57,7 +57,7 @@ class _BeShimmerLoadingState extends State<BeShimmerLoading> {
       // itself out yet. Return an empty box.
       return const SizedBox();
     }
-    final shimmerSize = shimmer.size;
+    final shimmerSize = shimmer!.size;
     final gradient = shimmer.gradient;
     final offsetWithinShimmer = shimmer.getDescendantOffset(
       descendant: context.findRenderObject() as RenderBox,

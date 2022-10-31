@@ -45,7 +45,7 @@ class CPFValidator {
 
   static String strip(String cpf) {
     var regExp = RegExp(STRIP_REGEX);
-    cpf = cpf ?? '';
+    cpf = cpf;
 
     return cpf.replaceAll(regExp, '');
   }

@@ -13,7 +13,7 @@ enum TypeBorder {
 class BeBorder extends StatelessWidget {
   /// Create different types of borders around given child widget
   BeBorder({
-    @required this.child,
+    required this.child,
     this.color = Colors.black,
     this.strokeWidth = 1,
     this.type = TypeBorder.RECT,

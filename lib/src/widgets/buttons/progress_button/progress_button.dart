@@ -12,18 +12,18 @@ enum ProgressButtonType {
 }
 
 class ProgressButton extends StatefulWidget {
-  final Widget defaultWidget;
-  final Widget progressWidget;
-  final Function onPressed;
+  final Widget? defaultWidget;
+  final Widget? progressWidget;
+  final Function? onPressed;
   final ProgressButtonType type;
-  final Color color;
+  final Color? color;
   final double width;
   final double height;
   final double borderRadius;
   final bool animate;
 
   ProgressButton({
-    Key key,
+    Key? key,
     this.defaultWidget,
     this.progressWidget,
     this.onPressed,
@@ -42,13 +42,13 @@ class ProgressButton extends StatefulWidget {
 class _ProgressButtonState extends State<ProgressButton>
     with TickerProviderStateMixin {
   GlobalKey _globalKey = GlobalKey();
-  Animation _anim;
-  AnimationController _animController;
+  late Animation _anim;
+  AnimationController? _animController;
   Duration _duration = const Duration(milliseconds: 250);
-  ProgressButtonState _state;
-  double _width;
-  double _height;
-  double _borderRadius;
+  ProgressButtonState? _state;
+  double? _width;
+  double? _height;
+  late double _borderRadius;
 
   @override
   dispose() {
@@ -97,19 +97,26 @@ class _ProgressButtonState extends State<ProgressButton>
 
     switch (widget.type) {
       case ProgressButtonType.Raised:
-        return RaisedButton(
-          padding: padding,
-          color: color,
-          shape: shape,
+        return ElevatedButton(
+          style: TextButton.styleFrom(
+            padding: padding,
+            foregroundColor: color,
+            shape: shape,
+          ),
+          // padding: padding,
+          // color: color,
+          // shape: shape,
           child: _buildChildren(context),
           onPressed: _onButtonPressed(),
         );
       case ProgressButtonType.Flat:
-        return FlatButton(
-          padding: padding,
-          color: color,
-          shape: shape,
-          child: _buildChildren(context),
+        return TextButton(
+          style: TextButton.styleFrom(
+            padding: padding,
+            foregroundColor: color,
+            shape: shape,
+          ),
+          child: _buildChildren(context)!,
           onPressed: _onButtonPressed(),
         );
       case ProgressButtonType.Outline:
@@ -122,14 +129,14 @@ class _ProgressButtonState extends State<ProgressButton>
             shape: MaterialStateProperty.all(shape)
             // color: MaterialStateProperty.all(color),
           ),
-          child: _buildChildren(context),
+          child: _buildChildren(context)!,
           onPressed: _onButtonPressed(),
         );
     }
   }
 
-  Widget _buildChildren(BuildContext context) {
-    Widget ret;
+  Widget? _buildChildren(BuildContext context) {
+    Widget? ret;
     switch (_state) {
       case ProgressButtonState.Default:
         ret = widget.defaultWidget;
@@ -137,11 +144,13 @@ class _ProgressButtonState extends State<ProgressButton>
       case ProgressButtonState.Processing:
         ret = widget.progressWidget ?? widget.defaultWidget;
         break;
+      default:
+        return ret;
     }
     return ret;
   }
 
-  VoidCallback _onButtonPressed() {
+  VoidCallback? _onButtonPressed() {
     return widget.onPressed == null
         ? null
         : () async {
@@ -150,7 +159,7 @@ class _ProgressButtonState extends State<ProgressButton>
             }
 
             // The result of widget.onPressed() will be called as VoidCallback after button status is back to default.
-            VoidCallback onDefault;
+            VoidCallback? onDefault;
             if (widget.animate) {
               _toProcessing();
               _forward((status) {
@@ -161,11 +170,11 @@ class _ProgressButtonState extends State<ProgressButton>
                   }
                 }
               });
-              onDefault = await widget.onPressed();
+              onDefault = await widget.onPressed!();
               _reverse();
             } else {
               _toProcessing();
-              onDefault = await widget.onPressed();
+              onDefault = await widget.onPressed!();
               _toDefault();
               if (onDefault != null && onDefault is VoidCallback) {
                 onDefault();
@@ -191,26 +200,26 @@ class _ProgressButtonState extends State<ProgressButton>
   }
 
   void _forward(AnimationStatusListener stateListener) {
-    double initialWidth = _globalKey.currentContext.size.width;
+    double initialWidth = _globalKey.currentContext!.size!.width;
     double initialBorderRadius = widget.borderRadius;
-    double targetWidth = _height;
-    double targetBorderRadius = _height / 2;
+    double? targetWidth = _height;
+    double targetBorderRadius = _height! / 2;
 
     _animController = AnimationController(duration: _duration, vsync: this);
-    _anim = Tween(begin: 0.0, end: 1.0).animate(_animController)
+    _anim = Tween(begin: 0.0, end: 1.0).animate(_animController!)
       ..addListener(() {
         setState(() {
-          _width = initialWidth - ((initialWidth - targetWidth) * _anim.value);
+          _width = initialWidth - ((initialWidth - targetWidth!) * _anim.value);
           _borderRadius = initialBorderRadius -
               ((initialBorderRadius - targetBorderRadius) * _anim.value);
         });
       })
       ..addStatusListener(stateListener);
 
-    _animController.forward();
+    _animController!.forward();
   }
 
   void _reverse() {
-    _animController.reverse();
+    _animController!.reverse();
   }
 }

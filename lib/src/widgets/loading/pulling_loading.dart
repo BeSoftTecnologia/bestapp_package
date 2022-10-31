@@ -5,18 +5,18 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 class PullingLoading extends StatefulWidget {
   final Widget child;
   final Function onRefresh;
-  final Function onLoadmore;
+  final Function? onLoadmore;
   final bool reverse;
   final bool enablePullDown;
   final bool reverColor;
-  final Color headerBgcolor;
+  final Color? headerBgcolor;
   
   final RefreshController refreshController;
   const PullingLoading({ 
-    Key key,
-    @required this.child,
-    @required this.refreshController,
-    @required this.onRefresh,
+    Key? key,
+    required this.child,
+    required this.refreshController,
+    required this.onRefresh,
     this.reverse=false,
     this.enablePullDown = true,
     this.reverColor = false,
@@ -29,7 +29,7 @@ class PullingLoading extends StatefulWidget {
 }
 
 class _PullingLoadingState extends State<PullingLoading> with TickerProviderStateMixin {
-  AnimationController _anicontroller, _scaleController;
+  late AnimationController _anicontroller, _scaleController;
 
   @override
   void initState() {
@@ -50,14 +50,14 @@ class _PullingLoadingState extends State<PullingLoading> with TickerProviderStat
   Widget build(BuildContext context) {
     return SmartRefresher(
       child: widget.child,
-      onRefresh: widget.onRefresh,
-      onLoading: widget.onLoadmore,
+      onRefresh: widget.onRefresh as void Function()?,
+      onLoading: widget.onLoadmore as void Function()?,
       controller: widget.refreshController,
       enablePullDown: widget.enablePullDown,
       reverse: widget.reverse,
       enablePullUp: widget.onLoadmore != null ? true : false,
       footer: CustomFooter(
-        builder: (BuildContext context, LoadStatus mode){
+        builder: (BuildContext context, LoadStatus? mode){
           Widget body;
           // if(mode==LoadStatus.idle){
           //   body =  Text("pull up load");
@@ -90,7 +90,7 @@ class _PullingLoadingState extends State<PullingLoading> with TickerProviderStat
       header: CustomHeader(
         refreshStyle: RefreshStyle.Behind,
         onOffsetChange: (offset) {
-          if (widget.refreshController.headerMode.value != RefreshStatus.refreshing)
+          if (widget.refreshController.headerMode!.value != RefreshStatus.refreshing)
             _scaleController.value = offset / 80.0;
         },
         builder: (c, m) {

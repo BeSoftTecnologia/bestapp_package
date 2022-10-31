@@ -21,15 +21,15 @@ import 'package:flutter/material.dart';
 class BeinputDropdownController<T> extends StatelessWidget {
   final String hintText;
   final List<T> options;
-  final T value;
-  final String Function(T) getLabel;
-  final void Function(T) onChanged;
+  final T? value;
+  final String Function(T)? getLabel;
+  final void Function(T?)? onChanged;
   final bool fulwidth;
-  final EdgeInsetsGeometry padding;
-  final double width;
-  final IconData prefixIcon;
+  final EdgeInsetsGeometry? padding;
+  final double? width;
+  final IconData? prefixIcon;
   final bool validator;
-  final EdgeInsetsGeometry contentPadding;
+  final EdgeInsetsGeometry? contentPadding;
   final bool isExpanded;
   final bool isDense;
   final int elevation;
@@ -71,7 +71,7 @@ class BeinputDropdownController<T> extends StatelessWidget {
               decoration: InputDecoration(
                 contentPadding: contentPadding,
                 prefixIcon: prefixIcon != null ? Icon(prefixIcon) : null,
-                hintText:  hintText ?? hintText,
+                hintText:  hintText,
                 errorText: validator ? null : 'Campo não pode estar vazio!'
               ),
               isEmpty:  value == null || value == '',
@@ -93,7 +93,7 @@ class BeinputDropdownController<T> extends StatelessWidget {
                             Icon(Icons.check),
                             SizedBox(width: 10),
                             Text(
-                              getLabel(value),
+                              getLabel!(value),
                               style: TextStyle(
                                 fontWeight: FontWeight.bold
                               ),

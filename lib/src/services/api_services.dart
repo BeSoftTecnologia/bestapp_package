@@ -23,7 +23,7 @@ class ApiServices {
   /* baseURL es para iniciar a clase com o endpoint
     se usar o parametro apiConfig dentro do callAPi ele desconsidera esa variavel.
   */
-  final String baseUrl;
+  final String? baseUrl;
   final bool showLogs;
   final Dio dio = Dio();
   final BeDevicesInfo beDevicesInfo = BeDevicesInfo();
@@ -50,18 +50,18 @@ class ApiServices {
   bool get isUnauthorized => _isUnauthorized;
   bool get isNotConected => _isNotConected;
 
-  Future<Map<String, dynamic>> callApi({
-    @required ApiMethod method,
-    @required rota,
-    Map<String, dynamic> params,
-    Map<String, dynamic> payload,
-    void Function(int, int) onSendProgress,
+  Future<Map<String, dynamic>?> callApi({
+    required ApiMethod method,
+    required rota,
+    Map<String, dynamic>? params,
+    Map<String, dynamic>? payload,
+    void Function(int, int)? onSendProgress,
     TypeBody typeBody = TypeBody.JSON,
     TypeHeader typeHeader = TypeHeader.SESSIONID,
-    ApiConfig apiConfig,
-    AuthRequired authRequired
+    ApiConfig? apiConfig,
+    AuthRequired? authRequired
   }) async {
-    Map<String, dynamic> headers;
+    Map<String, dynamic>? headers;
     _isInformational = false;
     _isSuccess = false;
     _isRedirect = false;
@@ -70,7 +70,7 @@ class ApiServices {
     _isUnauthorized = false;
     _isNotConected = false;
 
-    String _userAgent = await beDevicesInfo.getDevicesInfo();
+    String? _userAgent = await beDevicesInfo.getDevicesInfo();
 
     /********* COOKIES CONFIG ***********/
     String cookiePath = await appdirctory.getDirectory();
@@ -90,7 +90,7 @@ class ApiServices {
         'Accept': '*/*',
       };
     }
-    headers['User-Agent'] = _userAgent;
+    headers!['User-Agent'] = _userAgent;
     if(apiConfig != null && apiConfig.token != null && apiConfig.token != ''){
       if(typeHeader == TypeHeader.TOKEN)headers['Authorization'] = apiConfig.token;
     }
@@ -148,28 +148,28 @@ class ApiServices {
           _isNotConected = false;
           switch (err.type) {
             case DioErrorType.response:
-              _isClientError = ApiHelpers.isClientError(err.response.statusCode);
-              _isServerError = ApiHelpers.isServerError(err.response.statusCode);
-              _isRedirect = ApiHelpers.isRedirect(err.response.statusCode);
-              _isInformational = ApiHelpers.isRedirect(err.response.statusCode);
-              _isUnauthorized = ApiHelpers.isUnauthorized(err.response.statusCode);
+              _isClientError = ApiHelpers.isClientError(err.response!.statusCode);
+              _isServerError = ApiHelpers.isServerError(err.response!.statusCode);
+              _isRedirect = ApiHelpers.isRedirect(err.response!.statusCode);
+              _isInformational = ApiHelpers.isRedirect(err.response!.statusCode);
+              _isUnauthorized = ApiHelpers.isUnauthorized(err.response!.statusCode);
               // Esas mensagem o retorno no json final sempre vai ter a tag message,
               // Quando o tipo da mensagem nao e definido
               // Para usar a mensagem padrao do usuario ou o proveedor
               // Precisa validar os if no caso que tipo de retorne e.
               if(_isClientError){
-                err.response.data = ApiHelpers.messageTag(err.response.data, 'Não foi possível completar sua consulta.');
+                err.response!.data = ApiHelpers.messageTag(err.response!.data, 'Não foi possível completar sua consulta.');
               }else if(_isServerError){
-                err.response.data = ApiHelpers.messageTag(err.response.data, 'Há um problema no nosso servidor, tente mais tarde.');
+                err.response!.data = ApiHelpers.messageTag(err.response!.data, 'Há um problema no nosso servidor, tente mais tarde.');
               }else if(_isRedirect){
-                err.response.data = ApiHelpers.messageTag(err.response.data, 'Unknow Status _isRedirect');
+                err.response!.data = ApiHelpers.messageTag(err.response!.data, 'Unknow Status _isRedirect');
               }else if(_isInformational){
-                err.response.data = ApiHelpers.messageTag(err.response.data, 'Unknow Status _isInformational');
+                err.response!.data = ApiHelpers.messageTag(err.response!.data, 'Unknow Status _isInformational');
               }else{
-                err.response.data = ApiHelpers.messageTag(err.response.data, 'Unknow Status');
+                err.response!.data = ApiHelpers.messageTag(err.response!.data, 'Unknow Status');
               }
-              if(showLogs) ApiHelpers.logsRequest(err.response, 'REQUEST ERROR :(');
-              return handler.resolve(err.response);
+              if(showLogs) ApiHelpers.logsRequest(err.response!, 'REQUEST ERROR :(');
+              return handler.resolve(err.response!);
             case DioErrorType.other:
               _isNotConected = true;
               if(showLogs)ApiHelpers.logsError(err, 'ERROR :(');
@@ -187,7 +187,7 @@ class ApiServices {
     Response response =  await dio.request(
       rota,
       onSendProgress: onSendProgress,
-      data: typeBody == TypeBody.FORMDATA ? FormData.fromMap(payload) : payload,
+      data: typeBody == TypeBody.FORMDATA ? FormData.fromMap(payload!) : payload,
       queryParameters: params
     );
     return response.data;

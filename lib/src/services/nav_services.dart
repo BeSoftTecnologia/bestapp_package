@@ -19,19 +19,19 @@ class NavigationService {
   **/
   static GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
-  static Future<dynamic> navigateTo(String routeName, {Object arguments}){
-    return navigatorKey.currentState.pushNamed(routeName, arguments: arguments);
+  static Future<dynamic> navigateTo(String routeName, {Object? arguments}){
+    return navigatorKey.currentState!.pushNamed(routeName, arguments: arguments);
   }
 
   static dynamic navigateBack([dynamic popValue]){
-    return navigatorKey.currentState.pop(popValue);
+    return navigatorKey.currentState!.pop(popValue);
   }
 
-  static Future<dynamic> navigateReplacementTo(String routeName, {Object arguments}){
-    return navigatorKey.currentState.pushReplacementNamed(routeName, arguments: arguments);
+  static Future<dynamic> navigateReplacementTo(String routeName, {Object? arguments}){
+    return navigatorKey.currentState!.pushReplacementNamed(routeName, arguments: arguments);
   }
 
-  static Future<dynamic> navigateAndRemoveUntilTo(String routeName, {Object arguments}){
-    return navigatorKey.currentState.pushNamedAndRemoveUntil(routeName, (Route<dynamic> route) => false, arguments: arguments);
+  static Future<dynamic> navigateAndRemoveUntilTo(String routeName, {Object? arguments}){
+    return navigatorKey.currentState!.pushNamedAndRemoveUntil(routeName, (Route<dynamic> route) => false, arguments: arguments);
   }
 }

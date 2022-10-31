@@ -3,13 +3,13 @@ enum Behaviour {success, error,  loading}
 
 class BuilderStateWidget extends StatefulWidget {
   final Widget Function(BuildContext context) success;
-  final Widget Function(BuildContext context) loading;
-  final Widget Function(BuildContext context) error;
+  final Widget Function(BuildContext context)? loading;
+  final Widget Function(BuildContext context)? error;
   final Behaviour behaviour;
   const BuilderStateWidget({
-    Key key,
-    @required this.behaviour,
-    @required this.success,
+    Key? key,
+    required this.behaviour,
+    required this.success,
     this.loading,
     this.error,
   }) : super(key: key);
@@ -20,7 +20,7 @@ class BuilderStateWidget extends StatefulWidget {
 
 class _BuilderStateWidgetState extends State<BuilderStateWidget> {
   
-  Widget Function(BuildContext context) _builder() {
+  Widget Function(BuildContext context)? _builder() {
     switch (widget.behaviour) {
       case Behaviour.success:
         return widget.success;
@@ -36,7 +36,7 @@ class _BuilderStateWidgetState extends State<BuilderStateWidget> {
   @override
   Widget build(BuildContext context) {
     return Builder(
-      builder: _builder(),
+      builder: _builder()!,
     );
   }
 }

@@ -11,7 +11,7 @@ class AuthManager extends Interceptor {
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) {
     if(authRequired.type == AuthRequiredType.CUSTOM){
-      authRequired.authFunction(true);
+      authRequired.authFunction!(true);
     }
     handler.next(response);
   }
@@ -19,13 +19,13 @@ class AuthManager extends Interceptor {
   @override
   void onError(DioError err, ErrorInterceptorHandler handler) {
     if (err.type == DioErrorType.response){
-      bool isUnauthorized = ApiHelpers.isUnauthorized(err.response.statusCode);
+      bool isUnauthorized = ApiHelpers.isUnauthorized(err.response!.statusCode);
       // Default auth controle login
       if(isUnauthorized && (authRequired.type == AuthRequiredType.DEFAULT)){
         NavigationService.navigateReplacementTo('/login');
       }
       if(isUnauthorized && (authRequired.type == AuthRequiredType.CUSTOM)){
-        authRequired.authFunction(false);
+        authRequired.authFunction!(false);
       }
     }
     handler.next(err);

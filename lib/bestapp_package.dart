@@ -63,7 +63,6 @@ export 'src/utils/colors-fromhex.dart';
 export 'src/utils/compress-images.dart';
 export 'src/utils/app_directory.dart';
 export 'src/utils/getbytes-fromasset.dart';
-export 'src/utils/preference-utils.dart';
 export 'src/utils/helpers/api_helpers.dart';
 export 'src/utils/devices_info.dart';
 
@@ -72,7 +71,6 @@ export 'src/validators/cnpj_validator.dart';
 export 'src/validators/cpf_validator.dart';
 
 //Exports useful packages
-export 'package:shared_preferences/shared_preferences.dart';
 export 'package:dio/dio.dart';
 export 'package:email_validator/email_validator.dart';
 export 'package:pull_to_refresh/pull_to_refresh.dart';

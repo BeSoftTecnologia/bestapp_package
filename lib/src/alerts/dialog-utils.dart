@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 class DialogUtils {
 
   void showDialogMsg(BuildContext context,
-      {@required String title,
+      {required String title,
       String okBtnText = "Ok",
       String messages = "",
       String cancelBtnText = "Cancel",
-      @required Function okBtnFunction}) {
+      required Function okBtnFunction}) {
     showDialog(
       context: context,
       builder: (_) {
@@ -45,7 +45,7 @@ class DialogUtils {
                   fontSize: 18
                 )
               ),
-              onPressed: okBtnFunction,
+              onPressed: okBtnFunction as void Function()?,
             )
           ],
         );

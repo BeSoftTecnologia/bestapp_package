@@ -5,9 +5,9 @@ import 'package:flash/flash.dart';
 import 'package:flutter/material.dart';
 
 void beDialogToast({
-  @required BuildContext context,  
-  @required String message,
-  String dismissText,
+  required BuildContext context,  
+  required String message,
+  String? dismissText,
   bool showTitle = false,
   bool showProgressIndicator = false,
   bool barrierDismissible = false,
@@ -40,7 +40,7 @@ void beDialogToast({
         icon: Icon(Icons.info, color: Colors.white),
         title: showTitle ? Text('Alert !') : null,
           showProgressIndicator: showProgressIndicator,
-          message: Text(message,
+          content: Text(message,
             style: TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.bold

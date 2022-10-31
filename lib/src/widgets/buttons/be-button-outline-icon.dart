@@ -1,30 +1,30 @@
 import 'package:flutter/material.dart';
 
 class BebuttonOutlineIcon extends StatelessWidget {
-  final String text;
-  final TextStyle textStyle;
+  final String? text;
+  final TextStyle? textStyle;
   final double buttonwidth;
-  final double buttonheight;
+  final double? buttonheight;
   final Function onPressed;
   final bool large;
-  final Color overlayColor;
+  final Color? overlayColor;
   final bool showOverlayColor;
-  final Color shadowColor;
+  final Color? shadowColor;
   final bool showShadowColor;
-  final double elevation;
+  final double? elevation;
   final double borderRadius;
-  final double borderSide;
+  final double? borderSide;
   final IconData icon;
-  final Color buttomColor;
-  final Color iconColor;
+  final Color? buttomColor;
+  final Color? iconColor;
 
   BebuttonOutlineIcon({
     this.text,
     this.textStyle, 
     this.buttonwidth = 300,
     this.buttonheight,
-    @required this.onPressed, 
-    @required this.icon,
+    required this.onPressed, 
+    required this.icon,
     this.large=true,
     this.overlayColor,
     this.showOverlayColor=false,
@@ -49,7 +49,7 @@ class BebuttonOutlineIcon extends StatelessWidget {
         style: ButtonStyle(
           overlayColor: overlayColor != null && showOverlayColor ? MaterialStateProperty.all(overlayColor) : showOverlayColor ? MaterialStateProperty.all(Theme.of(context).primaryColor.withOpacity(0.1)) : null,
           // backgroundColor: MaterialStateProperty.all(Theme.of(context).primaryColor),
-          side: buttomColor != null ? MaterialStateProperty.all(borderSide != null ? BorderSide(width: borderSide, color: buttomColor) : BorderSide(width: 1, color: buttomColor)) : MaterialStateProperty.all(borderSide != null ? BorderSide(width: borderSide, color: Theme.of(context).primaryColor) : BorderSide(width: 1, color: Theme.of(context).primaryColor)),
+          side: buttomColor != null ? MaterialStateProperty.all(borderSide != null ? BorderSide(width: borderSide!, color: buttomColor!) : BorderSide(width: 1, color: buttomColor!)) : MaterialStateProperty.all(borderSide != null ? BorderSide(width: borderSide!, color: Theme.of(context).primaryColor) : BorderSide(width: 1, color: Theme.of(context).primaryColor)),
           shape: MaterialStateProperty.all(
             RoundedRectangleBorder(
               borderRadius: new BorderRadius.circular(borderRadius),
@@ -58,9 +58,9 @@ class BebuttonOutlineIcon extends StatelessWidget {
           shadowColor: shadowColor != null && showShadowColor ? MaterialStateProperty.all(shadowColor) : showShadowColor ? MaterialStateProperty.all(Theme.of(context).primaryColor) : null,
           elevation: elevation != null ? MaterialStateProperty.all(elevation) : MaterialStateProperty.all(0.0)
         ),
-        onPressed: onPressed, 
+        onPressed: onPressed as void Function()?, 
         icon: Icon(icon, color: iconColor),
-        label: Text(text != null ? text : '',
+        label: Text(text != null ? text! : '',
           textScaleFactor: 1.0,
           style: textStyle != null ? textStyle
           : TextStyle(

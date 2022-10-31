@@ -5,17 +5,17 @@ class BeButtonProgress extends StatelessWidget {
   final Function onTap;
   final String label;
   final bool enabled;
-  final Color bgColor;
-  final EdgeInsetsGeometry margin;
-  final Widget progressWidget;
-  final Widget defaultLabel;
-  final Color colorProgress;
+  final Color? bgColor;
+  final EdgeInsetsGeometry? margin;
+  final Widget? progressWidget;
+  final Widget? defaultLabel;
+  final Color? colorProgress;
   final double radius;
   final ProgressButtonType progressButtonType;
 
-  BeButtonProgress({ Key key, 
-    @required this.onTap,
-    @required this.label,
+  BeButtonProgress({ Key? key, 
+    required this.onTap,
+    required this.label,
     this.enabled = true,
     this.progressWidget,
     this.bgColor,
@@ -42,7 +42,7 @@ class BeButtonProgress extends StatelessWidget {
           style: Theme.of(context).textTheme.button
         ),
         progressWidget: progressWidget != null ? progressWidget : CircularProgressIndicator(
-          valueColor: colorProgress != null ? AlwaysStoppedAnimation<Color>(colorProgress) :  AlwaysStoppedAnimation<Color>(Colors.white)
+          valueColor: colorProgress != null ? AlwaysStoppedAnimation<Color?>(colorProgress) :  AlwaysStoppedAnimation<Color>(Colors.white)
         ),
         color: !enabled ? Colors.grey :
           bgColor != null ? bgColor : Theme.of(context).colorScheme.primaryContainer,

@@ -1,25 +1,25 @@
 import 'package:flutter/material.dart';
 
 class BeShimmer extends StatefulWidget {
-  static BeShimmerState of(BuildContext context) {
+  static BeShimmerState? of(BuildContext context) {
     return context.findAncestorStateOfType<BeShimmerState>();
   }
 
   const BeShimmer({
-    Key key,
-    @required this.linearGradient,
+    Key? key,
+    required this.linearGradient,
     this.child,
   }) : super(key: key);
 
   final LinearGradient linearGradient;
-  final Widget child;
+  final Widget? child;
 
   @override
   BeShimmerState createState() => BeShimmerState();
 }
 
 class BeShimmerState extends State<BeShimmer> with SingleTickerProviderStateMixin {
-  AnimationController _shimmerController;
+  AnimationController? _shimmerController;
 
   @override
   void initState() {
@@ -31,7 +31,7 @@ class BeShimmerState extends State<BeShimmer> with SingleTickerProviderStateMixi
 
   @override
   void dispose() {
-    _shimmerController.dispose();
+    _shimmerController!.dispose();
     super.dispose();
   }
 
@@ -41,7 +41,7 @@ class BeShimmerState extends State<BeShimmer> with SingleTickerProviderStateMixi
         begin: widget.linearGradient.begin,
         end: widget.linearGradient.end,
         transform:
-            _SlidingGradientTransform(slidePercent: _shimmerController.value),
+            _SlidingGradientTransform(slidePercent: _shimmerController!.value),
       );
 
   bool get isSized => (context.findRenderObject() as RenderBox).hasSize;
@@ -49,14 +49,14 @@ class BeShimmerState extends State<BeShimmer> with SingleTickerProviderStateMixi
   Size get size => (context.findRenderObject() as RenderBox).size;
 
   Offset getDescendantOffset({
-    @required RenderBox descendant,
+    required RenderBox descendant,
     Offset offset = Offset.zero,
   }) {
-    final shimmerBox = context.findRenderObject() as RenderBox;
+    final shimmerBox = context.findRenderObject() as RenderBox?;
     return descendant.localToGlobal(offset, ancestor: shimmerBox);
   }
 
-  Listenable get shimmerChanges => _shimmerController;
+  Listenable? get shimmerChanges => _shimmerController;
 
   @override
   Widget build(BuildContext context) {
@@ -66,13 +66,13 @@ class BeShimmerState extends State<BeShimmer> with SingleTickerProviderStateMixi
 
 class _SlidingGradientTransform extends GradientTransform {
   const _SlidingGradientTransform({
-    @required this.slidePercent,
+    required this.slidePercent,
   });
 
   final double slidePercent;
 
   @override
-  Matrix4 transform(Rect bounds, {TextDirection textDirection}) {
+  Matrix4 transform(Rect bounds, {TextDirection? textDirection}) {
     return Matrix4.translationValues(bounds.width * slidePercent, 0.0, 0.0);
   }
 }

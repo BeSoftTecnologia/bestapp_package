@@ -15,7 +15,7 @@ enum BeAvatarShape {
 class BeAvatar extends StatelessWidget {
   
   const BeAvatar({
-    Key key,
+    Key? key,
     this.child,
     this.backgroundImage,
     this.backgroundColor,
@@ -26,14 +26,14 @@ class BeAvatar extends StatelessWidget {
   }):super(key: key);
 
   /// Typically a [Text] widget. If the [CircleAvatar] is to have an image, use [backgroundImage] instead.
-  final Widget child;
+  final Widget? child;
   /// The background image of the circle.
-  final ImageProvider backgroundImage;
-  final Colors backgroundColor;
-  final double spacer;
-  final Colors colorSpacer;
+  final ImageProvider? backgroundImage;
+  final Colors? backgroundColor;
+  final double? spacer;
+  final Colors? colorSpacer;
   final BeAvatarShape shape;
-  final BorderRadius borderRadius;
+  final BorderRadius? borderRadius;
 
   BoxShape get _avatarShape {
     if (shape == BeAvatarShape.circle) {
@@ -52,9 +52,9 @@ class BeAvatar extends StatelessWidget {
     return Container(
       width: 90,
       height: 90,
-      padding: EdgeInsets.all(spacer != null ? spacer : 5),
+      padding: EdgeInsets.all(spacer != null ? spacer! : 5),
       decoration: BoxDecoration(
-        color: colorSpacer != null ? colorSpacer : Colors.white,
+        color: colorSpacer != null ? colorSpacer as Color? : Colors.white,
         shape: _avatarShape,
         borderRadius: shape == BeAvatarShape.standard && borderRadius == null
           ? BorderRadius.circular(10)
@@ -62,9 +62,9 @@ class BeAvatar extends StatelessWidget {
       ),
       child: Container(
         decoration: BoxDecoration(
-          color: backgroundColor != null ? backgroundColor : Colors.grey[100],
+          color: backgroundColor != null ? backgroundColor as Color? : Colors.grey[100],
           image: backgroundImage != null ? DecorationImage(
-            image: backgroundImage,
+            image: backgroundImage!,
             fit: BoxFit.cover,
           ): null,
           shape: _avatarShape,

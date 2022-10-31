@@ -11,14 +11,14 @@ class BecardSelected extends StatefulWidget {
       title: 'Locação',
     )
   */
-  final Function onTap;
-  final IconData icon;
+  final Function? onTap;
+  final IconData? icon;
   final String title;
   final bool selected;
-  final Color carColor;
+  final Color? carColor;
   final double height;
-  final EdgeInsets contentPadding;
-  final BorderRadiusGeometry borderRadius;
+  final EdgeInsets? contentPadding;
+  final BorderRadiusGeometry? borderRadius;
   final double borderWidth;
 
   BecardSelected({
@@ -41,7 +41,7 @@ class _BecardSelectedState extends State<BecardSelected> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: widget.onTap,
+      onTap: widget.onTap as void Function()?,
       child: Container(
         height: widget.height,
         padding: widget.contentPadding != null ? widget.contentPadding : EdgeInsets.only(left: 15, right: 15),
@@ -50,7 +50,7 @@ class _BecardSelectedState extends State<BecardSelected> {
           color: widget.selected ? Colors.green[50] : null,
           border: Border.all(
             width: widget.borderWidth,
-            color: widget.carColor != null ? widget.carColor : Theme.of(context).primaryColor
+            color: widget.carColor != null ? widget.carColor! : Theme.of(context).primaryColor
           )
         ),
         child: Row(
@@ -95,7 +95,7 @@ class _BecardSelectedState extends State<BecardSelected> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15),
                   border: Border.all(
-                    color: widget.carColor != null ? widget.carColor : Theme.of(context).primaryColor,
+                    color: widget.carColor != null ? widget.carColor! : Theme.of(context).primaryColor,
                   )
                 ),
               )

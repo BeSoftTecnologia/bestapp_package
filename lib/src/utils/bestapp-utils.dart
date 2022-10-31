@@ -18,7 +18,7 @@ class BestappUtils {
   }
 
   /// Formatar resultado String no valor em real com o simbolo `R$`
-  static String formatCurrencyPTBR({@required String value, bool compact = false}) {
+  static String formatCurrencyPTBR({required String value, bool compact = false}) {
     assert(value.isNotEmpty);
     double temp = double.parse(value);
     if(compact){

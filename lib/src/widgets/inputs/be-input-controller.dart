@@ -36,51 +36,51 @@ enum TypeInput {
 }
 
 class BeInputController extends StatefulWidget {
-  final TextEditingController controller;
+  final TextEditingController? controller;
   final bool fulwidth;
-  final double width;
-  final IconData suffixIcon;
-  final IconData prefixIcon;
+  final double? width;
+  final IconData? suffixIcon;
+  final IconData? prefixIcon;
   final hintText;
   final labelText;
   final bool enable;
   final bool obscure;
-  final TypeInput typeInput;
-  final List<TextInputFormatter> inputFormatters;
-  final TextInputType keyboardType;
-  final Function onSuffixTap;
-  final Function onPrefixTap;
+  final TypeInput? typeInput;
+  final List<TextInputFormatter>? inputFormatters;
+  final TextInputType? keyboardType;
+  final Function? onSuffixTap;
+  final Function? onPrefixTap;
   final bool readOnly;
   final bool enableInteractiveSelection;
-  final EdgeInsetsGeometry padding;
+  final EdgeInsetsGeometry? padding;
   final bool validator;
   final bool emailPhoneValidator;
-  final Function(String) onChanged;  
-  final Function(String) onSubmit;
-  final VoidCallback onEditingComplete;
-  final Color fillColor;
+  final Function(String)? onChanged;  
+  final Function(String)? onSubmit;
+  final VoidCallback? onEditingComplete;
+  final Color? fillColor;
   final bool centerText;
-  final TextStyle hintStyle;
-  final TextStyle labelStyle;
-  final EdgeInsetsGeometry contentPadding;
+  final TextStyle? hintStyle;
+  final TextStyle? labelStyle;
+  final EdgeInsetsGeometry? contentPadding;
   final bool showBorder;
-  final Widget prefix;
-  final Widget suffix;
-  final double borderRadius;
-  final double height;
-  final TextStyle style;
-  final Color cursorColor;
+  final Widget? prefix;
+  final Widget? suffix;
+  final double? borderRadius;
+  final double? height;
+  final TextStyle? style;
+  final Color? cursorColor;
   
   @deprecated
-  final Color iconColor;
+  final Color? iconColor;
 
-  final Color suffixIconColor;
-  final Color prefixIconColor;
+  final Color? suffixIconColor;
+  final Color? prefixIconColor;
 
-  final EdgeInsetsGeometry sufixIconpadding;
+  final EdgeInsetsGeometry? sufixIconpadding;
   final bool autofocus;
   final TextCapitalization textCapitalization;
-  final FocusNode focusNode;
+  final FocusNode? focusNode;
 
 
   BeInputController({
@@ -149,7 +149,7 @@ class _BeInputControllerState extends State<BeInputController> {
       padding: widget.padding != null ? widget.padding :  EdgeInsets.fromLTRB(10, 0, 10, 0),
       child: TextFormField(
         validator: (value) {
-          if (value.isEmpty && widget.validator) {
+          if (value!.isEmpty && widget.validator) {
             return 'Campo não pode estar vazio!';
           }
           if (!CPF.isValid(value) && widget.validator && widget.typeInput == TypeInput.CPF) {
@@ -191,7 +191,7 @@ class _BeInputControllerState extends State<BeInputController> {
           prefix: widget.prefix != null ? widget.prefix : null,
           border: widget.showBorder && widget.borderRadius == null ? null : 
           OutlineInputBorder(
-            borderRadius: widget.borderRadius != null ? BorderRadius.circular(widget.borderRadius) : BorderRadius.circular(1.0),
+            borderRadius: widget.borderRadius != null ? BorderRadius.circular(widget.borderRadius!) : BorderRadius.circular(1.0),
             borderSide: widget.showBorder ? BorderSide()
             : BorderSide.none
           ),
@@ -209,10 +209,10 @@ class _BeInputControllerState extends State<BeInputController> {
               icon: Icon(widget.suffixIcon),
               iconSize: 20, 
               color: widget.suffixIconColor != null ? widget.suffixIconColor : null,
-              onPressed: widget.onSuffixTap
+              onPressed: widget.onSuffixTap as void Function()?
             )) : widget.suffixIcon != null ? 
           Padding(
-            padding: widget.sufixIconpadding != null ? widget.sufixIconpadding : EdgeInsets.fromLTRB(0, 10, 0, 0),
+            padding: widget.sufixIconpadding != null ? widget.sufixIconpadding! : EdgeInsets.fromLTRB(0, 10, 0, 0),
             child: Icon(widget.suffixIcon, size: 20, color: widget.suffixIconColor != null ? widget.suffixIconColor : null),
           ) : null,
           
@@ -221,7 +221,7 @@ class _BeInputControllerState extends State<BeInputController> {
             icon: Icon(widget.prefixIcon),
               // color: widget.iconColor != null ? widget.iconColor : null,
             color: widget.prefixIconColor != null ? widget.prefixIconColor : null,
-            onPressed: widget.onPrefixTap,
+            onPressed: widget.onPrefixTap as void Function()?,
           ) : widget.prefixIcon != null ? 
 
           Icon(widget.prefixIcon,
@@ -243,7 +243,7 @@ class _BeInputControllerState extends State<BeInputController> {
     );
   }
 
-  List<TextInputFormatter> defineTypeformatters(TypeInput typeInput){
+  List<TextInputFormatter>? defineTypeformatters(TypeInput? typeInput){
     if(typeInput == TypeInput.CPF){
       return [
         FilteringTextInputFormatter.digitsOnly,
@@ -305,7 +305,7 @@ class _BeInputControllerState extends State<BeInputController> {
     else return widget.inputFormatters;
   }
 
-  TextInputType defineTypeInput(TypeInput typeInput){
+  TextInputType? defineTypeInput(TypeInput? typeInput){
     if(typeInput == TypeInput.TIME || typeInput == TypeInput.MMYY || typeInput == TypeInput.MMYYYY || typeInput == TypeInput.DATE || typeInput == TypeInput.CREDIT_CARD || typeInput == TypeInput.CPF || typeInput == TypeInput.CNPJ || typeInput == TypeInput.CEP || typeInput == TypeInput.BR_TEL || typeInput == TypeInput.COUNTER || typeInput == TypeInput.CURRENCY || widget.typeInput == TypeInput.NUMBER){
       return TextInputType.number;
     }else if(typeInput == TypeInput.EMAIL){

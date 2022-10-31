@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class BeAppbar extends StatelessWidget implements PreferredSizeWidget {
   
   BeAppbar({
-    Key key, 
+    Key? key, 
     this.title,
     this.leadingIcon,
     this.leadingAction,
@@ -16,17 +16,17 @@ class BeAppbar extends StatelessWidget implements PreferredSizeWidget {
     this.bottom,
     }): super(key: key);
 
-  final Widget title;
-  final IconData leadingIcon;
-  final Function leadingAction;
-  final GlobalKey<ScaffoldState> scaffoldKey;
+  final Widget? title;
+  final IconData? leadingIcon;
+  final Function? leadingAction;
+  final GlobalKey<ScaffoldState>? scaffoldKey;
   final Size appBarHeight = Size.fromHeight(56.0);
-  final Color bgColor;
-  final Color icColor;
-  final List<Widget> actions;
-  final bool centerTitle;
-  final double elevation;
-  final Widget bottom;
+  final Color? bgColor;
+  final Color? icColor;
+  final List<Widget>? actions;
+  final bool? centerTitle;
+  final double? elevation;
+  final Widget? bottom;
 
   @override
   Size get preferredSize => appBarHeight;
@@ -47,12 +47,12 @@ class BeAppbar extends StatelessWidget implements PreferredSizeWidget {
               leadingIcon,
               color: icColor != null ? icColor : Theme.of(context).buttonColor,
             ), 
-            onPressed: leadingAction
+            onPressed: leadingAction as void Function()?
           ),
         ),
         title: title,
         actions: actions,
-        bottom: bottom,
+        bottom: bottom as PreferredSizeWidget?,
       )
     );
   }
