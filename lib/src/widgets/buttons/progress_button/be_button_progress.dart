@@ -22,7 +22,7 @@ class BeButtonProgress extends StatelessWidget {
     this.colorProgress,
     this.radius=20,
     this.defaultLabel,
-    this.progressButtonType = ProgressButtonType.Flat,
+    this.progressButtonType = ProgressButtonType.Raised,
     this.margin
   }) : super(key: key);
 

@@ -98,7 +98,7 @@ class _ProgressButtonState extends State<ProgressButton>
     switch (widget.type) {
       case ProgressButtonType.Raised:
         return ElevatedButton(
-          style: TextButton.styleFrom(
+          style: ElevatedButton.styleFrom(
             padding: padding,
             foregroundColor: color,
             shape: shape,
@@ -111,7 +111,7 @@ class _ProgressButtonState extends State<ProgressButton>
         );
       case ProgressButtonType.Flat:
         return TextButton(
-          style: TextButton.styleFrom(
+          style: ElevatedButton.styleFrom(
             padding: padding,
             foregroundColor: color,
             shape: shape,

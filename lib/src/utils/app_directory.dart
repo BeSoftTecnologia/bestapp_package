@@ -22,9 +22,9 @@ class Appdirctory {
   Future<String> getDirectory({bool localPath=true}) async {
     Directory? _appDocDir = await getApplicationDocumentsDirectory();
     if (Platform.isAndroid && localPath) {
-      _appDocDir = await (getExternalStorageDirectory() as FutureOr<Directory>);
+      _appDocDir = await getExternalStorageDirectory();
     }
-    final Directory _appDocDirFolder =  Directory('${_appDocDir.path}/$pathDir/');
+    final Directory _appDocDirFolder =  Directory('${_appDocDir?.path}/$pathDir/');
     if(await _appDocDirFolder.exists()){
       return _appDocDirFolder.path;
     }else{
