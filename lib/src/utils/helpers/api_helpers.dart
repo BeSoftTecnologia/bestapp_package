@@ -377,4 +377,35 @@ class ApiHelpers {
         return false;
     }
   }
+
+  static bool isRetrive(int? statusCode){
+    switch (statusCode) {
+      case 101:
+        return true;
+      case 100:
+        return true;
+      case 305:
+        return true;
+      case 403:
+        return true;
+      case 407:
+        return true;
+      case 401:
+        return true;
+      case 502:
+        return true;
+      case 503:
+        return true;
+      case 504:
+        return true;
+      case 507:
+        return true;
+      case 511:
+        return true;
+      default:
+        return false;
+    }
+  }
 }
+
+

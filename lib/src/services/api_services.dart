@@ -8,6 +8,29 @@ import 'package:flutter/material.dart';
 
 export 'package:bestapp_package/src/models/api_config.dart';
 
+class ApiResponseModel {
+  bool isInformational;
+  bool isSuccess;
+  bool isRedirect;
+  bool isClientError;
+  bool isServerError;
+  bool isAuthorized;
+  bool isNotConected;
+  Response? response;
+  Map<String, dynamic>? data;
+
+  ApiResponseModel({
+    this.isInformational = false,
+    this.isSuccess = false,
+    this.isRedirect  = false,
+    this.isClientError = false,
+    this.isServerError = false,
+    this.isAuthorized = false,
+    this.isNotConected = false,
+    this.data,
+    this.response
+  });
+}
 /*
   ******** Msg Error ********
   Erro ao sincronizar com o servidor!\nProvavelmente você não está conectado à internet.
@@ -33,24 +56,7 @@ class ApiServices {
     this.showLogs=false
   });
 
-  bool _isInformational = false;
-  bool _isSuccess = false;
-  bool _isRedirect = false;
-  bool _isClientError = false;
-  bool _isServerError = false;
-  bool _isUnauthorized = false;
-  bool _isNotConected = false;
-  
-
-  bool get isInformational => _isInformational;
-  bool get isSuccess => _isSuccess;
-  bool get isRedirect => _isRedirect;
-  bool get isClientError => _isClientError;
-  bool get isServerError => _isServerError;
-  bool get isUnauthorized => _isUnauthorized;
-  bool get isNotConected => _isNotConected;
-
-  Future<Map<String, dynamic>?> callApi({
+  Future<ApiResponseModel> callApi({
     required ApiMethod method,
     required rota,
     Map<String, dynamic>? params,
@@ -59,19 +65,11 @@ class ApiServices {
     TypeBody typeBody = TypeBody.JSON,
     TypeHeader typeHeader = TypeHeader.SESSIONID,
     ApiConfig? apiConfig,
-    AuthRequired? authRequired
+    ValueChanged<bool>? authRequired
   }) async {
     Map<String, dynamic>? headers;
-    _isInformational = false;
-    _isSuccess = false;
-    _isRedirect = false;
-    _isClientError = false;
-    _isServerError = false;
-    _isUnauthorized = false;
-    _isNotConected = false;
-
+    ApiResponseModel responseModel = ApiResponseModel();
     String? _userAgent = await beDevicesInfo.getDevicesInfo();
-
     /********* COOKIES CONFIG ***********/
     String cookiePath = await appdirctory.getDirectory();
     PersistCookieJar persistentCookies = PersistCookieJar(
@@ -111,16 +109,12 @@ class ApiServices {
       CookieManager(persistentCookies)
     );
 
-    if(authRequired != null ){
-      dio.interceptors.add(
-        AuthManager(authRequired)
-      );
-    }
-
     dio.interceptors.add(
       InterceptorsWrapper(
         onResponse: (response,handler){
-          _isSuccess = ApiHelpers.isSuccess(response.statusCode);
+          responseModel.isAuthorized = true;
+          responseModel.isSuccess = ApiHelpers.isSuccess(response.statusCode);
+          if(authRequired != null)authRequired(responseModel.isAuthorized);
           if(response.data is Map){
             if(showLogs) ApiHelpers.logsRequest(response, 'REQUEST SUCCESSFULL :)');
             return handler.resolve(response);
@@ -132,6 +126,11 @@ class ApiServices {
                 'message': 'sucesso!'
               };
             }
+          }else if(response.data is List){
+            response.data = {
+              'message': 'sucesso!',
+              'results': response.data
+            };
           }else{
             response.data = {
               'message': 'Sucesso!'
@@ -141,37 +140,40 @@ class ApiServices {
           return handler.resolve(response);
         },
         onError: (DioError err, handler) {
-          _isClientError = false;
-          _isServerError = false;
-          _isRedirect = false;
-          _isInformational = false;
-          _isNotConected = false;
+
           switch (err.type) {
             case DioErrorType.response:
-              _isClientError = ApiHelpers.isClientError(err.response!.statusCode);
-              _isServerError = ApiHelpers.isServerError(err.response!.statusCode);
-              _isRedirect = ApiHelpers.isRedirect(err.response!.statusCode);
-              _isInformational = ApiHelpers.isRedirect(err.response!.statusCode);
-              _isUnauthorized = ApiHelpers.isUnauthorized(err.response!.statusCode);
+              responseModel.isClientError = ApiHelpers.isClientError(err.response?.statusCode);
+              responseModel.isServerError = ApiHelpers.isServerError(err.response?.statusCode);
+              responseModel.isRedirect = ApiHelpers.isRedirect(err.response?.statusCode);
+              responseModel.isInformational = ApiHelpers.isRedirect(err.response?.statusCode);
+              responseModel.isNotConected = ApiHelpers.isRetrive(err.response?.statusCode);
               // Esas mensagem o retorno no json final sempre vai ter a tag message,
               // Quando o tipo da mensagem nao e definido
               // Para usar a mensagem padrao do usuario ou o proveedor
               // Precisa validar os if no caso que tipo de retorne e.
-              if(_isClientError){
-                err.response!.data = ApiHelpers.messageTag(err.response!.data, 'Não foi possível completar sua consulta.');
-              }else if(_isServerError){
-                err.response!.data = ApiHelpers.messageTag(err.response!.data, 'Há um problema no nosso servidor, tente mais tarde.');
-              }else if(_isRedirect){
-                err.response!.data = ApiHelpers.messageTag(err.response!.data, 'Unknow Status _isRedirect');
-              }else if(_isInformational){
-                err.response!.data = ApiHelpers.messageTag(err.response!.data, 'Unknow Status _isInformational');
+              if(responseModel.isClientError){
+                if(ApiHelpers.isUnauthorized(err.response?.statusCode)){
+                  responseModel.isAuthorized = false;
+                  if(authRequired != null)authRequired(responseModel.isAuthorized);
+                  err.response!.data = ApiHelpers.messageTag(err.response?.data, 'As credenciais de autenticação não foram fornecidas.');
+                }else{
+                  err.response!.data = ApiHelpers.messageTag(err.response?.data, 'Não foi possível completar sua consulta.');
+                }
+              }else if(responseModel.isServerError){
+                err.response!.data = ApiHelpers.messageTag(err.response?.data, 'Há um problema no nosso servidor, tente mais tarde.');
+              }else if(responseModel.isRedirect){
+                err.response!.data = ApiHelpers.messageTag(err.response?.data, 'Unknow Status _isRedirect');
+              }else if(responseModel.isInformational){
+                err.response!.data = ApiHelpers.messageTag(err.response?.data, 'Unknow Status _isInformational');
               }else{
-                err.response!.data = ApiHelpers.messageTag(err.response!.data, 'Unknow Status');
+                err.response!.data = ApiHelpers.messageTag(err.response?.data, 'Unknow Status');
               }
+              
               if(showLogs) ApiHelpers.logsRequest(err.response!, 'REQUEST ERROR :(');
               return handler.resolve(err.response!);
             case DioErrorType.other:
-              _isNotConected = true;
+              responseModel.isNotConected = true;
               if(showLogs)ApiHelpers.logsError(err, 'ERROR :(');
               Response response = ApiHelpers.customResponseReturn(_customOption, 'Alguma coisa deu errado!\nProvavelmente você não está conectado à internet.');
               return handler.resolve(response);
@@ -184,12 +186,13 @@ class ApiServices {
       )
     );
     
-    Response response =  await dio.request(
+    responseModel.response = await dio.request(
       rota,
       onSendProgress: onSendProgress,
       data: typeBody == TypeBody.FORMDATA ? FormData.fromMap(payload!) : payload,
       queryParameters: params
     );
-    return response.data;
+    responseModel.data = responseModel.response?.data;
+    return responseModel;
   }
 }
