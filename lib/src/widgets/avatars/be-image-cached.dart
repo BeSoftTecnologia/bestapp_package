@@ -1,5 +1,4 @@
 import 'package:bestapp_package/bestapp_package.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class BeImageCached extends StatelessWidget {
@@ -38,7 +37,7 @@ class BeImageCached extends StatelessWidget {
           Icons.panorama_outlined, size: sizeIcon != null ? sizeIcon : 90,
           color: Colors.grey[400]!.withOpacity(0.5),
         )
-      ),
+      )
     );
   }
 }

@@ -101,7 +101,7 @@ class ApiServices {
     dio.interceptors.clear();
 
     RequestOptions _customOption =  RequestOptions(
-      baseUrl: baseUrl,
+      baseUrl: apiConfig != null && apiConfig.baseUrl != null && apiConfig.baseUrl != '' ? '${apiConfig.baseUrl}/' : '$baseUrl/',
       headers: headers,
       method: ApiHelpers.defineMethod(method),
       path: rota
