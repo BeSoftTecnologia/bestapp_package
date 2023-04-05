@@ -17,7 +17,7 @@ class ApiResponseModel {
   bool isAuthorized;
   bool isNotConected;
   Response? response;
-  Map<String, dynamic>? data;
+  Map<String, dynamic> data;
 
   ApiResponseModel({
     this.isInformational = false,
@@ -27,7 +27,7 @@ class ApiResponseModel {
     this.isServerError = false,
     this.isAuthorized = false,
     this.isNotConected = false,
-    this.data,
+    this.data = const {},
     this.response
   });
 }
