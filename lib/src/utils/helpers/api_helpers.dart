@@ -95,16 +95,14 @@ class ApiHelpers {
     switch (type) {
       case ApiMethod.POST:
         return 'POST';
-        break;
       case ApiMethod.GET:
         return 'GET';
-        break;
       case ApiMethod.PUT:
         return 'PUT';
-        break;
+      case ApiMethod.PATCH:
+        return 'PATCH';
       case ApiMethod.DELETE:
         return 'DELETE';
-        break;
       default:
         return 'NO_METHOD';
     }

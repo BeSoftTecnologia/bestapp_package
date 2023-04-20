@@ -40,7 +40,7 @@ class ApiResponseModel {
 
 enum TypeHeader {SESSIONID, TOKEN}
 enum TypeBody {JSON, FORMDATA}
-enum ApiMethod {POST, PUT, DELETE, GET}
+enum ApiMethod {POST, PUT, DELETE, GET, PATCH}
 
 class ApiServices {
   /* baseURL es para iniciar a clase com o endpoint
