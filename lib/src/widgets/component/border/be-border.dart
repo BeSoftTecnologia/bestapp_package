@@ -70,7 +70,7 @@ class BeBorder extends StatelessWidget {
 
 /// the value of dashedLine cannot be 0 or null, it should have some definite and proper value
 bool _isValidDashedLine(List<double> dash) {
-  final Set<double> _dashSet = dash.toSet();
+  final Set<double>? _dashSet = dash.toSet();
   if (_dashSet == null) {
     return false;
   }

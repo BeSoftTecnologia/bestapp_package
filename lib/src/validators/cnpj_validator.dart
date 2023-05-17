@@ -50,13 +50,15 @@ class CNPJValidator {
     return cnpj.replaceAll(regex, '');
   }
 
-  static bool isValid(String cnpj, {stripBeforeValidation = true}) {
+  static bool isValid(String? cnpj, {stripBeforeValidation = true}) {
+    if(cnpj == null)return false;
+
     if (stripBeforeValidation) {
       cnpj = strip(cnpj);
     }
 
     // cnpj must be defined
-    if (cnpj == null || cnpj.isEmpty) {
+    if (cnpj.isEmpty) {
       return false;
     }
 

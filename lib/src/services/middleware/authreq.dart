@@ -18,7 +18,7 @@ class AuthManager extends Interceptor {
 
   @override
   void onError(DioError err, ErrorInterceptorHandler handler) {
-    if (err.type == DioErrorType.response){
+    if (err.type == DioErrorType.badResponse){
       bool isUnauthorized = ApiHelpers.isUnauthorized(err.response!.statusCode);
       // Default auth controle login
       if(isUnauthorized && (authRequired.type == AuthRequiredType.DEFAULT)){

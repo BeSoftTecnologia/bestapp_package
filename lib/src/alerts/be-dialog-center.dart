@@ -27,7 +27,7 @@ Future BeDialogCenter({
   required String message,
   bool barrierDismissible=true,
   String title='',
-  DialogTypeAnimation dialogTypeAnimation = DialogTypeAnimation.DEFAULT,
+  DialogTypeAnimation? dialogTypeAnimation = DialogTypeAnimation.DEFAULT,
   String okText='Ok',
   Function? okTaped,
   String cancelText='Cancelar',

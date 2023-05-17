@@ -50,13 +50,15 @@ class CPFValidator {
     return cpf.replaceAll(regExp, '');
   }
 
-  static bool isValid(String cpf, {stripBeforeValidation = true}) {
+  static bool isValid(String? cpf, {stripBeforeValidation = true}) {
+    if(cpf == null)return false;
+    
     if (stripBeforeValidation) {
       cpf = strip(cpf);
     }
 
     // CPF must be defined
-    if (cpf == null || cpf.isEmpty) {
+    if (cpf.isEmpty) {
       return false;
     }
 

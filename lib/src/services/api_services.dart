@@ -144,7 +144,7 @@ class ApiServices {
         onError: (DioError err, handler) {
 
           switch (err.type) {
-            case DioErrorType.response:
+            case DioErrorType.badResponse:
               responseModel.isClientError = ApiHelpers.isClientError(err.response?.statusCode);
               responseModel.isServerError = ApiHelpers.isServerError(err.response?.statusCode);
               responseModel.isRedirect = ApiHelpers.isRedirect(err.response?.statusCode);
@@ -171,10 +171,19 @@ class ApiServices {
               }else{
                 err.response!.data = ApiHelpers.messageTag(err.response?.data, 'Unknow Status');
               }
-              
               if(showLogs) ApiHelpers.logsRequest(err.response!, 'REQUEST ERROR :(');
               return handler.resolve(err.response!);
-            case DioErrorType.other:
+            case DioErrorType.badCertificate:
+              if(showLogs)ApiHelpers.logsError(err, 'ERROR :(');
+              Response response = ApiHelpers.customResponseReturn(_customOption, 'Certificado invalido ou vencido. Se o erro persistir, entre em contato com o suporte.');
+              return handler.resolve(response);
+            case DioErrorType.receiveTimeout:
+            case DioErrorType.sendTimeout:
+            case DioErrorType.connectionTimeout:
+              if(showLogs)ApiHelpers.logsError(err, 'ERROR :(');
+              Response response = ApiHelpers.customResponseReturn(_customOption, 'Conexão timeout. Se o erro persistir, entre em contato com o suporte.');
+              return handler.resolve(response);
+            case DioErrorType.unknown:
               responseModel.isNotConected = true;
               if(showLogs)ApiHelpers.logsError(err, 'ERROR :(');
               Response response = ApiHelpers.customResponseReturn(_customOption, 'Alguma coisa deu errado!\nProvavelmente você não está conectado à internet.');
