@@ -54,13 +54,13 @@ class BestappUtils {
     }
   }
 
-  static String formatDateString(String value) {
+  static String formatDateString(String? value) {
     if (value == null) return "Não informado";
     DateTime todayDate = DateTime.parse(value);
     return DateFormat('dd/MM/yyyy').format(todayDate);
   }
 
-  static String formatStringDate(String value){
+  static String formatStringDate(String? value){
     if(value != null && value != ''){
       return DateFormat('yyyy-MM-dd').format(DateFormat('dd/MM/yyyy').parse(value));
     }

@@ -5,17 +5,19 @@ import 'package:flutter/foundation.dart';
 class BeDevicesInfo {
   Future<String?> getDevicesInfo()async{
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-    if(Platform.isAndroid){
-      AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-      return androidInfo.model;
-    }else if(Platform.isIOS){
-      IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
-      return iosInfo.utsname.machine;
-    }else if(kIsWeb){
+    if(kIsWeb){
       WebBrowserInfo webBrowserInfo = await deviceInfo.webBrowserInfo;
       return webBrowserInfo.userAgent;
     }else{
-      return 'Agent Unknow';
+      if(Platform.isAndroid){
+        AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+        return androidInfo.model;
+      }else if(Platform.isIOS){
+        IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
+        return iosInfo.utsname.machine;
+      }else{
+        return 'Agent Unknow';
+      }
     }
   }
 }

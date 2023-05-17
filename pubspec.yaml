@@ -12,7 +12,7 @@ dependencies:
   flutter:
     sdk: flutter
   dio: ^4.0.6
-  intl: ^0.17.0
+  intl: ^0.18.1
   toast: ^0.3.0
   flash: ^2.0.5
   path_provider: ^2.0.11

@@ -29,12 +29,12 @@ class PullingLoading extends StatefulWidget {
 }
 
 class _PullingLoadingState extends State<PullingLoading> with TickerProviderStateMixin {
-  late AnimationController _anicontroller, _scaleController;
+  late AnimationController  _scaleController;
 
   @override
   void initState() {
     super.initState();
-    _anicontroller = AnimationController(vsync: this, duration: const Duration(milliseconds: 2000));
+    // _anicontroller = AnimationController(vsync: this, duration: const Duration(milliseconds: 2000));
     _scaleController = AnimationController(value: 0.0, vsync: this, upperBound: 1.0);
     // widget.refreshController.headerMode.addListener(() {
     //   if (widget.refreshController.headerStatus == RefreshStatus.idle) {

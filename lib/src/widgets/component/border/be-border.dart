@@ -21,8 +21,7 @@ class BeBorder extends StatelessWidget {
     this.padding = const EdgeInsets.all(10),
     this.radius = const Radius.circular(0),
     // this.customPath,
-  })  : assert(child != null),
-        assert(_isValidDashedLine(dashedLine), 'Invalid dash pattern');
+  })  : assert(_isValidDashedLine(dashedLine), 'Invalid dash pattern');
 
   /// child of type [Widget] which can be any component or text, etc
   final Widget child;

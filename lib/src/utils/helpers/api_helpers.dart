@@ -75,11 +75,11 @@ class ApiHelpers {
   
   static logsRequest(Response response, String titleMsg){
     // log('***** $titleMsg ***** \nURL: ${response.requestOptions.uri} \nSTATUS: ${response != null ? response.statusCode : 'unknow'} \nMETHOD: ${response.requestOptions.method} \nHEADER: ${response.requestOptions.headers} \nBODY: ${response != null ? response.data : {}}');
-    log('***** $titleMsg ***** \nURL: ${response.requestOptions.uri} \nSTATUS: ${response != null ? response.statusCode : 'unknow'} \nMETHOD: ${response.requestOptions.method} \nHEADER: ${response.requestOptions.headers}');
+    log('***** $titleMsg ***** \nURL: ${response.requestOptions.uri} \nSTATUS: ${response.statusCode ?? 'unknow'} \nMETHOD: ${response.requestOptions.method} \nHEADER: ${response.requestOptions.headers}');
   }
 
   static logsError(DioError error, String titleMsg){
-    log('***** $titleMsg ***** \nURL: ${error.requestOptions.uri} \nTYPE: ${error != null ? error.type : 'unknow'} \nMETHOD: ${error.requestOptions.method} \nHEADER: ${error.requestOptions.headers} \nERROR: ${error != null ? error.message.toString() : {}}');
+    log('***** $titleMsg ***** \nURL: ${error.requestOptions.uri} \nTYPE: ${error.type} \nMETHOD: ${error.requestOptions.method} \nHEADER: ${error.requestOptions.headers} \nERROR: ${error.message.toString()}');
   }
   
   static bool isJsonParsable(string){
