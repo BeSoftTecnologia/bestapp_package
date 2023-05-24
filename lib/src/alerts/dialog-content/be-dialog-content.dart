@@ -1,4 +1,3 @@
-import 'package:bestapp_package/src/widgets/buttons/be-button.dart';
 import 'package:flutter/material.dart';
 
 class BeDialogContent extends StatelessWidget {
