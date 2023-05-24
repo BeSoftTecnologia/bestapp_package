@@ -111,7 +111,6 @@ class ApiServices {
         queryParameters: params
       );
       if(showLogs) ApiHelpers.logsRequest(responseResult, 'REQUEST SUCCESSFULL :)');
-
       responseModel.response = responseResult;
       responseModel.isAuthorized = true;
       responseModel.isSuccess = ApiHelpers.isSuccess(responseResult.statusCode);
