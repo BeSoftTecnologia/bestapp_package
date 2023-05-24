@@ -1,9 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:bestapp_package/bestapp_package.dart';
-// import 'package:bestapp_package/src/utils/helpers/api_helpers.dart';
-// import 'package:bestapp_package/src/utils/devices_info.dart';
 import 'package:cookie_jar/cookie_jar.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 export 'package:bestapp_package/src/models/api_config.dart';
@@ -67,48 +66,39 @@ class ApiServices {
     ApiConfig? apiConfig,
     ValueChanged<bool>? authRequired
   }) async {
-    Map<String, dynamic>? headers;
+    Map<String, dynamic> headers = {};
     ApiResponseModel responseModel = ApiResponseModel();
     String? _userAgent = await beDevicesInfo.getDevicesInfo();
-    /********* COOKIES CONFIG ***********/
-    String cookiePath = await appdirctory.getDirectory();
-    PersistCookieJar persistentCookies = PersistCookieJar(
-      storage:  FileStorage('$cookiePath')
-    );
-    /*********** ************* ***********/
-
+    
+    headers['User-Agent'] = _userAgent;
     if(typeBody != TypeBody.FORMDATA){
-      headers = {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      };
+      headers['Accept'] = 'application/json';
+      headers['Content-Type'] = 'application/json';
     }
-    if(typeBody == TypeBody.FORMDATA){
-      headers = {
-        'Accept': '*/*',
-      };
-    }
-    headers!['User-Agent'] = _userAgent;
-    if(apiConfig != null && apiConfig.token != null && apiConfig.token != ''){
-      if(typeHeader == TypeHeader.TOKEN)headers['Authorization'] = apiConfig.token;
-    }
+
+    if(typeBody == TypeBody.FORMDATA)headers['Accept'] = '*/*';
+    if(typeHeader == TypeHeader.TOKEN && apiConfig != null)headers['Authorization'] = apiConfig.token;
+    if(kIsWeb && typeHeader == TypeHeader.SESSIONID && apiConfig != null)headers['Cookie'] = 'sessionid=${apiConfig.token}';
+
     dio.options.baseUrl = apiConfig != null && apiConfig.baseUrl != null && apiConfig.baseUrl != '' ? '${apiConfig.baseUrl}/' : '$baseUrl/';
     dio.options.headers = headers;
     dio.options.method = ApiHelpers.defineMethod(method);
     dio.options.responseType = ResponseType.json;
     dio.interceptors.clear();
-    // RequestOptions _customOption =  RequestOptions(
-    //   baseUrl: apiConfig != null && apiConfig.baseUrl != null && apiConfig.baseUrl != '' ? '${apiConfig.baseUrl}/' : '$baseUrl/',
-    //   headers: headers,
-    //   method: ApiHelpers.defineMethod(method),
-    //   path: rota
-    // );
-    dio.interceptors.add(
-      CookieManager(persistentCookies)
-    );
 
-
-
+    if(!kIsWeb){
+      String cookiePath = await appdirctory.getDirectory();
+      if(typeHeader == TypeHeader.SESSIONID){
+        dio.interceptors.add(
+          CookieManager(
+            PersistCookieJar(
+              storage:  FileStorage('$cookiePath')
+            )
+          )
+        );
+      }
+    }
+    
     try {
       Response responseResult = await dio.request(
         rota,
