@@ -165,7 +165,7 @@ class _ProgressButtonState extends State<ProgressButton>
               _forward((status) {
                 if (status == AnimationStatus.dismissed) {
                   _toDefault();
-                  if (onDefault != null && onDefault is VoidCallback) {
+                  if (onDefault != null) {
                     onDefault();
                   }
                 }
@@ -176,7 +176,7 @@ class _ProgressButtonState extends State<ProgressButton>
               _toProcessing();
               onDefault = await widget.onPressed!();
               _toDefault();
-              if (onDefault != null && onDefault is VoidCallback) {
+              if (onDefault != null) {
                 onDefault();
               }
             }

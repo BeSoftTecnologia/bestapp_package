@@ -21,13 +21,13 @@ import 'package:flutter/material.dart';
 /// HUD=Heads Up Display
 ///
 class BemodalProgressFull extends StatelessWidget {
-  final bool inAsyncCall;
+  final bool? inAsyncCall;
   final double opacity;
   final Color color;
   final Widget progressIndicator;
   final Offset? offset;
   final bool dismissible;
-  final Widget child;
+  final Widget? child;
 
   BemodalProgressFull({
     Key? key,
@@ -45,8 +45,8 @@ class BemodalProgressFull extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Widget> widgetList = [];
-    widgetList.add(child);
-    if (inAsyncCall) {
+    widgetList.add(child!);
+    if (inAsyncCall!) {
       Widget layOutProgressIndicator;
       if (offset == null)
         layOutProgressIndicator = Center(child: progressIndicator);

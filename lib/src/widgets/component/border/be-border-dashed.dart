@@ -150,7 +150,7 @@ class CircularIntervalList<T> {
 }
 
 Path? dashPath(Path? source,
-    {required CircularIntervalList<double> dashedarray,
+    {required CircularIntervalList<double>? dashedarray,
     DashOffset dashOffset = const DashOffset.absolute(0)}) {
   assert(dashedarray != null);
   if (source == null) {
@@ -161,7 +161,7 @@ Path? dashPath(Path? source,
     double distance = dashOffset._calculate(metric.length);
     bool draw = true;
     while (distance < metric.length) {
-      final double len = dashedarray.next;
+      final double len = dashedarray!.next;
       if (draw) {
         dest.addPath(metric.extractPath(distance, distance + len), Offset.zero);
       }

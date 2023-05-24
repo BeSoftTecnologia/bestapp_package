@@ -25,7 +25,7 @@ class BeBorder extends StatelessWidget {
         assert(_isValidDashedLine(dashedLine), 'Invalid dash pattern');
 
   /// child of type [Widget] which can be any component or text, etc
-  final Widget child;
+  final Widget? child;
 
   /// padding for [child] where in padding is given to the border types
   final EdgeInsets padding;
@@ -71,14 +71,14 @@ class BeBorder extends StatelessWidget {
 
 /// the value of dashedLine cannot be 0 or null, it should have some definite and proper value
 bool _isValidDashedLine(List<double> dash) {
-  final Set<double> _dashSet = dash.toSet();
-  if (_dashSet == null) {
+  final Set<double>? dashSet = dash.toSet();
+  if (dashSet == null) {
     return false;
   }
-  if (_dashSet.length == 1 && _dashSet.elementAt(0) == 0.0) {
+  if (dashSet.length == 1 && dashSet.elementAt(0) == 0.0) {
     return false;
   }
-  if (_dashSet.isEmpty) {
+  if (dashSet.isEmpty) {
     return false;
   }
   return true;
