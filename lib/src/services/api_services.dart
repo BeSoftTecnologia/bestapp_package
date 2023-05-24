@@ -29,6 +29,11 @@ class ApiResponseModel {
     this.data = const {},
     this.response
   });
+
+  @override
+  String toString() {
+    return 'ApiResponseModel(isInformational: $isInformational, isSuccess: $isSuccess, isRedirect: $isRedirect, isClientError: $isClientError, isServerError: $isServerError, isAuthorized: $isAuthorized, isNotConected: $isNotConected, response: $response, data: $data)';
+  }
 }
 /*
   ******** Msg Error ********
@@ -36,7 +41,6 @@ class ApiResponseModel {
   Feche e reabra o app e tente novamente.
   Alguma coisa deu errado. Se o erro persistir, entre em contato com o suporte.
 */
-
 enum TypeHeader {SESSIONID, TOKEN}
 enum TypeBody {JSON, FORMDATA}
 enum ApiMethod {POST, PUT, DELETE, GET, PATCH}
