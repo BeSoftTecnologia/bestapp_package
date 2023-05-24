@@ -56,7 +56,7 @@ class CPFValidator {
     }
 
     // CPF must be defined
-    if (cpf == null || cpf.isEmpty) {
+    if (cpf.isEmpty) {
       return false;
     }
 

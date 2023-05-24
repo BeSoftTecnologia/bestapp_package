@@ -97,102 +97,123 @@ class ApiServices {
     dio.options.method = ApiHelpers.defineMethod(method);
     dio.options.responseType = ResponseType.json;
     dio.interceptors.clear();
-
-    RequestOptions _customOption =  RequestOptions(
-      baseUrl: apiConfig != null && apiConfig.baseUrl != null && apiConfig.baseUrl != '' ? '${apiConfig.baseUrl}/' : '$baseUrl/',
-      headers: headers,
-      method: ApiHelpers.defineMethod(method),
-      path: rota
-    );
-
+    // RequestOptions _customOption =  RequestOptions(
+    //   baseUrl: apiConfig != null && apiConfig.baseUrl != null && apiConfig.baseUrl != '' ? '${apiConfig.baseUrl}/' : '$baseUrl/',
+    //   headers: headers,
+    //   method: ApiHelpers.defineMethod(method),
+    //   path: rota
+    // );
     dio.interceptors.add(
       CookieManager(persistentCookies)
     );
 
-    dio.interceptors.add(
-      InterceptorsWrapper(
-        onResponse: (response,handler){
-          responseModel.isAuthorized = true;
-          responseModel.isSuccess = ApiHelpers.isSuccess(response.statusCode);
-          if(authRequired != null)authRequired(responseModel.isAuthorized);
-          if(response.data is Map){
-            if(showLogs) ApiHelpers.logsRequest(response, 'REQUEST SUCCESSFULL :)');
-            return handler.resolve(response);
-          }else if(response.data is String){
-            if(ApiHelpers.isJsonparsed(response.data)){
-              response.data = jsonDecode(response.data);
-            }else{
-              response.data = {
-                'message': 'sucesso!'
-              };
-            }
-          }else if(response.data is List){
-            response.data = {
-              'message': 'sucesso!',
-              'results': response.data
-            };
-          }else{
-            response.data = {
-              'message': 'Sucesso!'
-            };
-          }
-          if(showLogs) ApiHelpers.logsRequest(response, 'REQUEST SUCCESSFULL :)');
-          return handler.resolve(response);
-        },
-        onError: (DioError err, handler) {
 
-          switch (err.type) {
-            case DioErrorType.response:
-              responseModel.isClientError = ApiHelpers.isClientError(err.response?.statusCode);
-              responseModel.isServerError = ApiHelpers.isServerError(err.response?.statusCode);
-              responseModel.isRedirect = ApiHelpers.isRedirect(err.response?.statusCode);
-              responseModel.isInformational = ApiHelpers.isRedirect(err.response?.statusCode);
-              responseModel.isNotConected = ApiHelpers.isRetrive(err.response?.statusCode);
-              // Esas mensagem o retorno no json final sempre vai ter a tag message,
-              // Quando o tipo da mensagem nao e definido
-              // Para usar a mensagem padrao do usuario ou o proveedor
-              // Precisa validar os if no caso que tipo de retorne e.
-              if(responseModel.isClientError){
-                if(ApiHelpers.isUnauthorized(err.response?.statusCode)){
-                  responseModel.isAuthorized = false;
-                  if(authRequired != null)authRequired(responseModel.isAuthorized);
-                  err.response!.data = ApiHelpers.messageTag(err.response?.data, 'As credenciais de autenticação não foram fornecidas.');
-                }else{
-                  err.response!.data = ApiHelpers.messageTag(err.response?.data, 'Não foi possível completar sua consulta.');
-                }
-              }else if(responseModel.isServerError){
-                err.response!.data = ApiHelpers.messageTag(err.response?.data, 'Há um problema no nosso servidor, tente mais tarde.');
-              }else if(responseModel.isRedirect){
-                err.response!.data = ApiHelpers.messageTag(err.response?.data, 'Unknow Status _isRedirect');
-              }else if(responseModel.isInformational){
-                err.response!.data = ApiHelpers.messageTag(err.response?.data, 'Unknow Status _isInformational');
-              }else{
-                err.response!.data = ApiHelpers.messageTag(err.response?.data, 'Unknow Status');
-              }
-              
-              if(showLogs) ApiHelpers.logsRequest(err.response!, 'REQUEST ERROR :(');
-              return handler.resolve(err.response!);
-            case DioErrorType.other:
-              responseModel.isNotConected = true;
-              if(showLogs)ApiHelpers.logsError(err, 'ERROR :(');
-              Response response = ApiHelpers.customResponseReturn(_customOption, 'Alguma coisa deu errado!\nProvavelmente você não está conectado à internet.');
-              return handler.resolve(response);
-            default:
-              if(showLogs)ApiHelpers.logsError(err, 'ERROR :(');
-              Response response = ApiHelpers.customResponseReturn(_customOption, 'Alguma coisa deu errado. Se o erro persistir, entre em contato com o suporte.');
-              return handler.resolve(response);
-          }
+
+    try {
+      Response responseResult = await dio.request(
+        rota,
+        onSendProgress: onSendProgress,
+        data: typeBody == TypeBody.FORMDATA ? FormData.fromMap(payload!) : payload,
+        queryParameters: params
+      );
+      if(showLogs) ApiHelpers.logsRequest(responseResult, 'REQUEST SUCCESSFULL :)');
+
+      responseModel.response = responseResult;
+      responseModel.isAuthorized = true;
+      responseModel.isSuccess = ApiHelpers.isSuccess(responseResult.statusCode);
+      if(authRequired != null)authRequired(responseModel.isAuthorized);
+
+      if(responseResult.data is Map){
+        responseModel.data = responseResult.data;
+      }else if(responseResult.data is String){
+        if(ApiHelpers.isJsonparsed(responseResult.data)){
+          responseModel.data = jsonDecode(responseResult.data);
+        }else{
+          responseModel.data = {
+            'message': 'sucesso!'
+          };
         }
-      )
-    );
-    
-    responseModel.response = await dio.request(
-      rota,
-      onSendProgress: onSendProgress,
-      data: typeBody == TypeBody.FORMDATA ? FormData.fromMap(payload!) : payload,
-      queryParameters: params
-    );
-    responseModel.data = responseModel.response?.data;
+      }else if(responseModel.data is List){
+        responseModel.data = {
+          'message': 'sucesso!',
+          'results': responseModel.data
+        };
+      }else{
+        responseModel.data = {
+          'message': 'Sucesso!'
+        };
+      }
+    } on DioError catch (err) {
+      // Faz a copia do response original
+      responseModel.response = err.response;
+      switch (err.type) {
+        case DioErrorType.badResponse:
+          /*
+            No retorno das mensagem json sempre vai ter a chave `message` no json Quando o tipo da mensagem nao e definido
+            Para usar a mensagem padrao do usuario ou do proveedor Precisa validar os if no caso que tipo de retorne err.
+            -------------------------
+            Esses if feito aqui e  para validar todos os diferentes tipos de status, facilitando 
+            o retorno de essa classe na hora de fazer os ifs..
+            enves de usar statusCode para verificar se o retorno de json for sucesso ou erro
+            pode usar uma de essas flags para validar. EX.: if (isClientError) enves de if(err.response?.statusCode == 400)
+          */
+          if(showLogs) ApiHelpers.logsRequest(err.response!, 'REQUEST ERROR :(');
+          
+          if(ApiHelpers.isClientError(err.response?.statusCode)){
+            responseModel.isClientError = true;
+            // Verifica se o usuario esta autenticado
+            if(ApiHelpers.isUnauthorized(err.response?.statusCode)){
+              responseModel.isAuthorized = false;
+              // Se receber o parametro de autenticacao obrigatoria ele retorna isso em algum middle para tratamento no frontend
+              if(authRequired != null)authRequired(responseModel.isAuthorized);
+              responseModel.data = ApiHelpers.messageTag(err.response?.data, 'As credenciais de autenticação não foram fornecidas.');
+            }else{
+              responseModel.data = ApiHelpers.messageTag(err.response?.data, 'Não foi possível completar sua consulta.');
+            }
+          }else if(ApiHelpers.isServerError(err.response?.statusCode)){
+            responseModel.isServerError = true;
+            responseModel.data = ApiHelpers.messageTag(err.response?.data, 'Há um problema no nosso servidor, tente mais tarde.');
+          }else if(ApiHelpers.isRedirect(err.response?.statusCode)){
+            responseModel.isRedirect = true;
+            responseModel.data = ApiHelpers.messageTag(err.response?.data, 'Unknow Status _isRedirect');
+          }else if(ApiHelpers.isInformational(err.response?.statusCode)){
+            responseModel.isInformational = true;
+            responseModel.data = ApiHelpers.messageTag(err.response?.data, 'Unknow Status _isInformational');
+          }else if(ApiHelpers.isNotConected(err.response?.statusCode)){
+            responseModel.isNotConected = true;
+            responseModel.data = ApiHelpers.messageTag(err.response?.data, 'Unknow Status _isInformational');
+          }else{
+            responseModel.data = ApiHelpers.messageTag(err.response?.data, 'Unknow Status');
+          }
+          break;
+        case DioErrorType.badCertificate:
+          responseModel.isServerError = true;
+          responseModel.data = ApiHelpers.messageTag(err.response?.data, 'Certificado invalido, tente mais tarde');
+          break;
+        case DioErrorType.connectionTimeout:
+        case DioErrorType.sendTimeout:
+        case DioErrorType.receiveTimeout:
+          responseModel.isServerError = true;
+          responseModel.data = ApiHelpers.messageTag(err.response?.data, 'Timeout: O tempo limite foi atingido');
+          break;
+        case DioErrorType.cancel:
+          responseModel.isClientError = true;
+          responseModel.data = ApiHelpers.messageTag(err.response?.data, 'Requisição cancelada');
+          break;
+        case DioErrorType.connectionError:
+          responseModel.isClientError = true;
+          responseModel.isServerError = true;
+          responseModel.data = ApiHelpers.messageTag(err.response?.data, 'Alguma coisa deu errado `xhr.onError`. Se o erro persistir, entre em contato com o suporte.');
+          break;
+        case DioErrorType.unknown:
+          responseModel.isNotConected = true;
+          responseModel.data = ApiHelpers.messageTag(err.response?.data, 'Alguma coisa deu errado!\nProvavelmente você não está conectado à internet.');
+          break;
+        default:
+          responseModel.data = ApiHelpers.messageTag(err.response?.data, 'Alguma coisa deu errado. Se o erro persistir, entre em contato com o suporte.');
+
+      }
+    }
     return responseModel;
   }
 }

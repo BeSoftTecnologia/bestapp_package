@@ -73,13 +73,13 @@ class ApiHelpers {
     return response;
   }
   
-  static logsRequest(Response response, String titleMsg){
+  static logsRequest(Response? response, String titleMsg){
     // log('***** $titleMsg ***** \nURL: ${response.requestOptions.uri} \nSTATUS: ${response != null ? response.statusCode : 'unknow'} \nMETHOD: ${response.requestOptions.method} \nHEADER: ${response.requestOptions.headers} \nBODY: ${response != null ? response.data : {}}');
-    log('***** $titleMsg ***** \nURL: ${response.requestOptions.uri} \nSTATUS: ${response != null ? response.statusCode : 'unknow'} \nMETHOD: ${response.requestOptions.method} \nHEADER: ${response.requestOptions.headers}');
+    log('***** $titleMsg ***** \nURL: ${response?.requestOptions.uri} \nSTATUS: ${response != null ? response.statusCode : 'unknow'} \nMETHOD: ${response?.requestOptions.method} \nHEADER: ${response?.requestOptions.headers}');
   }
 
-  static logsError(DioError error, String titleMsg){
-    log('***** $titleMsg ***** \nURL: ${error.requestOptions.uri} \nTYPE: ${error != null ? error.type : 'unknow'} \nMETHOD: ${error.requestOptions.method} \nHEADER: ${error.requestOptions.headers} \nERROR: ${error != null ? error.message.toString() : {}}');
+  static logsError(DioError? error, String titleMsg){
+    log('***** $titleMsg ***** \nURL: ${error?.requestOptions.uri} \nTYPE: ${error != null ? error.type : 'unknow'} \nMETHOD: ${error?.requestOptions.method} \nHEADER: ${error?.requestOptions.headers} \nERROR: ${error != null ? error.message.toString() : {}}');
   }
   
   static bool isJsonParsable(string){
@@ -161,7 +161,7 @@ class ApiHelpers {
     HTTP_100_CONTINUE
     HTTP_101_SWITCHING_PROTOCOLS
   */
-  static bool isInformational(int statusCode){
+  static bool isInformational(int? statusCode){
     switch (statusCode) {
       case 100:
         return true;
@@ -376,7 +376,7 @@ class ApiHelpers {
     }
   }
 
-  static bool isRetrive(int? statusCode){
+  static bool isNotConected(int? statusCode){
     switch (statusCode) {
       case 101:
         return true;

@@ -21,7 +21,7 @@ class CookieManager extends Interceptor {
       handler.next(options);
     }).catchError((e, stackTrace) {
       var err = DioError(requestOptions: options, error: e);
-      err.stackTrace = stackTrace;
+      // err.stackTrace = stackTrace;
       handler.reject(err, true);
     });
   }
@@ -32,7 +32,7 @@ class CookieManager extends Interceptor {
         .then((_) => handler.next(response))
         .catchError((e, stackTrace) {
       var err = DioError(requestOptions: response.requestOptions, error: e);
-      err.stackTrace = stackTrace;
+      // err.stackTrace = stackTrace;
       handler.reject(err, true);
     });
   }
@@ -47,7 +47,7 @@ class CookieManager extends Interceptor {
           requestOptions: err.response!.requestOptions,
           error: e,
         );
-        _err.stackTrace = stackTrace;
+        // _err.stackTrace = stackTrace;
         handler.next(_err);
       });
     } else {

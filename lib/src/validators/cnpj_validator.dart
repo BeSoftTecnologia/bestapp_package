@@ -56,7 +56,7 @@ class CNPJValidator {
     }
 
     // cnpj must be defined
-    if (cnpj == null || cnpj.isEmpty) {
+    if (cnpj.isEmpty) {
       return false;
     }
 
