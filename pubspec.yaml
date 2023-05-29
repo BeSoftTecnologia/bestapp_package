@@ -23,7 +23,7 @@ dependencies:
   cached_network_image: ^3.2.2
   email_validator: ^2.1.17
   shimmer: ^2.0.0
-  device_info_plus: ^8.0.0
+  device_info_plus: ^9.0.2
   cookie_jar: ^3.0.1
   cpfcnpj:
     git:

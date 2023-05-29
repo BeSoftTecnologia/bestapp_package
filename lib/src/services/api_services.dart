@@ -52,8 +52,7 @@ class ApiServices {
   final String? baseUrl;
   final bool showLogs;
   final Dio dio = Dio();
-  final BeDevicesInfo beDevicesInfo = BeDevicesInfo();
-  final Appdirctory appdirctory = Appdirctory('cookies');
+  
   ApiServices({
     this.baseUrl,
     this.showLogs=false
@@ -72,7 +71,7 @@ class ApiServices {
   }) async {
     Map<String, dynamic> headers = {};
     ApiResponseModel responseModel = ApiResponseModel();
-    String? _userAgent = await beDevicesInfo.getDevicesInfo();
+    String? _userAgent = await BeDevicesInfo().getDevicesInfo();
     
     headers['User-Agent'] = _userAgent;
     if(typeBody != TypeBody.FORMDATA){
@@ -91,7 +90,7 @@ class ApiServices {
     dio.interceptors.clear();
 
     if(!kIsWeb){
-      String cookiePath = await appdirctory.getDirectory();
+      String cookiePath = await Appdirctory('cookies').getDirectory();
       if(typeHeader == TypeHeader.SESSIONID){
         dio.interceptors.add(
           CookieManager(
