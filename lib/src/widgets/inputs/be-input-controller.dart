@@ -17,9 +17,6 @@ enum TypeInput {
   NONE,
   PASSWORD,
   EMAIL,
-  @deprecated
-  // you need to use NUMBER
-  COUNTER,
   NUMBER,
   CURRENCY,
 
@@ -84,7 +81,7 @@ class BeInputController extends StatefulWidget {
 
 
   BeInputController({
-    this.controller, 
+    this.controller,
     this.width,
     this.height,
     this.fulwidth = true,
@@ -125,8 +122,7 @@ class BeInputController extends StatefulWidget {
     this.suffixIconColor,
     this.cursorColor,
     this.focusNode
-    // this.emailvalidator = false,
-    // this.phoneValidator = false,
+
   });
 
   @override
@@ -187,7 +183,7 @@ class _BeInputControllerState extends State<BeInputController> {
         keyboardType: defineTypeInput(widget.typeInput),
         maxLines: widget.keyboardType == TextInputType.multiline ? null : 1,
         cursorColor: widget.cursorColor !=  null ? widget.cursorColor : Theme.of(context).colorScheme.secondary,
-        decoration: new InputDecoration(
+        decoration: InputDecoration(
           prefix: widget.prefix != null ? widget.prefix : null,
           border: widget.showBorder && widget.borderRadius == null ? null : 
           OutlineInputBorder(
@@ -200,9 +196,7 @@ class _BeInputControllerState extends State<BeInputController> {
           fillColor: widget.fillColor != null ? widget.fillColor : null,
           filled: widget.fillColor != null ? true : false,
           suffix: widget.suffix,
-          
-          
-          suffixIcon:  widget.suffixIcon != null && (widget.typeInput == TypeInput.PASSWORD || widget.typeInput == TypeInput.COUNTER || widget.typeInput == TypeInput.DATE || widget.typeInput == TypeInput.TIME || widget.typeInput == TypeInput.NUMBER || widget.typeInput == TypeInput.CURRENCY || widget.typeInput == TypeInput.CEP || widget.typeInput == TypeInput.EMAIL) ?
+          suffixIcon:  widget.suffixIcon != null && (widget.typeInput == TypeInput.PASSWORD || widget.typeInput == TypeInput.DATE || widget.typeInput == TypeInput.TIME || widget.typeInput == TypeInput.NUMBER || widget.typeInput == TypeInput.CURRENCY || widget.typeInput == TypeInput.CEP || widget.typeInput == TypeInput.EMAIL) ?
           Padding(
             padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
             child: IconButton(
@@ -215,8 +209,7 @@ class _BeInputControllerState extends State<BeInputController> {
             padding: widget.sufixIconpadding != null ? widget.sufixIconpadding! : EdgeInsets.fromLTRB(0, 10, 0, 0),
             child: Icon(widget.suffixIcon, size: 20, color: widget.suffixIconColor != null ? widget.suffixIconColor : null),
           ) : null,
-          
-          prefixIcon:  widget.prefixIcon != null && (widget.typeInput == TypeInput.COUNTER || widget.typeInput == TypeInput.DATE || widget.typeInput == TypeInput.TIME || widget.typeInput == TypeInput.NUMBER || widget.typeInput == TypeInput.CURRENCY || widget.typeInput == TypeInput.CEP) ?
+          prefixIcon:  widget.prefixIcon != null && (widget.typeInput == TypeInput.DATE || widget.typeInput == TypeInput.TIME || widget.typeInput == TypeInput.NUMBER || widget.typeInput == TypeInput.CURRENCY || widget.typeInput == TypeInput.CEP) ?
           IconButton(
             icon: Icon(widget.prefixIcon),
               // color: widget.iconColor != null ? widget.iconColor : null,
@@ -306,7 +299,7 @@ class _BeInputControllerState extends State<BeInputController> {
   }
 
   TextInputType? defineTypeInput(TypeInput? typeInput){
-    if(typeInput == TypeInput.TIME || typeInput == TypeInput.MMYY || typeInput == TypeInput.MMYYYY || typeInput == TypeInput.DATE || typeInput == TypeInput.CREDIT_CARD || typeInput == TypeInput.CPF || typeInput == TypeInput.CNPJ || typeInput == TypeInput.CEP || typeInput == TypeInput.BR_TEL || typeInput == TypeInput.COUNTER || typeInput == TypeInput.CURRENCY || widget.typeInput == TypeInput.NUMBER){
+    if(typeInput == TypeInput.TIME || typeInput == TypeInput.MMYY || typeInput == TypeInput.MMYYYY || typeInput == TypeInput.DATE || typeInput == TypeInput.CREDIT_CARD || typeInput == TypeInput.CPF || typeInput == TypeInput.CNPJ || typeInput == TypeInput.CEP || typeInput == TypeInput.BR_TEL || typeInput == TypeInput.CURRENCY || widget.typeInput == TypeInput.NUMBER){
       return TextInputType.number;
     }else if(typeInput == TypeInput.EMAIL){
       return TextInputType.emailAddress;
