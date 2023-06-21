@@ -73,16 +73,16 @@ class ApiServices {
     ApiResponseModel responseModel = ApiResponseModel();
     String? _userAgent = await BeDevicesInfo().getDevicesInfo();
     
-    headers['User-Agent'] = _userAgent;
     if(typeBody != TypeBody.FORMDATA){
       headers['Accept'] = 'application/json';
       headers['Content-Type'] = 'application/json';
     }
 
+    if(!kIsWeb)headers['User-Agent'] = _userAgent;
     if(typeBody == TypeBody.FORMDATA)headers['Accept'] = '*/*';
     if(typeHeader == TypeHeader.TOKEN && apiConfig != null)headers['Authorization'] = apiConfig.token;
-    if(kIsWeb && typeHeader == TypeHeader.SESSIONID && apiConfig != null)headers['Cookie'] = 'sessionid=${apiConfig.token}';
-
+    if(kIsWeb)dio.options.extra['withCredentials'] = true;
+    
     dio.options.baseUrl = apiConfig != null && apiConfig.baseUrl != null && apiConfig.baseUrl != '' ? '${apiConfig.baseUrl}/' : '$baseUrl/';
     dio.options.headers = headers;
     dio.options.method = ApiHelpers.defineMethod(method);
