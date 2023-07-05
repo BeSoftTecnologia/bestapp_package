@@ -135,11 +135,11 @@ class ApiServices {
           'message': 'Sucesso!'
         };
       }
-    } on DioError catch (err) {
+    } on DioException catch (err) {
       // Faz a copia do response original
       responseModel.response = err.response;
       switch (err.type) {
-        case DioErrorType.badResponse:
+        case DioExceptionType.badResponse:
           /*
             No retorno das mensagem json sempre vai ter a chave `message` no json Quando o tipo da mensagem nao e definido
             Para usar a mensagem padrao do usuario ou do proveedor Precisa validar os if no caso que tipo de retorne err.
@@ -178,26 +178,25 @@ class ApiServices {
             responseModel.data = ApiHelpers.messageTag(err.response?.data, 'Unknow Status');
           }
           break;
-        case DioErrorType.badCertificate:
+        case DioExceptionType.badCertificate:
           responseModel.isServerError = true;
           responseModel.data = ApiHelpers.messageTag(err.response?.data, 'Certificado invalido, tente mais tarde');
           break;
-        case DioErrorType.connectionTimeout:
-        case DioErrorType.sendTimeout:
-        case DioErrorType.receiveTimeout:
+        case DioExceptionType.connectionTimeout:
+        case DioExceptionType.receiveTimeout:
           responseModel.isServerError = true;
           responseModel.data = ApiHelpers.messageTag(err.response?.data, 'Timeout: O tempo limite foi atingido');
           break;
-        case DioErrorType.cancel:
+        case DioExceptionType.cancel:
           responseModel.isClientError = true;
           responseModel.data = ApiHelpers.messageTag(err.response?.data, 'Requisição cancelada');
           break;
-        case DioErrorType.connectionError:
+        case DioExceptionType.connectionError:
           responseModel.isClientError = true;
           responseModel.isServerError = true;
           responseModel.data = ApiHelpers.messageTag(err.response?.data, 'Alguma coisa deu errado `xhr.onError`. Se o erro persistir, entre em contato com o suporte.');
           break;
-        case DioErrorType.unknown:
+        case DioExceptionType.unknown:
           responseModel.isNotConected = true;
           responseModel.data = ApiHelpers.messageTag(err.response?.data, 'Alguma coisa deu errado!\nProvavelmente você não está conectado à internet.');
           break;
