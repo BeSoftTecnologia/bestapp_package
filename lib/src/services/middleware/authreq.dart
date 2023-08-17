@@ -4,6 +4,7 @@ import 'package:bestapp_package/src/services/nav_services.dart';
 import 'package:bestapp_package/src/utils/helpers/api_helpers.dart';
 import 'package:dio/dio.dart';
 
+@Deprecated('Não e mais usado para nada')
 class AuthManager extends Interceptor {
   final AuthRequired authRequired;
   AuthManager(this.authRequired);
@@ -17,8 +18,8 @@ class AuthManager extends Interceptor {
   }
 
   @override
-  void onError(DioError err, ErrorInterceptorHandler handler) {
-    if (err.type == DioErrorType.badResponse){
+  void onError(DioException err, ErrorInterceptorHandler handler) {
+    if (err.type == DioExceptionType.badResponse){
       bool isUnauthorized = ApiHelpers.isUnauthorized(err.response!.statusCode);
       // Default auth controle login
       if(isUnauthorized && (authRequired.type == AuthRequiredType.DEFAULT)){

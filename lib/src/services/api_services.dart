@@ -15,6 +15,7 @@ class ApiResponseModel {
   bool isServerError;
   bool isAuthorized;
   bool isNotConected;
+  int? statusCode;
   Response? response;
   Map<String, dynamic> data;
 
@@ -26,6 +27,7 @@ class ApiResponseModel {
     this.isServerError = false,
     this.isAuthorized = false,
     this.isNotConected = false,
+    this.statusCode,
     this.data = const {},
     this.response
   });
@@ -112,6 +114,7 @@ class ApiServices {
       if(showLogs) ApiHelpers.logsRequest(responseResult, 'REQUEST SUCCESSFULL :)');
       responseModel.response = responseResult;
       responseModel.isAuthorized = true;
+      responseModel.statusCode = responseResult.statusCode;
       responseModel.isSuccess = ApiHelpers.isSuccess(responseResult.statusCode);
       if(authRequired != null)authRequired(responseModel.isAuthorized);
 
@@ -150,7 +153,7 @@ class ApiServices {
             pode usar uma de essas flags para validar. EX.: if (isClientError) enves de if(err.response?.statusCode == 400)
           */
           if(showLogs) ApiHelpers.logsRequest(err.response!, 'REQUEST ERROR :(');
-          
+          responseModel.statusCode = err.response?.statusCode;
           if(ApiHelpers.isClientError(err.response?.statusCode)){
             responseModel.isClientError = true;
             // Verifica se o usuario esta autenticado
@@ -202,7 +205,6 @@ class ApiServices {
           break;
         default:
           responseModel.data = ApiHelpers.messageTag(err.response?.data, 'Alguma coisa deu errado. Se o erro persistir, entre em contato com o suporte.');
-
       }
     }
     return responseModel;

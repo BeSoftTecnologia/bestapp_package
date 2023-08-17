@@ -14,7 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 enum TypeInput {
-  NONE,
+  DEFAULT,
   PASSWORD,
   EMAIL,
   NUMBER,
@@ -29,6 +29,7 @@ enum TypeInput {
   MMYY,
   MMYYYY,
   DATE,
+  CVV,
   TIME
 }
 
@@ -294,17 +295,27 @@ class _BeInputControllerState extends State<BeInputController> {
         CurrencyInputFormatter(showprefix: true)
       ];
     }
+    else if(typeInput == TypeInput.CVV){
+      return [
+        FilteringTextInputFormatter.digitsOnly,
+        LengthLimitingTextInputFormatter(3),
+      ];
+    }
     // retorno o widget defaut que pode seu utilizado pelo usuario se quize
     else return widget.inputFormatters;
   }
 
   TextInputType? defineTypeInput(TypeInput? typeInput){
-    if(typeInput == TypeInput.TIME || typeInput == TypeInput.MMYY || typeInput == TypeInput.MMYYYY || typeInput == TypeInput.DATE || typeInput == TypeInput.CREDIT_CARD || typeInput == TypeInput.CPF || typeInput == TypeInput.CNPJ || typeInput == TypeInput.CEP || typeInput == TypeInput.BR_TEL || typeInput == TypeInput.CURRENCY || widget.typeInput == TypeInput.NUMBER){
-      return TextInputType.number;
-    }else if(typeInput == TypeInput.EMAIL){
-      return TextInputType.emailAddress;
-    }
-    // retorno o widget defaut que pode seu utilizado pelo usuario se quize
-    else return widget.keyboardType;
+    if(typeInput == null)return widget.keyboardType;
+    if(typeInput == TypeInput.EMAIL || typeInput == TypeInput.DEFAULT)return TextInputType.emailAddress;
+    return TextInputType.number;
+    // Last codigo
+    // if(typeInput == TypeInput.TIME || typeInput == TypeInput.MMYY || typeInput == TypeInput.MMYYYY || typeInput == TypeInput.DATE || typeInput == TypeInput.CREDIT_CARD || typeInput == TypeInput.CPF || typeInput == TypeInput.CNPJ || typeInput == TypeInput.CEP || typeInput == TypeInput.BR_TEL || typeInput == TypeInput.CURRENCY || widget.typeInput == TypeInput.NUMBER){
+    //   return TextInputType.number;
+    // }else if(typeInput == TypeInput.EMAIL){
+    //   return TextInputType.emailAddress;
+    // }
+    // // retorno o widget defaut que pode seu utilizado pelo usuario se quize
+    // else return widget.keyboardType;
   }
 }

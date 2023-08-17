@@ -18,13 +18,13 @@ class BestappUtils {
   }
 
   /// Formatar resultado String no valor em real com o simbolo `R$`
-  static String formatCurrencyPTBR({required String value, bool compact = false}) {
+  static String formatCurrencyPTBR({required String value, bool compact = false, bool prefix = false}) {
     assert(value.isNotEmpty);
     double temp = double.parse(value);
     if(compact){
-      return NumberFormat.compactCurrency(symbol: "R\$", decimalDigits: 2, locale: "pt-br").format(temp).toString();
+      return NumberFormat.compactCurrency(symbol: prefix ? "R\$" : "", decimalDigits: 2, locale: "pt-br").format(temp).toString();
     }else{
-      return NumberFormat.currency(symbol: "R\$", decimalDigits: 2, locale: "pt-br").format(temp).toString();
+      return NumberFormat.currency(symbol: prefix ? "R\$" : "", decimalDigits: 2, locale: "pt-br").format(temp).toString();
     }
   }
 
