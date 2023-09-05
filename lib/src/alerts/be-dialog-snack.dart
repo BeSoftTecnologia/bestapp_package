@@ -23,7 +23,7 @@ void beDialogSnack({
     context: context, 
     duration: Duration(seconds: duration), 
     builder: (context, controller){
-      return Flash.bar(
+      return Flash(
         backgroundColor: DialogColorType.DEFAULT == dialogColorType ? Colors.black54 : 
         DialogColorType.DANGER == dialogColorType ? Colors.red[400] :
         DialogColorType.SUCESS == dialogColorType ? Colors.green[400] : 
