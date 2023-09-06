@@ -1,6 +1,7 @@
 import 'package:bestapp_package/src/formatters/br_telefone_input_formatter.dart';
 import 'package:bestapp_package/src/formatters/cep_input_formatter.dart';
 import 'package:bestapp_package/src/formatters/cnpj_input_formatter.dart';
+import 'package:bestapp_package/src/formatters/cpf_cnpj_input_formatter.dart';
 import 'package:bestapp_package/src/formatters/cpf_input_formatter.dart';
 import 'package:bestapp_package/src/formatters/credit_card_formatter.dart';
 import 'package:bestapp_package/src/formatters/currency_input_formatter.dart';
@@ -23,6 +24,7 @@ enum TypeInput {
   // brasil
   CPF,
   CNPJ,
+  CPFCNPJ,
   CEP,
   BR_TEL,
   CREDIT_CARD,
@@ -155,6 +157,11 @@ class _BeInputControllerState extends State<BeInputController> {
           if (!CNPJ.isValid(value) && widget.validator && widget.typeInput == TypeInput.CNPJ) {
             return 'CNPJ inválido!';
           }
+          if (!CPF.isValid(value) && widget.validator && widget.typeInput == TypeInput.CPFCNPJ && value.length <= 14) {
+            return 'CPF inválido!';
+          } else if (!CNPJ.isValid(value) && widget.validator && widget.typeInput == TypeInput.CPFCNPJ && value.length >= 15) {
+            return 'CNPJ inválido!';
+          }
           if (!isEmail(value) && !isPhone(value) && widget.emailPhoneValidator) {
             return 'Por favor, insira um e-mail ou número de telefone válido.';
           }
@@ -248,6 +255,12 @@ class _BeInputControllerState extends State<BeInputController> {
       return [
         FilteringTextInputFormatter.digitsOnly,
         CnpjInputFormatter()
+      ];
+    }
+    else if(typeInput == TypeInput.CPFCNPJ){
+      return [
+        FilteringTextInputFormatter.digitsOnly,
+        CpfCnpjInputFormatter()
       ];
     }
     else if(typeInput == TypeInput.CEP){
