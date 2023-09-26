@@ -20,6 +20,7 @@ enum TypeInput {
   EMAIL,
   NUMBER,
   CURRENCY,
+  DOUBLE,
 
   // brasil
   CPF,
@@ -204,7 +205,7 @@ class _BeInputControllerState extends State<BeInputController> {
           fillColor: widget.fillColor != null ? widget.fillColor : null,
           filled: widget.fillColor != null ? true : false,
           suffix: widget.suffix,
-          suffixIcon:  widget.suffixIcon != null && (widget.typeInput == TypeInput.PASSWORD || widget.typeInput == TypeInput.DATE || widget.typeInput == TypeInput.TIME || widget.typeInput == TypeInput.NUMBER || widget.typeInput == TypeInput.CURRENCY || widget.typeInput == TypeInput.CEP || widget.typeInput == TypeInput.EMAIL) ?
+          suffixIcon:  widget.suffixIcon != null && (widget.typeInput == TypeInput.PASSWORD || widget.typeInput == TypeInput.DATE || widget.typeInput == TypeInput.TIME || widget.typeInput == TypeInput.NUMBER || widget.typeInput == TypeInput.DOUBLE || widget.typeInput == TypeInput.CURRENCY || widget.typeInput == TypeInput.CEP || widget.typeInput == TypeInput.EMAIL) ?
           Padding(
             padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
             child: IconButton(
@@ -217,7 +218,7 @@ class _BeInputControllerState extends State<BeInputController> {
             padding: widget.sufixIconpadding != null ? widget.sufixIconpadding! : EdgeInsets.fromLTRB(0, 10, 0, 0),
             child: Icon(widget.suffixIcon, size: 20, color: widget.suffixIconColor != null ? widget.suffixIconColor : null),
           ) : null,
-          prefixIcon:  widget.prefixIcon != null && (widget.typeInput == TypeInput.DATE || widget.typeInput == TypeInput.TIME || widget.typeInput == TypeInput.NUMBER || widget.typeInput == TypeInput.CURRENCY || widget.typeInput == TypeInput.CEP) ?
+          prefixIcon:  widget.prefixIcon != null && (widget.typeInput == TypeInput.DATE || widget.typeInput == TypeInput.TIME || widget.typeInput == TypeInput.NUMBER || widget.typeInput == TypeInput.CURRENCY || widget.typeInput == TypeInput.CEP || widget.typeInput == TypeInput.DOUBLE) ?
           IconButton(
             icon: Icon(widget.prefixIcon),
               // color: widget.iconColor != null ? widget.iconColor : null,
@@ -306,6 +307,12 @@ class _BeInputControllerState extends State<BeInputController> {
       return [
         FilteringTextInputFormatter.digitsOnly,
         CurrencyInputFormatter(showprefix: true)
+      ];
+    }
+    else if(typeInput == TypeInput.DOUBLE){
+      return [
+        FilteringTextInputFormatter.digitsOnly,
+        CurrencyInputFormatter(showprefix: false)
       ];
     }
     else if(typeInput == TypeInput.CVV){
