@@ -24,22 +24,26 @@ void beDialogSnack({
     duration: Duration(seconds: duration), 
     builder: (context, controller){
       return Flash(
-        backgroundColor: DialogColorType.DEFAULT == dialogColorType ? Colors.black54 : 
-        DialogColorType.DANGER == dialogColorType ? Colors.red[400] :
-        DialogColorType.SUCESS == dialogColorType ? Colors.green[400] : 
-        DialogColorType.INFO == dialogColorType ? Colors.blue[400] :
-        DialogColorType.WARNING == dialogColorType ? Colors.orange[400] : Colors.black54,
         controller: controller,
-        barrierDismissible: barrierDismissible,
         position: dialogPosition == DialogPosition.TOP ? FlashPosition.top : FlashPosition.bottom,
-        boxShadows: kElevationToShadow[4],
-        horizontalDismissDirection: HorizontalDismissDirection.horizontal,
+        dismissDirections: [
+          FlashDismissDirection.startToEnd
+        ],
         forwardAnimationCurve: Curves.easeOutBack,
-        margin: DialogType.FLOATING == dialogType ? const EdgeInsets.all(20) : const EdgeInsets.all(0),
-        borderRadius: DialogType.FLOATING == dialogType ? const BorderRadius.all(Radius.circular(8)) : const BorderRadius.all(Radius.circular(0)),        
         child: FlashBar(
-        icon: Icon(Icons.info, color: Colors.white),
-        title: showTitle ? Text('Alert !') : null,
+          backgroundColor: DialogColorType.DEFAULT == dialogColorType ? Colors.black54 : 
+              DialogColorType.DANGER == dialogColorType ? Colors.red[400] :
+              DialogColorType.SUCESS == dialogColorType ? Colors.green[400] : 
+              DialogColorType.INFO == dialogColorType ? Colors.blue[400] :
+              DialogColorType.WARNING == dialogColorType ? Colors.orange[400] : Colors.black54,
+          elevation: 4,
+          shape: RoundedRectangleBorder(
+            borderRadius: DialogType.FLOATING == dialogType ? const BorderRadius.all(Radius.circular(8)) : const BorderRadius.all(Radius.circular(0))
+          ),
+          margin: DialogType.FLOATING == dialogType ? const EdgeInsets.all(20) : const EdgeInsets.all(0),
+          controller: controller,
+          icon: Icon(Icons.info, color: Colors.white),
+          title: showTitle ? Text('Alert !') : null,
           showProgressIndicator: showProgressIndicator,
           content: Text(message,
             style: TextStyle(
