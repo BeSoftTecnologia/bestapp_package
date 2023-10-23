@@ -24,8 +24,8 @@ dependencies:
   email_validator: ^2.1.17
   shimmer: ^2.0.0
   # Usado no shortstay web
-  # device_info_plus: ^9.0.2
-  device_info_plus: ^8.1.0
+  device_info_plus: ^9.0.2
+  # device_info_plus: ^8.1.0
   cookie_jar: ^3.0.1
   cpfcnpj:
     git:
