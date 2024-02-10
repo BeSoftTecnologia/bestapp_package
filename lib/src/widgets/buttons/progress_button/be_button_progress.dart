@@ -10,7 +10,9 @@ class BeButtonProgress extends StatelessWidget {
   final Widget? progressWidget;
   final Widget? defaultLabel;
   final Color? colorProgress;
+  final Color? textColor;
   final double radius;
+  final double? fontSize;
   final ProgressButtonType progressButtonType;
 
   BeButtonProgress({ Key? key, 
@@ -19,7 +21,9 @@ class BeButtonProgress extends StatelessWidget {
     this.enabled = true,
     this.progressWidget,
     this.bgColor,
+    this.fontSize,
     this.colorProgress,
+    this.textColor,
     this.radius=20,
     this.defaultLabel,
     this.progressButtonType = ProgressButtonType.Raised,
@@ -39,7 +43,10 @@ class BeButtonProgress extends StatelessWidget {
           label,
           textScaleFactor: 1.0,
           textAlign: TextAlign.center, 
-          style: Theme.of(context).textTheme.button
+          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+            color: textColor,
+            fontSize: fontSize 
+          )
         ),
         progressWidget: progressWidget != null ? progressWidget : CircularProgressIndicator(
           valueColor: colorProgress != null ? AlwaysStoppedAnimation<Color?>(colorProgress) :  AlwaysStoppedAnimation<Color>(Colors.white)

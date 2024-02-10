@@ -66,18 +66,26 @@ class BebuttonIcon extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
                 Icon(icon, color: iconColor, size: iconSize),
-                SizedBox(width: 5),
-                textLabel(),
-                SizedBox(width: 5),
-                Icon(iconRight, color: iconColor, size: iconSize)
+                
+                if(text != null)
+                  SizedBox(width: 5),
+                if(text != null)
+                  textLabel(),
+                if(text != null)
+                  SizedBox(width: 5),
+                
+                if(iconRight != null)
+                  Icon(iconRight, color: iconColor, size: iconSize)
             ]
           ) : Row(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Icon(icon, color: iconColor, size: iconSize),
-              SizedBox(width: 5),
-              textLabel()
+              if(text != null)
+                SizedBox(width: 5),
+              if(text != null)
+                textLabel()
             ]
           )
         // icon: Icon(icon),
@@ -101,8 +109,8 @@ class BebuttonIcon extends StatelessWidget {
     );
   }
   Widget textLabel(){
-    return Text(text != null ? text! : '',
-      textScaleFactor: 1.0,
+    if(text == null)return Text('');
+    return Text('$text',
       style: textStyle != null ? textStyle : TextStyle(
         fontSize: 16,
         fontWeight: FontWeight.bold

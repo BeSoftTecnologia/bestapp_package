@@ -213,7 +213,8 @@ class _BeInputControllerState extends State<BeInputController> {
               iconSize: 20, 
               color: widget.suffixIconColor != null ? widget.suffixIconColor : null,
               onPressed: widget.onSuffixTap as void Function()?
-            )) : widget.suffixIcon != null ? 
+            )
+          ) : widget.suffixIcon != null ? 
           Padding(
             padding: widget.sufixIconpadding != null ? widget.sufixIconpadding! : EdgeInsets.fromLTRB(0, 10, 0, 0),
             child: Icon(widget.suffixIcon, size: 20, color: widget.suffixIconColor != null ? widget.suffixIconColor : null),
