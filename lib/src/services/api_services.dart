@@ -209,4 +209,22 @@ class ApiServices {
     }
     return responseModel;
   }
+
+
+  dowloadFile({
+    required String urlPath,
+    required String savePath,
+    void Function(int, int)? onReceiveProgress,
+  }) async {
+    try {
+      var result = await dio.download(
+        urlPath,
+        savePath,
+        onReceiveProgress: onReceiveProgress
+      );
+      debugPrint('$result');
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+  }
 }
