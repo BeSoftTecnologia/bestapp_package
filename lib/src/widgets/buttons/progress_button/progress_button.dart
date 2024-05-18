@@ -39,8 +39,7 @@ class ProgressButton extends StatefulWidget {
   _ProgressButtonState createState() => _ProgressButtonState();
 }
 
-class _ProgressButtonState extends State<ProgressButton>
-    with TickerProviderStateMixin {
+class _ProgressButtonState extends State<ProgressButton> with TickerProviderStateMixin {
   GlobalKey _globalKey = GlobalKey();
   late Animation _anim;
   AnimationController? _animController;
