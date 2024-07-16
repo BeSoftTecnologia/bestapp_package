@@ -328,7 +328,7 @@ class _BeInputControllerState extends State<BeInputController> {
 
   TextInputType? defineTypeInput(TypeInput? typeInput){
     if(typeInput == null)return widget.keyboardType;
-    if(typeInput == TypeInput.EMAIL || typeInput == TypeInput.DEFAULT)return TextInputType.emailAddress;
+    if(typeInput == TypeInput.EMAIL|| typeInput == TypeInput.PASSWORD || typeInput == TypeInput.DEFAULT)return TextInputType.emailAddress;
     return TextInputType.number;
     // Last codigo
     // if(typeInput == TypeInput.TIME || typeInput == TypeInput.MMYY || typeInput == TypeInput.MMYYYY || typeInput == TypeInput.DATE || typeInput == TypeInput.CREDIT_CARD || typeInput == TypeInput.CPF || typeInput == TypeInput.CNPJ || typeInput == TypeInput.CEP || typeInput == TypeInput.BR_TEL || typeInput == TypeInput.CURRENCY || widget.typeInput == TypeInput.NUMBER){

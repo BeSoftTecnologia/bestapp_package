@@ -83,7 +83,7 @@ class ApiServices {
     if(!kIsWeb)headers['User-Agent'] = _userAgent;
     if(typeBody == TypeBody.FORMDATA)headers['Accept'] = '*/*';
     if(typeHeader == TypeHeader.TOKEN && apiConfig != null)headers['Authorization'] = apiConfig.token;
-    // if(kIsWeb)dio.options.extra['withCredentials'] = true;
+    if(kIsWeb)dio.options.extra['withCredentials'] = true;
     
     dio.options.baseUrl = apiConfig != null && apiConfig.baseUrl != null && apiConfig.baseUrl != '' ? '${apiConfig.baseUrl}/' : '$baseUrl/';
     dio.options.headers = headers;
