@@ -3,8 +3,6 @@ import 'dart:convert';
 import 'package:bestapp_package/bestapp_package.dart';
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-
 export 'package:bestapp_package/src/models/api_config.dart';
 
 class ApiResponseModel {
@@ -68,8 +66,9 @@ class ApiServices {
     void Function(int, int)? onSendProgress,
     TypeBody typeBody = TypeBody.JSON,
     TypeHeader typeHeader = TypeHeader.SESSIONID,
+    //pode ser traduzido como interceptors
+    List<InterceptorsWrapper>? middlewares, 
     ApiConfig? apiConfig,
-    ValueChanged<bool>? authRequired
   }) async {
     Map<String, dynamic> headers = {};
     ApiResponseModel responseModel = ApiResponseModel();
@@ -103,7 +102,11 @@ class ApiServices {
         );
       }
     }
-    
+
+    if(middlewares != null && middlewares.isNotEmpty){
+      dio.interceptors.addAll(middlewares);
+    }
+
     try {
       Response responseResult = await dio.request(
         rota,
@@ -116,7 +119,6 @@ class ApiServices {
       responseModel.isAuthorized = true;
       responseModel.statusCode = responseResult.statusCode;
       responseModel.isSuccess = ApiHelpers.isSuccess(responseResult.statusCode);
-      if(authRequired != null)authRequired(responseModel.isAuthorized);
 
       if(responseResult.data is Map){
         responseModel.data = responseResult.data;
@@ -156,11 +158,10 @@ class ApiServices {
           responseModel.statusCode = err.response?.statusCode;
           if(ApiHelpers.isClientError(err.response?.statusCode)){
             responseModel.isClientError = true;
+        
             // Verifica se o usuario esta autenticado
             if(ApiHelpers.isUnauthorized(err.response?.statusCode)){
               responseModel.isAuthorized = false;
-              // Se receber o parametro de autenticacao obrigatoria ele retorna isso em algum middle para tratamento no frontend
-              if(authRequired != null)authRequired(responseModel.isAuthorized);
               responseModel.data = ApiHelpers.messageTag(err.response?.data, 'As credenciais de autenticação não foram fornecidas.');
             }else{
               responseModel.data = ApiHelpers.messageTag(err.response?.data, 'Não foi possível completar sua consulta.');
