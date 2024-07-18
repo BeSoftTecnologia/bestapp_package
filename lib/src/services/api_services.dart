@@ -1,40 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:bestapp_package/bestapp_package.dart';
+import 'package:bestapp_package/src/models/api_response.dart';
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:flutter/foundation.dart';
 export 'package:bestapp_package/src/models/api_config.dart';
 
-class ApiResponseModel {
-  bool isInformational;
-  bool isSuccess;
-  bool isRedirect;
-  bool isClientError;
-  bool isServerError;
-  bool isAuthorized;
-  bool isNotConected;
-  int? statusCode;
-  Response? response;
-  Map<String, dynamic> data;
 
-  ApiResponseModel({
-    this.isInformational = false,
-    this.isSuccess = false,
-    this.isRedirect  = false,
-    this.isClientError = false,
-    this.isServerError = false,
-    this.isAuthorized = false,
-    this.isNotConected = false,
-    this.statusCode,
-    this.data = const {},
-    this.response
-  });
-
-  @override
-  String toString() {
-    return 'ApiResponseModel(isInformational: $isInformational, isSuccess: $isSuccess, isRedirect: $isRedirect, isClientError: $isClientError, isServerError: $isServerError, isAuthorized: $isAuthorized, isNotConected: $isNotConected, response: $response, data: $data)';
-  }
-}
 /*
   ******** Msg Error ********
   Erro ao sincronizar com o servidor!\nProvavelmente você não está conectado à internet.
@@ -50,12 +22,12 @@ class ApiServices {
     se usar o parametro apiConfig dentro do callAPi ele desconsidera esa variavel.
   */
   final String? baseUrl;
-  final bool showLogs;
+  final ApiLogs? showLogs;
   final Dio dio = Dio();
   
   ApiServices({
     this.baseUrl,
-    this.showLogs=false
+    this.showLogs
   });
 
   Future<ApiResponseModel> callApi({
@@ -66,9 +38,10 @@ class ApiServices {
     void Function(int, int)? onSendProgress,
     TypeBody typeBody = TypeBody.JSON,
     TypeHeader typeHeader = TypeHeader.SESSIONID,
-    //pode ser traduzido como interceptors
     List<InterceptorsWrapper>? middlewares, 
+    ValueChanged<bool>? authRequired,
     ApiConfig? apiConfig,
+    ApiLogs? customLog,
   }) async {
     Map<String, dynamic> headers = {};
     ApiResponseModel responseModel = ApiResponseModel();
@@ -106,7 +79,23 @@ class ApiServices {
     if(middlewares != null && middlewares.isNotEmpty){
       dio.interceptors.addAll(middlewares);
     }
-
+    
+    if(customLog != null){
+      dio.interceptors.add(customLog);
+    }else{
+      if(showLogs != null){
+        dio.interceptors.add(showLogs ?? ApiLogs(
+          request: true,
+          requestHeader: true,
+          responseHeader: false,
+          requestBody: false,
+          responseBody: true,
+          error: true,
+          logPrint: (o) => debugPrint('${o.toString()}'),
+        ));
+      }
+    }
+    
     try {
       Response responseResult = await dio.request(
         rota,
@@ -114,7 +103,7 @@ class ApiServices {
         data: typeBody == TypeBody.FORMDATA ? FormData.fromMap(payload!) : payload,
         queryParameters: params
       );
-      if(showLogs) ApiHelpers.logsRequest(responseResult, 'REQUEST SUCCESSFULL :)');
+      // if(showLogs) ApiHelpers.logsRequest(responseResult, 'REQUEST SUCCESSFULL :)');
       responseModel.response = responseResult;
       responseModel.isAuthorized = true;
       responseModel.statusCode = responseResult.statusCode;
@@ -154,7 +143,7 @@ class ApiServices {
             enves de usar statusCode para verificar se o retorno de json for sucesso ou erro
             pode usar uma de essas flags para validar. EX.: if (isClientError) enves de if(err.response?.statusCode == 400)
           */
-          if(showLogs) ApiHelpers.logsRequest(err.response!, 'REQUEST ERROR :(');
+          // if(showLogs) ApiHelpers.logsRequest(err.response!, 'REQUEST ERROR :(');
           responseModel.statusCode = err.response?.statusCode;
           if(ApiHelpers.isClientError(err.response?.statusCode)){
             responseModel.isClientError = true;

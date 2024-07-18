@@ -5,6 +5,9 @@ export 'src/services/api_services.dart';
 export 'src/services/nav_services.dart';
 export 'src/services/middleware/authreq.dart';
 export 'src/services/middleware/cookies.dart';
+export 'src/services/middleware/api_logs.dart';
+export 'src/models/api_response.dart';
+
 
 // Widget
 export 'src/widgets/cards/be-card-selected.dart';
