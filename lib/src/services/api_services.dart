@@ -24,10 +24,12 @@ class ApiServices {
   final String? baseUrl;
   final ApiLogs? showLogs;
   final Dio dio = Dio();
+  final List<InterceptorsWrapper>? middlewares; 
   
   ApiServices({
     this.baseUrl,
-    this.showLogs
+    this.showLogs,
+    this.middlewares
   });
 
   Future<ApiResponseModel> callApi({
@@ -38,7 +40,7 @@ class ApiServices {
     void Function(int, int)? onSendProgress,
     TypeBody typeBody = TypeBody.JSON,
     TypeHeader typeHeader = TypeHeader.SESSIONID,
-    List<InterceptorsWrapper>? middlewares, 
+    List<InterceptorsWrapper>? middlewaresClass, 
     ValueChanged<bool>? authRequired,
     ApiConfig? apiConfig,
     ApiLogs? customLog,
@@ -76,8 +78,15 @@ class ApiServices {
       }
     }
 
-    if(middlewares != null && middlewares.isNotEmpty){
-      dio.interceptors.addAll(middlewares);
+    // middlewares geral, serve para todas as requisicoes do solicitado
+    if(middlewaresClass != null && middlewaresClass.isNotEmpty){
+      dio.interceptors.addAll(middlewaresClass);
+    }
+    
+
+    // para ignoarar os middlewares geral, basta informar uma lista vazio para `middlewaresClass` que vai resolver
+    if(middlewares != null && middlewaresClass == null){
+      dio.interceptors.addAll(middlewares ?? []);
     }
     
     if(customLog != null){
