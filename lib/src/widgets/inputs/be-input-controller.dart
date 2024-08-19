@@ -137,9 +137,26 @@ class _BeInputControllerState extends State<BeInputController> {
   
   bool isEmail(String input) => EmailValidator.validate(input);
 
-  bool isPhone(String input) => RegExp(
-    r'^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$'
-  ).hasMatch(input);
+  // bool isPhone(String input) => RegExp(
+  //   r'^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$'
+  // ).hasMatch(input);
+
+  bool isPhoneNumberValid(String phone) {
+    // Verifica se o número de telefone tem pelo menos 11 dígitos
+    var phoneNumber = phone.replaceAll(RegExp(r'[^0-9]'), '');
+    if (phoneNumber.length < 11) {
+      return false;
+    }
+
+    // Remove caracteres não numéricos do número de telefone
+    final cleanPhoneNumber = phoneNumber.replaceAll(RegExp(r'[^0-9]'), '');
+
+    // Verifica se o número de telefone limpo tem exatamente 11 dígitos (padrão para números de telefone no Brasil)
+    if (cleanPhoneNumber.length != 11) {
+      return false;
+    }
+    return true;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -163,14 +180,14 @@ class _BeInputControllerState extends State<BeInputController> {
           } else if (!CNPJ.isValid(value) && widget.validator && widget.typeInput == TypeInput.CPFCNPJ && value.length >= 15) {
             return 'CNPJ inválido!';
           }
-          if (!isEmail(value) && !isPhone(value) && widget.emailPhoneValidator) {
+          if (!isEmail(value) && !isPhoneNumberValid(value) && widget.emailPhoneValidator) {
             return 'Por favor, insira um e-mail ou número de telefone válido.';
           }
           if (!isEmail(value.trim()) && widget.validator && widget.typeInput == TypeInput.EMAIL) {
             return 'E-mail inválido.';
           }
-          if (!isPhone(value) && widget.validator && widget.typeInput == TypeInput.BR_TEL) {
-            return 'Insira um telefone válido!.';
+          if (!isPhoneNumberValid(value) && widget.validator && widget.typeInput == TypeInput.BR_TEL) {
+            return 'Insira um telefone válido!';
           }
           return null;
         },
