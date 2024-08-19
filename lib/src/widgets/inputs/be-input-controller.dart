@@ -169,6 +169,9 @@ class _BeInputControllerState extends State<BeInputController> {
           if (!isEmail(value.trim()) && widget.validator && widget.typeInput == TypeInput.EMAIL) {
             return 'E-mail inválido.';
           }
+          if (!isPhone(value) && widget.validator && widget.typeInput == TypeInput.BR_TEL) {
+            return 'Insira um telefone válido!.';
+          }
           return null;
         },
         onChanged: widget.onChanged,
