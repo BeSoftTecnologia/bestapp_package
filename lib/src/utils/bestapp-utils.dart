@@ -12,7 +12,8 @@ class BestappUtils {
 
   /// Converter o valor de uma String com `R$`
   static double converterMoedaParaDouble(String valor) {
-    assert(valor.isNotEmpty);
+    // assert(valor.isNotEmpty);
+    if(valor.isNotEmpty) return 0;
     final value = double.tryParse(valor.replaceAll('R\$', '').replaceAll('.', '').replaceAll(',', '.'));
     return value ?? 0;
   }
