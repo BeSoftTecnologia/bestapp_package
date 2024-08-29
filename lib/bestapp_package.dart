@@ -8,7 +8,6 @@ export 'src/services/middleware/cookies.dart';
 export 'src/services/middleware/api_logs.dart';
 export 'src/models/api_response.dart';
 
-
 // Widget
 export 'src/widgets/cards/be-card-selected.dart';
 export 'src/widgets/component/be-separate.dart';
@@ -78,3 +77,4 @@ export 'package:dio/dio.dart';
 export 'package:email_validator/email_validator.dart';
 export 'package:pull_to_refresh/pull_to_refresh.dart';
 export 'package:cached_network_image/cached_network_image.dart';
+export 'package:pretty_dio_logger/pretty_dio_logger.dart';

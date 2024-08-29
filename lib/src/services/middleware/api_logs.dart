@@ -21,6 +21,7 @@ import 'package:bestapp_package/bestapp_package.dart';
 ///   ),
 /// );
 /// ```
+@deprecated
 class ApiLogs extends Interceptor {
   ApiLogs({
     this.request = false,

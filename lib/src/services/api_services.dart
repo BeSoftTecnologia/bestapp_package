@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:bestapp_package/bestapp_package.dart';
-import 'package:bestapp_package/src/models/api_response.dart';
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:flutter/foundation.dart';
 export 'package:bestapp_package/src/models/api_config.dart';
@@ -22,7 +21,7 @@ class ApiServices {
     se usar o parametro apiConfig dentro do callAPi ele desconsidera esa variavel.
   */
   final String? baseUrl;
-  final ApiLogs? showLogs;
+  final PrettyDioLogger? showLogs;
   final Dio dio = Dio();
   final List<InterceptorsWrapper>? middlewares; 
   
@@ -40,10 +39,9 @@ class ApiServices {
     void Function(int, int)? onSendProgress,
     TypeBody typeBody = TypeBody.JSON,
     TypeHeader typeHeader = TypeHeader.SESSIONID,
-    List<InterceptorsWrapper>? middlewaresClass, 
-    ValueChanged<bool>? authRequired,
+    List<InterceptorsWrapper>? middlewaresClass,
     ApiConfig? apiConfig,
-    ApiLogs? customLog,
+    PrettyDioLogger? customLog,
   }) async {
     Map<String, dynamic> headers = {};
     ApiResponseModel responseModel = ApiResponseModel();
@@ -83,7 +81,6 @@ class ApiServices {
       dio.interceptors.addAll(middlewaresClass);
     }
     
-
     // para ignoarar os middlewares geral, basta informar uma lista vazio para `middlewaresClass` que vai resolver
     if(middlewares != null && middlewaresClass == null){
       dio.interceptors.addAll(middlewares ?? []);
@@ -93,14 +90,23 @@ class ApiServices {
       dio.interceptors.add(customLog);
     }else{
       if(showLogs != null){
-        dio.interceptors.add(showLogs ?? ApiLogs(
+        // dio.interceptors.add(showLogs ?? ApiLogs(
+        //   request: true,
+        //   requestHeader: true,
+        //   responseHeader: false,
+        //   requestBody: false,
+        //   responseBody: true,
+        //   error: true,
+        //   logPrint: (o) => debugPrint('${o.toString()}'),
+        // ));
+        dio.interceptors.add(showLogs ?? PrettyDioLogger(
           request: true,
           requestHeader: true,
           responseHeader: false,
           requestBody: false,
           responseBody: true,
           error: true,
-          logPrint: (o) => debugPrint('${o.toString()}'),
+          enabled: kDebugMode
         ));
       }
     }
