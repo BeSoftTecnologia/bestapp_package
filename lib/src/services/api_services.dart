@@ -91,15 +91,6 @@ class ApiServices {
       dio.interceptors.add(customLog);
     }else{
       if(showLogs != null){
-        // dio.interceptors.add(showLogs ?? ApiLogs(
-        //   request: true,
-        //   requestHeader: true,
-        //   responseHeader: false,
-        //   requestBody: false,
-        //   responseBody: true,
-        //   error: true,
-        //   logPrint: (o) => debugPrint('${o.toString()}'),
-        // ));
         dio.interceptors.add(showLogs ?? TalkerDioLogger(
           settings: TalkerDioLoggerSettings(
             printRequestData: true,
@@ -112,15 +103,6 @@ class ApiServices {
             printResponseMessage: true,
           ),
         ));
-        // dio.interceptors.add(showLogs ?? TalkerDioLoggerSettings(
-        //   request: true,
-        //   requestHeader: true,
-        //   responseHeader: false,
-        //   requestBody: false,
-        //   responseBody: true,
-        //   error: true,
-        //   enabled: kDebugMode
-        // ));
       }
     }
     
