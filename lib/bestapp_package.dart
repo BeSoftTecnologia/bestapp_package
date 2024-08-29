@@ -77,4 +77,4 @@ export 'package:dio/dio.dart';
 export 'package:email_validator/email_validator.dart';
 export 'package:pull_to_refresh/pull_to_refresh.dart';
 export 'package:cached_network_image/cached_network_image.dart';
-export 'package:pretty_dio_logger/pretty_dio_logger.dart';
+export 'package:talker_dio_logger/talker_dio_logger.dart';

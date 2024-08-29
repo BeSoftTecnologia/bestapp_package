@@ -16,7 +16,6 @@ dependencies:
     sdk: flutter
   dio: ^5.6.0
   talker_dio_logger: ^4.4.1
-  pretty_dio_logger: ^1.4.0
   intl: ^0.19.0
   toast: ^0.3.0
   flash: ^3.0.5+1

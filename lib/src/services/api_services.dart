@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:bestapp_package/bestapp_package.dart';
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:flutter/foundation.dart';
+import 'package:talker_dio_logger/talker_dio_logger.dart';
 export 'package:bestapp_package/src/models/api_config.dart';
 
 
@@ -21,7 +22,7 @@ class ApiServices {
     se usar o parametro apiConfig dentro do callAPi ele desconsidera esa variavel.
   */
   final String? baseUrl;
-  final PrettyDioLogger? showLogs;
+  final TalkerDioLogger? showLogs;
   final Dio dio = Dio();
   final List<InterceptorsWrapper>? middlewares; 
   
@@ -41,7 +42,7 @@ class ApiServices {
     TypeHeader typeHeader = TypeHeader.SESSIONID,
     List<InterceptorsWrapper>? middlewaresClass,
     ApiConfig? apiConfig,
-    PrettyDioLogger? customLog,
+    TalkerDioLogger? customLog,
   }) async {
     Map<String, dynamic> headers = {};
     ApiResponseModel responseModel = ApiResponseModel();
@@ -99,15 +100,27 @@ class ApiServices {
         //   error: true,
         //   logPrint: (o) => debugPrint('${o.toString()}'),
         // ));
-        dio.interceptors.add(showLogs ?? PrettyDioLogger(
-          request: true,
-          requestHeader: true,
-          responseHeader: false,
-          requestBody: false,
-          responseBody: true,
-          error: true,
-          enabled: kDebugMode
+        dio.interceptors.add(showLogs ?? TalkerDioLogger(
+          settings: TalkerDioLoggerSettings(
+            printRequestData: true,
+            printRequestHeaders: true,
+            printResponseHeaders: true,
+            printResponseData: false,
+            printErrorData: true,
+            printErrorHeaders: false,
+            printErrorMessage: true,
+            printResponseMessage: true,
+          ),
         ));
+        // dio.interceptors.add(showLogs ?? TalkerDioLoggerSettings(
+        //   request: true,
+        //   requestHeader: true,
+        //   responseHeader: false,
+        //   requestBody: false,
+        //   responseBody: true,
+        //   error: true,
+        //   enabled: kDebugMode
+        // ));
       }
     }
     
