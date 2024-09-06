@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'package:bestapp_package/bestapp_package.dart';
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:flutter/foundation.dart';
@@ -23,11 +24,12 @@ class ApiServices {
   */
   final String? baseUrl;
   final TalkerDioLogger? showLogs;
-  final Dio dio = Dio();
+  final bool withCredentials;
   final List<InterceptorsWrapper>? middlewares; 
   
   ApiServices({
     this.baseUrl,
+    this.withCredentials = false,
     this.showLogs,
     this.middlewares
   });
@@ -44,7 +46,14 @@ class ApiServices {
     ApiConfig? apiConfig,
     TalkerDioLogger? customLog,
   }) async {
+    final dio = Dio(
+      BaseOptions(
+        baseUrl: apiConfig != null && apiConfig.baseUrl != null && apiConfig.baseUrl != '' ? '${apiConfig.baseUrl}/' : '$baseUrl/',
+      )
+    );
+
     Map<String, dynamic> headers = {};
+    
     ApiResponseModel responseModel = ApiResponseModel();
     String? _userAgent = await BeDevicesInfo().getDevicesInfo();
     
@@ -53,18 +62,23 @@ class ApiServices {
       headers['Content-Type'] = 'application/json';
     }
 
-    if(!kIsWeb)headers['User-Agent'] = _userAgent;
+    if(!kIsWeb)headers[HttpHeaders.userAgentHeader] = _userAgent;
     if(typeBody == TypeBody.FORMDATA)headers['Accept'] = '*/*';
     if(typeHeader == TypeHeader.TOKEN && apiConfig != null)headers['Authorization'] = apiConfig.token;
-    if(kIsWeb)dio.options.extra['withCredentials'] = true;
+    // Esse parametro faz com que seja exigido cors ou seja quando esse para metro essa abilitade
+    // o controle de sessao no header dependera automaticamento do navegador onde o dominio do frontend tem que 
+    // igual ao dominio onde o backend sera liberado alem dos outros processo de permissao.
+    if(kIsWeb && withCredentials){
+      dio.options.extra['withCredentials'] = true;
+    }
     
-    dio.options.baseUrl = apiConfig != null && apiConfig.baseUrl != null && apiConfig.baseUrl != '' ? '${apiConfig.baseUrl}/' : '$baseUrl/';
     dio.options.headers = headers;
     dio.options.method = ApiHelpers.defineMethod(method);
     dio.options.responseType = ResponseType.json;
     dio.interceptors.clear();
 
     if(!kIsWeb){
+      // "cookie": "csrftoken=ayF3SmoYZFoNozyD3zX4SiCAgiqmXXhY; sessionid=x1rlu8rgahij30quvum83csgcs97dt9q"
       String cookiePath = await Appdirctory('cookies').getDirectory();
       if(typeHeader == TypeHeader.SESSIONID){
         dio.interceptors.add(
@@ -217,7 +231,7 @@ class ApiServices {
     void Function(int, int)? onReceiveProgress,
   }) async {
     try {
-      var result = await dio.download(
+      var result = await Dio().download(
         urlPath,
         savePath,
         onReceiveProgress: onReceiveProgress
