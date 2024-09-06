@@ -71,7 +71,7 @@ class ApiServices {
     if(kIsWeb && withCredentials){
       dio.options.extra['withCredentials'] = true;
     }
-    
+
     dio.options.headers = headers;
     dio.options.method = ApiHelpers.defineMethod(method);
     dio.options.responseType = ResponseType.json;
