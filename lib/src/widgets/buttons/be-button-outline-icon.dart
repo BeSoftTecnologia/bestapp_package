@@ -47,28 +47,28 @@ class BebuttonOutlineIcon extends StatelessWidget {
         width: large ? size.width : buttonwidth, 
         height: buttonheight != null ? buttonheight : 50
       ),
-        child: OutlinedButton.icon(                            
+      child: OutlinedButton.icon(                          
         style: ButtonStyle(
-          overlayColor: overlayColor != null && showOverlayColor ? MaterialStateProperty.all(overlayColor) : showOverlayColor ? MaterialStateProperty.all(Theme.of(context).primaryColor.withOpacity(0.1)) : null,
-          // backgroundColor: MaterialStateProperty.all(Theme.of(context).primaryColor),
-          side: buttomColor != null ? MaterialStateProperty.all(borderSide != null ? BorderSide(width: borderSide!, color: buttomColor!) : BorderSide(width: 1, color: buttomColor!)) : MaterialStateProperty.all(borderSide != null ? BorderSide(width: borderSide!, color: Theme.of(context).primaryColor) : BorderSide(width: 1, color: Theme.of(context).primaryColor)),
-          shape: MaterialStateProperty.all(
+          overlayColor: overlayColor != null && showOverlayColor ? WidgetStateProperty.all(overlayColor) : showOverlayColor ? WidgetStateProperty.all(Theme.of(context).primaryColor.withOpacity(0.1)) : null,
+          side: buttomColor != null ? WidgetStateProperty.all(borderSide != null ? BorderSide(width: borderSide!, color: buttomColor!) : BorderSide(width: 1, color: buttomColor!)) : WidgetStateProperty.all(borderSide != null ? BorderSide(width: borderSide!, color: Theme.of(context).primaryColor) : BorderSide(width: 1, color: Theme.of(context).primaryColor)),
+          shape: WidgetStateProperty.all(
             RoundedRectangleBorder(
               borderRadius: new BorderRadius.circular(borderRadius),
             )
           ),
-          shadowColor: shadowColor != null && showShadowColor ? MaterialStateProperty.all(shadowColor) : showShadowColor ? MaterialStateProperty.all(Theme.of(context).primaryColor) : null,
-          elevation: elevation != null ? MaterialStateProperty.all(elevation) : MaterialStateProperty.all(0.0)
+          shadowColor: shadowColor != null && showShadowColor ? WidgetStateProperty.all(shadowColor) : showShadowColor ? WidgetStateProperty.all(Theme.of(context).primaryColor) : null,
+          elevation: elevation != null ? WidgetStateProperty.all(elevation) : WidgetStateProperty.all(0.0)
         ),
         onPressed: onPressed as void Function()?, 
-        icon: Icon(icon, size: iconSize, color: iconColor),
-        label: Text(text != null ? text! : '',
-          style: textStyle != null ? textStyle
-          : TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold
-          ),
-        )
+        icon: text != null ? Icon(icon, size: iconSize, color: iconColor) : null,
+        label: text == null ? Icon(icon, size: iconSize, color: iconColor) :
+          Text(text != null ? text! : '',
+            style: textStyle != null ? textStyle
+            : TextStyle(
+              fontSize: 0,
+              fontWeight: FontWeight.bold
+            ),
+          )
       )
     );
   }
