@@ -53,7 +53,9 @@ class ApiServices {
       )
     );
 
-    Map<String, dynamic> headers = {};
+    Map<String, dynamic> headers = {
+      ...customHeader ?? {}
+    };
     
     ApiResponseModel responseModel = ApiResponseModel();
     String? _userAgent = await BeDevicesInfo().getDevicesInfo();
@@ -66,7 +68,7 @@ class ApiServices {
     if(!kIsWeb)headers[HttpHeaders.userAgentHeader] = _userAgent;
     if(typeBody == TypeBody.FORMDATA)headers['Accept'] = '*/*';
     if(typeHeader == TypeHeader.TOKEN && apiConfig != null)headers['Authorization'] = apiConfig.token;
-    if(customHeader != null)headers.addAll(customHeader);
+    // if(customHeader != null)headers.addAll(customHeader);
     // Esse parametro faz com que seja exigido cors ou seja quando esse para metro essa abilitade
     // o controle de sessao no header dependera automaticamento do navegador onde o dominio do frontend tem que 
     // igual ao dominio onde o backend sera liberado alem dos outros processo de permissao.
