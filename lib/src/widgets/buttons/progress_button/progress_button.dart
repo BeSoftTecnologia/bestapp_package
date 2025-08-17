@@ -124,8 +124,8 @@ class _ProgressButtonState extends State<ProgressButton> with TickerProviderStat
           // color: color,
           // shape: shape,
           style: ButtonStyle(
-            padding: MaterialStateProperty.all(padding),
-            shape: MaterialStateProperty.all(shape)
+            padding: WidgetStateProperty.all(padding),
+            shape: WidgetStateProperty.all(shape)
             // color: MaterialStateProperty.all(color),
           ),
           child: _buildChildren(context)!,

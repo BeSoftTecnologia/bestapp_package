@@ -1,6 +1,4 @@
-import 'dart:ui';
 import 'package:bestapp_package/src/widgets/component/border/be-border-dashed.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 enum TypeBorder {

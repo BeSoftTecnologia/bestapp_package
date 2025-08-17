@@ -80,7 +80,7 @@ class BeDialogContent extends StatelessWidget {
                       child: Text('$cancelText',
                       textScaleFactor: 1.0,
                         style: TextStyle(
-                          color: Theme.of(context).colorScheme.background,
+                          color: Theme.of(context).colorScheme.surface,
                           fontWeight: FontWeight.bold,
                           fontSize: 18
                         ),
@@ -106,7 +106,7 @@ class BeDialogContent extends StatelessWidget {
                       child: Text('$okText',
                         textScaleFactor: 1.0,
                         style: TextStyle(
-                          color: Theme.of(context).colorScheme.background,
+                          color: Theme.of(context).colorScheme.surface,
                           fontWeight: FontWeight.bold,
                           fontSize: 18
                         )

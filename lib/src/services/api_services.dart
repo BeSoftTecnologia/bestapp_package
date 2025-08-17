@@ -2,9 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:bestapp_package/bestapp_package.dart';
-import 'package:cookie_jar/cookie_jar.dart';
 import 'package:flutter/foundation.dart';
-import 'package:talker_dio_logger/talker_dio_logger.dart';
 export 'package:bestapp_package/src/models/api_config.dart';
 
 
