@@ -1,8 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
 import 'package:bestapp_package/bestapp_package.dart';
 import 'package:flutter/foundation.dart';
+import 'package:bestapp_package/src/utils/cookie_path_stub.dart'
+    if (dart.library.io) 'package:bestapp_package/src/utils/cookie_path_io.dart' as cookie_path;
+import 'package:bestapp_package/src/utils/io_stub.dart'
+    if (dart.library.io) 'dart:io' as io;
 export 'package:bestapp_package/src/models/api_config.dart';
 
 
@@ -63,7 +66,7 @@ class ApiServices {
       headers['Content-Type'] = 'application/json';
     }
 
-    if(!kIsWeb)headers[HttpHeaders.userAgentHeader] = _userAgent;
+    if(!kIsWeb)headers[io.HttpHeaders.userAgentHeader] = _userAgent;
     if(typeBody == TypeBody.FORMDATA)headers['Accept'] = '*/*';
     if(typeHeader == TypeHeader.TOKEN && apiConfig != null)headers['Authorization'] = apiConfig.token;
     // if(customHeader != null)headers.addAll(customHeader);
@@ -81,7 +84,7 @@ class ApiServices {
 
     if(!kIsWeb){
       // "cookie": "csrftoken=ayF3SmoYZFoNozyD3zX4SiCAgiqmXXhY; sessionid=x1rlu8rgahij30quvum83csgcs97dt9q"
-      String cookiePath = await Appdirctory('cookies').getDirectory();
+      String cookiePath = await cookie_path.getCookiePath();
       if(typeHeader == TypeHeader.SESSIONID){
         dio.interceptors.add(
           CookieManager(

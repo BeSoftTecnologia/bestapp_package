@@ -63,7 +63,7 @@ export 'src/formatters/time_formatter.dart';
 export 'src/utils/bestapp-utils.dart';
 export 'src/utils/colors-fromhex.dart';
 export 'src/utils/compress-images.dart';
-export 'src/utils/app_directory.dart';
+// export 'src/utils/app_directory.dart'; // WASM-incompatível (usa dart:io + path_provider)
 export 'src/utils/getbytes-fromasset.dart';
 export 'src/utils/helpers/api_helpers.dart';
 export 'src/utils/devices_info.dart';
@@ -76,6 +76,6 @@ export 'src/validators/cpf_validator.dart';
 export 'package:dio/dio.dart';
 export 'package:email_validator/email_validator.dart';
 export 'package:pull_to_refresh/pull_to_refresh.dart';
-export 'package:cached_network_image/cached_network_image.dart';
+// export 'package:cached_network_image/cached_network_image.dart'; // WASM-incompatível (flutter_cache_manager usa getApplicationDocumentsDirectory)
 export 'package:talker_dio_logger/talker_dio_logger.dart';
 export 'package:cookie_jar/cookie_jar.dart';
