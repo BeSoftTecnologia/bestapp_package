@@ -19,8 +19,8 @@ dependencies:
   intl: ^0.20.2
   # toast: ^0.3.0
   flash: ^3.0.5+1
-  path_provider: ^2.2.0
-  cached_network_image: ^3.4.0
+  path_provider: ^2.1.0
+  # cached_network_image: ^3.4.0 # WASM-incompatível (flutter_cache_manager usa getApplicationDocumentsDirectory)
   email_validator: ^3.0.0
   shimmer: ^2.0.0
   loading_animation_widget: ^1.2.0+4
@@ -30,10 +30,10 @@ dependencies:
   cpfcnpj:
     git:
       url: https://github.com/erickhaendel/dart-cpfcnpj.git
-  pull_to_refresh:
-    git:
-      url: https://github.com/miquelbeltran/flutter_pulltorefresh
-      ref: master
+  # pull_to_refresh:
+  #   git:
+  #     url: https://github.com/miquelbeltran/flutter_pulltorefresh
+  #     ref: master
   
   # flutter_image_compress: ^2.1.0
   # essa parte do git e para o suporte a wasm

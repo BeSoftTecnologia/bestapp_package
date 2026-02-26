@@ -75,7 +75,6 @@ export 'src/validators/cpf_validator.dart';
 //Exports useful packages
 export 'package:dio/dio.dart';
 export 'package:email_validator/email_validator.dart';
-export 'package:pull_to_refresh/pull_to_refresh.dart';
 // export 'package:cached_network_image/cached_network_image.dart'; // WASM-incompatível (flutter_cache_manager usa getApplicationDocumentsDirectory)
 export 'package:talker_dio_logger/talker_dio_logger.dart';
 export 'package:cookie_jar/cookie_jar.dart';
